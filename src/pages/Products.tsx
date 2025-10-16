@@ -60,12 +60,12 @@ const badgeColorByTool: Record<
 };
 
 const linkByTool: Record<string, string> = {
-  "GapMap™": "/gap-map",
-  "CVPro™": "/cv-pro",
-  "SponsorMatch™": "/sponsormatch",
-  "InterviewSim+™": "/interviewsim",
-  "MentorConnect™": "/mentors",
-  "PLAB Mastery QBank": "/plab-quiz",
+  "GapMap™": "/gap-map", // This is correct
+  "CVPro™": "/cv-booster", // Updated to match your route
+  "SponsorMatch™": "/sponsor-match", // This is correct
+  "InterviewSim+™": "/interviewsim", // This is correct
+  "MentorConnect™": "/mentors", // This is correct
+  "PLAB Mastery QBank": "/plab-quiz", // This is correct
 };
 
 export default function Products() {
@@ -274,13 +274,13 @@ export default function Products() {
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <Link
-                  to={linkByTool[tool.name as keyof typeof linkByTool] ?? "/somewhere"}
-                >
-                  <Button className="w-full">
-                    Learn More <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
+               <Link
+  to={linkByTool[tool.name as keyof typeof linkByTool] || "/products"}
+>
+  <Button className="w-full">
+    Learn More <ArrowRight className="h-4 w-4 ml-2" />
+  </Button>
+</Link>
 
                 <Button variant="outline" className="w-full">
                   Buy Now - £{tool.basePrice}
