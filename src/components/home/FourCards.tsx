@@ -20,7 +20,7 @@ interface CardType {
 export default function FourCards() {
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<CardType | null>(null);
-
+ const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const { data: tools = [], isLoading, error } = useTools();
 
   if (isLoading) {
@@ -162,12 +162,13 @@ filteredTools.sort(
 
               {/* Buttons */}
               <div className="mt-auto space-y-2">
-                <a
-                  href={card.primary.href}
+                <button
+                  // href={card.primary.href}
+                  onClick={()=>{setShowComingSoonModal(true)}}
                   className="w-full flex items-center justify-center gap-2 rounded-md bg-blue-900 text-white py-2 text-sm font-medium hover:bg-blue-800 transition"
                 >
                   {card.primary.text} <ArrowRight className="h-4 w-4" />
-                </a>
+                </button>
 
                 <button
                   onClick={() => {
@@ -283,6 +284,29 @@ filteredTools.sort(
           </div>
         </div>
       )}
+      {showComingSoonModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 relative text-center">
+      <button
+        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+        onClick={() => setShowComingSoonModal(false)}
+      >
+        ✕
+      </button>
+
+      <h2 className="text-xl font-bold mb-4">Coming Soon!</h2>
+      <p className="text-gray-700 mb-6">
+        This feature is under development. Stay tuned for updates!
+      </p>
+      <button
+        onClick={() => setShowComingSoonModal(false)}
+        className="bg-blue-900 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

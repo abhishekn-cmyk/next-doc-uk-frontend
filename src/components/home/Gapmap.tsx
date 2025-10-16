@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
 import { useExams } from "@/hooks/useExam"; // your hook
@@ -18,11 +18,13 @@ interface ProductType {
 }
 
 export default function Gapmap() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null
   );
+  const [showComingSoonModal, setShowComingSoonModal] = useState(false);
+
   const [cards, setCards] = useState<ProductType[]>([]);
 
   const { data: examsData } = useExams(); // fetch exams
@@ -91,7 +93,8 @@ export default function Gapmap() {
             {cards.map((card) => (
               <div
                 key={card._id}
-                onClick={() => navigate(card.href)}
+                
+                // onClick={() => navigate(card.href)}
                 className="bg-white border-2 rounded-xl shadow-sm p-6 flex flex-col transition-all duration-300 hover:shadow-lg cursor-pointer"
               >
                 {/* Top Tags */}
@@ -156,7 +159,8 @@ export default function Gapmap() {
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(card.href);
+                     setShowComingSoonModal(true);
+                    // navigate(card.href);
                   }}
                   className="mt-3 w-full bg-blue-900 text-white font-medium py-2.5 rounded-md hover:bg-blue-800 transition"
                 >
@@ -183,6 +187,30 @@ export default function Gapmap() {
           </div>
         </div>
       </div>
+        {/* Coming Soon Modal */}
+{showComingSoonModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 relative text-center">
+      <button
+        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+        onClick={() => setShowComingSoonModal(false)}
+      >
+        ✕
+      </button>
+
+      <h2 className="text-xl font-bold mb-4">Coming Soon!</h2>
+      <p className="text-gray-700 mb-6">
+        This feature is under development. Stay tuned for updates!
+      </p>
+      <button
+        onClick={() => setShowComingSoonModal(false)}
+        className="bg-blue-900 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
 
       {/* Modal Checkout */}
       {showModal && selectedProduct && (
