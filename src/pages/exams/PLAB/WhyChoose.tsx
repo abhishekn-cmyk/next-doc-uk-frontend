@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
-import { 
-  ShieldCheck,
-  BookOpen,
-  Brain,
-  BarChart3,
-  Share2,
-  UserCheck
-} from "lucide-react";
+import { ShieldCheck, BookOpen, Brain, BarChart3, Share2, UserCheck } from "lucide-react";
+import { type ReactNode } from "react";
+
+interface Feature {
+  icon: ReactNode;
+  text: string;
+  color: "blue" | "gray";
+}
 
 export default function WhyChoose() {
-  const features = [
+  const features: Feature[] = [
     {
       icon: <ShieldCheck className="h-6 w-6" />,
       text: "Designed by NHS Doctors — grounded in real-world clinical practice and UK guidelines.",
@@ -39,15 +39,15 @@ export default function WhyChoose() {
       icon: <UserCheck className="h-6 w-6" />,
       text: "Mentor-Backed Progression — verified NHS consultants available for expert guidance through MentorConnect™.",
       color: "blue",
-    }
+    },
   ];
 
-  const getColorClasses = (color) => {
+  const getColorClasses = (color: Feature["color"]) => {
     switch (color) {
-      case 'blue':
-        return 'bg-blue-100 text-blue-600';
+      case "blue":
+        return "bg-blue-100 text-blue-600";
       default:
-        return 'bg-gray-100 text-gray-400';
+        return "bg-gray-100 text-gray-400";
     }
   };
 
@@ -70,37 +70,26 @@ export default function WhyChoose() {
           </p>
         </motion.div>
 
-        {/* Features Grid - 2 columns layout */}
-     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
-  {features.map((feature, index) => (
-    <div className="p-2"> {/* adds space/margin around each card */}
-      <motion.div
-        key={index}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        whileHover={{ 
-          scale: 1.02,
-          transition: { duration: 0.2 }
-        }}
-        className="rounded-xl p-6 cursor-pointer hover:bg-gray-100 hover:shadow-md transition-all duration-300 group w-full"
-      >
-        <div className="flex items-start gap-3">
-          <div className={`p-2 rounded-lg ${getColorClasses(feature.color)} group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
-            {feature.icon}
-          </div>
-          <p className="text-gray-700 leading-relaxed text-sm">
-            {feature.text}
-          </p>
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              className="rounded-xl p-6 cursor-pointer hover:bg-gray-100 hover:shadow-md transition-all duration-300 group w-full"
+            >
+              <div className="flex items-start gap-3">
+                <div className={`p-2 rounded-lg ${getColorClasses(feature.color)} group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
+                  {feature.icon}
+                </div>
+                <p className="text-gray-700 leading-relaxed text-sm">{feature.text}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
-    </div>
-  ))}
-</div>
-
-
-
-
       </div>
     </div>
   );

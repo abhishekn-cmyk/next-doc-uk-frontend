@@ -1,5 +1,6 @@
 import { Target, Maximize, Clock, Users } from 'lucide-react';
 
+import { type ReactNode } from 'react';
 const How = () => {
   const steps = [
     {
@@ -28,12 +29,11 @@ const How = () => {
       optional: true,
     },
   ];
-
-  const IconContainer = ({ children }) => (
-    <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4 mx-auto shadow-md">
-      <div className="text-blue-600 w-10 h-10">{children}</div>
-    </div>
-  );
+const IconContainer = ({ children }: { children: ReactNode }) => (
+  <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4 mx-auto shadow-md">
+    <div className="text-blue-600 w-10 h-10">{children}</div>
+  </div>
+);
 
   return (
     <div className="font-sans py-16 bg-gray-50">
