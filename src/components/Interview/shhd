@@ -1,0 +1,207 @@
+import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+
+export default function InterviewSim() {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    pathway: "",
+    role: "",
+    specialty: "",
+    interviewType: "",
+    focusAreas: [],
+  });
+
+  const pathways = [
+    { key: "plab", title: "PLAB/International Medical Graduate", desc: "For IMG doctors seeking NHS positions", tag: "Popular" },
+    { key: "uk-grad", title: "UK Graduate", desc: "Core/Specialty training applications", tag: "Most Used" },
+    { key: "postgrad", title: "Postgraduate Exams", desc: "MRCP, MRCS, MRCOG, MRCPCH interviews", tag: "Exam Focus" },
+    { key: "consultant", title: "Consultant/Senior Roles", desc: "Consultant, academic, clinical fellow positions", tag: "Senior Level" },
+    { key: "sas", title: "SAS/AHP", desc: "SAS doctors and Allied Health Professionals", tag: "Specialized" },
+    { key: "nhs", title: "NHS Trust Jobs", desc: "Trust-specific job interviews", tag: "Job Ready" },
+  ];
+
+  const focusOptions = [
+    "Clinical scenarios",
+    "Leadership examples",
+    "Communication skills",
+    "Professional development",
+    "Teaching experience",
+    "NHS values",
+    "Patient safety",
+    "Teamwork",
+    "Research experience",
+    "Audit & QI projects",
+  ];
+
+  const toggleFocus = (area) => {
+    setFormData((prev) => ({
+      ...prev,
+      focusAreas: prev.focusAreas.includes(area)
+        ? prev.focusAreas.filter((a) => a !== area)
+        : [...prev.focusAreas, area],
+    }));
+  };
+
+  return (
+    <section className="w-full min-h-screen bg-white py-10 px-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Back Link */}
+        <div className="mb-6">
+          <Link
+            to="/products"
+            className="flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Products
+          </Link>
+        </div>
+
+        {/* Title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
+            InterviewSim™{" "}
+            <span className="ml-1 text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">
+              AI-Powered
+            </span>
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Practice NHS interviews with AI feedback and mentor review
+          </p>
+        </div>
+
+        {/* Step 1 */}
+        <div className="mb-10">
+          <h2 className="text-xl font-semibold text-gray-800">1. Choose Your Career Pathway</h2>
+          <p className="text-gray-600 mb-4">
+            Select the pathway that matches your current career stage
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {pathways.map((p) => (
+              <div
+                key={p.key}
+                onClick={() => {
+                  setFormData({ ...formData, pathway: p.title });
+                  setStep(2);
+                }}
+                className={`cursor-pointer border rounded-xl p-4 hover:shadow-md transition ${
+                  formData.pathway === p.title ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                }`}
+              >
+                <span className="text-xs text-blue-600 font-medium">{p.tag}</span>
+                <h3 className="font-semibold text-gray-800">{p.title}</h3>
+                <p className="text-sm text-gray-600">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Step 2 */}
+        {step >= 2 && (
+          <div className="mb-10">
+            <h2 className="text-xl font-semibold text-gray-800">
+              2. Specify Your Target Role & Specialty
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Help us tailor questions to your specific interview type
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Target Role/Level
+                </label>
+                <select
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                  className="w-full border rounded-lg px-3 py-2"
+                >
+                  <option value="">Select your target role</option>
+                  <option>Clinical Fellow</option>
+                  <option>Junior Doctor</option>
+                  <option>Registrar</option>
+                  <option>Consultant</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Specialty</label>
+                <select
+                  value={formData.specialty}
+                  onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
+                  className="w-full border rounded-lg px-3 py-2"
+                >
+                  <option value="">Select specialty</option>
+                  <option>Pathology</option>
+                  <option>Cardiology</option>
+                  <option>General Medicine</option>
+                  <option>Surgery</option>
+                </select>
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Interview Type</label>
+              <select
+                value={formData.interviewType}
+                onChange={(e) => {
+                  setFormData({ ...formData, interviewType: e.target.value });
+                  setStep(3);
+                }}
+                className="w-full border rounded-lg px-3 py-2"
+              >
+                <option value="">What type of interview?</option>
+                <option value="trust-job">Trust Job</option>
+                <option value="training">Training Interview</option>
+                <option value="exam">Exam Preparation</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3 */}
+        {step >= 3 && (
+          <div className="mb-10">
+            <h2 className="text-xl font-semibold text-gray-800">3. Interview Focus Areas (Optional)</h2>
+            <p className="text-gray-600 mb-4">
+              Select specific areas you want to practice. Leave blank for a balanced mix.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {focusOptions.map((area) => (
+                <label key={area} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.focusAreas.includes(area)}
+                    onChange={() => toggleFocus(area)}
+                    className="w-4 h-4"
+                  />
+                  {area}
+                </label>
+              ))}
+            </div>
+            <button
+              onClick={() => setStep(4)}
+              className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Continue
+            </button>
+          </div>
+        )}
+
+        {/* Step 4 */}
+        {step === 4 && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <h2 className="font-semibold text-gray-800 mb-3">Ready to Begin Your Interview Practice</h2>
+            <p><b>Pathway:</b> {formData.pathway}</p>
+            <p><b>Role:</b> {formData.role}</p>
+            <p><b>Specialty:</b> {formData.specialty}</p>
+            <p><b>Interview Type:</b> {formData.interviewType}</p>
+            <p className="mt-2">
+              <b>Focus Areas:</b> {formData.focusAreas.join(", ") || "Balanced mix"}
+            </p>
+            <button className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              Start Interview Practice →
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
