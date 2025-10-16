@@ -295,7 +295,8 @@ export default function EnhancedMentorOnboardingForm({
       );
 
       fd.append("bio",formData.bio)
-      fd.append("hourlyRate",formData.hourlyRate)
+      fd.append("hourlyRate", formData.hourlyRate.toString());
+
       fd.append("mentorTier",formData.mentorTier)
       // Attach files
 
