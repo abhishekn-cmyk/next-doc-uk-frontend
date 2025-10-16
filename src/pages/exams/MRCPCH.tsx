@@ -1,322 +1,118 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar, Users, Trophy, ArrowRight } from "lucide-react";
+import { CheckCircle, BookOpen, Users, Trophy, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 
-const features = [
-  "MRCPCH Foundation & Progress comprehensive preparation",
-  "Clinical examination and OSCE training",
-  "Expert guidance from consultant paediatricians",
-  "Child development and safeguarding modules",
+const buildingFeatures = [
+  "Comprehensive preparation for MRCPCH Foundation & Progress",
+  "Expert guidance from UK consultant paediatricians",
+  "Enhanced curriculum with latest exam formats",
+  "Interactive learning resources and case-based training",
   "Mock examinations with detailed feedback",
-  "Principal mentor support throughout training",
+  "Dedicated principal mentor support programme",
 ];
 
-const timeline = [
-  {
-    phase: "Foundation",
-    duration: "Months 1-4",
-    description: "Basic paediatric sciences and child development foundation",
-  },
-  {
-    phase: "Foundation Exam",
-    duration: "Months 5-10",
-    description: "MRCPCH Foundation examination preparation and practice",
-  },
-  {
-    phase: "Progress Training",
-    duration: "Months 11-16",
-    description: "Advanced clinical knowledge and specialist paediatrics",
-  },
-  {
-    phase: "Progress Exam",
-    duration: "Months 17-20",
-    description: "MRCPCH Progress examination and clinical skills assessment",
-  },
+const expertCards = [
+  { icon: BookOpen, title: "Expert Curriculum", description: "Comprehensive study materials aligned with current exam formats and Royal College guidelines" },
+  { icon: Users, title: "UK Consultants", description: "Learn from experienced NHS consultants and examiners who understand the UK healthcare system" },
+  { icon: Trophy, title: "Proven Success", description: "Join thousands of doctors who've successfully passed their exams with our guidance" },
 ];
 
-const covered = [
-  {
-    title: "Neonatology",
-    description: "Newborn care and intensive care medicine",
-  },
-  {
-    title: "Paediatric Emergency",
-    description: "Emergency and acute paediatric care",
-  },
-  {
-    title: "Developmental Paediatrics",
-    description: "Child development and neurodevelopmental disorders",
-  },
-  {
-    title: "Paediatric Cardiology",
-    description: "Congenital and acquired heart conditions",
-  },
-  {
-    title: "Paediatric Oncology",
-    description: "Childhood cancers and haematological disorders",
-  },
-  {
-    title: "Community Paediatrics",
-    description: "Child health promotion and safeguarding",
-  },
-];
-
-export default function MRCPCH() {
+export default function MRCPCHComingSoon() {
   return (
-    <div className="min-h-screen bg-background">
-      <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <Badge className="mb-4 bg-primary-foreground text-primary">
-              Principal Mentor
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              MRCPCH Preparation Program
-            </h1>
-            <p className="text-xl leading-relaxed opacity-90 mb-8">
-              Excel in the MRCPCH examinations with our comprehensive paediatric
-              training program led by experienced consultant paediatricians and
-              principal mentors.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/get-started">
-                <Button size="lg" variant="secondary" className="px-8">
-                  Start Your Paediatric Journey
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                Meet Paediatric Consultants
-              </Button>
+    <div className="min-h-screen bg-gray-50">
+
+      {/* Coming Soon Header */}
+      <section className="text-center py-20 bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white px-4">
+        <h1 className="text-5xl font-bold mb-4"><Badge>Coming Soon</Badge></h1>
+        <h2 className="text-3xl font-semibold mb-4">MRCPCH Preparation Programme</h2>
+        <p className="text-lg max-w-3xl mx-auto mb-4">Membership of the Royal College of Paediatrics and Child Health</p>
+        <p className="text-base max-w-3xl mx-auto opacity-90">
+          We're developing comprehensive MRCPCH Foundation & Progress examination preparation content with expert guidance from consultant paediatricians. 
+          Our enhanced curriculum will include paediatric clinical skills training, developmental assessment practice, and dedicated principal mentor support for your career in paediatrics.
+        </p>
+      </section>
+
+      {/* What We're Building */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">What We're Building For You</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {buildingFeatures.map((feature, index) => (
+            <div key={index} className="flex items-start gap-3 p-4 bg-white rounded-xl shadow hover:shadow-lg transition">
+              <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+              <p className="text-gray-700">{feature}</p>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Why Choose Our MRCPCH Program?
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive paediatric training with principal mentor guidance
-              for all components of the MRCPCH examination pathway
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                <span>{feature}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardHeader>
-                <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>20-Month Program</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Comprehensive paediatric training covering both Foundation and
-                  Progress examinations
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>Paediatric Consultants</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Learn from experienced NHS consultant paediatricians across
-                  all subspecialties
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Trophy className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>High Success Rate</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Proven track record of helping paediatric trainees succeed in
-                  MRCPCH examinations
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Program Timeline */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Program Structure</h2>
-            <p className="text-muted-foreground">
-              Progressive 20-month journey through MRCPCH Foundation and
-              Progress
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {timeline.map((item, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{item.phase}</CardTitle>
-                    <Badge variant="outline">{item.duration}</Badge>
-                  </div>
-                </CardHeader>
+      {/* Expert Cards */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our MRCPCH Program?</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {expertCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <Card key={index} className="p-6 text-center hover:shadow-lg transition">
+                <Icon className="h-12 w-12 text-primary mx-auto mb-4" />
+                <CardTitle className="text-xl font-bold mb-2">{card.title}</CardTitle>
                 <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {item.description}
-                  </p>
+                  <p className="text-gray-700 text-sm">{card.description}</p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* PLAB Components */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            MRCPCH Examination Components
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCPCH Foundation</CardTitle>
-                <p className="text-muted-foreground">Entry Level Assessment</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>200 MCQ questions</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>3 hours duration</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Basic paediatric sciences</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Child development & safeguarding</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Clinical problem solving</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCPCH Progress</CardTitle>
-                <p className="text-muted-foreground">Advanced Assessment</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Written paper + Clinical</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>3 hours written examination</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>13 clinical scenarios</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Advanced clinical knowledge</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Communication skills assessment</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+      {/* Notify Me Form */}
+      <section className="py-16 px-4 max-w-xl mx-auto bg-white rounded-xl shadow-md">
+        <h3 className="text-2xl font-bold text-center mb-6">Be the First to Know</h3>
+        <p className="text-gray-700 text-center mb-6">
+          Register your interest and we'll notify you as soon as our enhanced MRCPCH preparation programme launches.
+        </p>
+        <form className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email Address *"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            type="text"
+            placeholder="Name (Optional)"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <Button type="submit" className="bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white py-3">
+            Notify Me When Available <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </form>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          We'll only send you important updates about the MRCPCH programme launch. No spam, ever.
+        </p>
       </section>
-
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-medium mb-4">
-              Paediatric Subspecialties Covered
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {covered.map((item, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <CardTitle>{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Excel in MRCPCH?</h2>
-          <p className="text-xl opacity-90 mb-8">
-            Join our principal mentor program and advance your paediatric career
-            with expert guidance from consultant paediatricians.
+      <br/><br/>
+      {/* Explore Programs */}
+      <section className="py-16 px-4 w-full bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white text-center">
+        <div className="max-w-5xl mx-auto">
+          <h3 className="text-2xl font-bold mb-4">Explore What's Available Now</h3>
+          <p className="text-white mb-8">
+            While we finalise our MRCPCH programme, discover our other tools and connect with expert mentors.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/get-started">
-              <Button size="lg" variant="secondary" className="px-8">
-                Begin Your Training
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
+            <Link to="/mentors">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">Meet Our Mentors</Button>
             </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-            >
-              Connect with Paediatricians
-            </Button>
+            <Link to="/exams/plab">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">Explore PLAB Preparation</Button>
+            </Link>
+            <Link to="/products">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">View All Products</Button>
+            </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

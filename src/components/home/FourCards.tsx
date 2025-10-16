@@ -32,9 +32,43 @@ export default function FourCards() {
     );
   }
 
-  const slugify = (str: string) => str.toLowerCase();
+  // ✅ Allowed tools only
+// Allowed tools
+// Allowed tools with desired order
+const allowedTools = [
+  { name: "gapmap", slug: "gap-map" },
+  { name: "cvpro", slug: "cv-booster" },
+  { name: "interviewsim", slug: "interviewsim" },
+  { name: "sponsormatch", slug: "sponsor-match" },
+];
 
-  const cards: CardType[] = tools.map((tool: ITool, idx, arr) => ({
+// Helper to normalize API tool names
+const normalizeName = (name: string) =>
+  name.toLowerCase().replace(/[\s+™]/g, "");
+
+// Filter only allowed tools
+let filteredTools = tools.filter((tool: ITool) =>
+  allowedTools.some((allowed) => normalizeName(tool.name) === allowed.name)
+);
+
+// Sort filtered tools according to allowedTools order
+filteredTools.sort(
+  (a, b) =>
+    allowedTools.findIndex((t) => t.name === normalizeName(a.name)) -
+    allowedTools.findIndex((t) => t.name === normalizeName(b.name))
+);
+
+
+  const slugify = (name: string) => {
+    const tool = allowedTools.find(
+      (allowed) =>
+        allowed.name.toLowerCase().replace(/\s+/g, "") ===
+        name.toLowerCase().replace(/\s+/g, "")
+    );
+    return tool ? tool.slug : name.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  const cards: CardType[] = filteredTools.map((tool: ITool, idx, arr) => ({
     image: `${import.meta.env.VITE_API_BASE_URL}${tool.image}`,
     badge: {
       text: tool.category || "Tool",
@@ -53,7 +87,6 @@ export default function FourCards() {
       text: "Learn More",
       href: `/${slugify(tool.name)}`,
     },
-
     secondary: {
       icon: <Zap className="h-4 w-4" />,
       text: tool.pricingOptions?.[0]?.label
@@ -81,7 +114,6 @@ export default function FourCards() {
       );
 
       const { url } = response.data;
-
       window.location.replace(url);
     } catch (error: any) {
       console.error("Payment failed:", error);

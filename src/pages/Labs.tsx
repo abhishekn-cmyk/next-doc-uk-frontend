@@ -12,6 +12,8 @@ import {
   Download,
   ExternalLink,
   Calendar,
+  Bell,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
@@ -285,56 +287,55 @@ export default function Labs() {
       </div>
 
       {/* Footer-like Contribute Section */}
-      <section className="w-full bg-gradient-to-br from-primary to-primary/80 text-white ">
-        <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
-          <div className="max-w-6xl mx-auto">
-            <Card className="border-2 border-white/20 bg-white/10 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 w-full p-6 md:p-10">
-              <CardHeader className="pb-6 text-left">
-                <CardTitle className="text-3xl font-bold flex items-start justify-start gap-3 mb-4">
-                  <FileText className="h-8 w-8 text-white" />
-                  Contribute to Our Research
-                </CardTitle>
-                <p className="text-white/90 text-lg leading-relaxed max-w-3xl mx-auto text-left">
-                  Join our research community and help shape the future of international medical education.
-                </p>
-              </CardHeader>
-              <CardContent className="text-left">
-                <div className="flex flex-col sm:flex-row gap-4 justify-start items-start">
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    disabled 
-                    className="min-w-[220px] justify-center bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
-                  >
-                    <ExternalLink className="h-5 w-5 mr-2" />
-                    Participate — Coming Soon
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    disabled 
-                    className="min-w-[220px] justify-center bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
-                  >
-                    <ExternalLink className="h-5 w-5 mr-2" />
-                    Submit Proposal — Coming Soon
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    onClick={() => setShowModal(true)} 
-                    className="min-w-[220px] justify-center bg-white text-[#0d47a1] hover:bg-white/90 hover:text-[#0d47a1] font-semibold"
-                  >
-                    Join Early Access
-                  </Button>
-                </div>
-                <p className="text-white/70 text-sm mt-6 max-w-2xl mx-auto">
-                  Be the first to access our submission portal, receive reviewer invitations, 
-                  and participate in cutting-edge research initiatives.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+     <section className="w-full bg-gray-100 text-black">
+  <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-6xl mx-auto">
+      {/* Section content without Card */}
+      <div className="w-full p-6 md:p-10">
+        <div className="pb-6 text-left">
+          <h2 className="text-3xl font-bold flex items-start justify-start gap-3 mb-4">
+            <FileText className="h-8 w-8 text-black" />
+            Contribute to Our Research
+          </h2>
+          <p className="text-black/90 text-lg leading-relaxed max-w-3xl mx-auto text-left">
+            Join our research community and help shape the future of international medical education.
+          </p>
         </div>
-      </section>
+
+        <div className="text-left">
+          <div className="flex flex-col sm:flex-row gap-4 justify-start items-start mt-6">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              disabled 
+              className="min-w-[220px] justify-center bg-gray-200 border-gray-300 text-black hover:bg-gray-300 hover:text-black"
+            >
+              <Lock className="h-5 w-5 mr-2" />
+              Participate — Coming Soon
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              disabled 
+              className="min-w-[220px] justify-center bg-gray-200 border-gray-300 text-black hover:bg-gray-300 hover:text-black"
+            >
+              <Lock className="h-5 w-5 mr-2" />
+              Submit Proposal — Coming Soon
+            </Button>
+            <Button 
+              size="lg" 
+              onClick={() => setShowModal(true)} 
+              className="min-w-[220px] justify-center bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white font-semibold"
+            >
+             <Bell/> Join Early Access
+            </Button>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Modal */}
       {showModal && (

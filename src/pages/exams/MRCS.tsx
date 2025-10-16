@@ -1,316 +1,118 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar, Users, Trophy, ArrowRight } from "lucide-react";
+import { CheckCircle, BookOpen, Users, Trophy, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 
-const features = [
-  "MRCS Part A & Part B comprehensive preparation",
-  "OSCE clinical examination training",
-  "Expert guidance from consultant surgeons",
-  "Surgical skills workshops and simulations",
+const buildingFeatures = [
+  "Comprehensive preparation for MRCS Part A, Part B OSCE",
+  "Expert guidance from UK consultant specialists in surgical training and core surgical skills",
+  "Enhanced curriculum with latest exam formats",
+  "Interactive learning resources and case-based training",
   "Mock examinations with detailed feedback",
-  "Principal mentor support throughout",
+  "Dedicated principal mentor support programme",
 ];
 
-const timeline = [
-  {
-    phase: "Foundation",
-    duration: "Months 1-3",
-    description: "Basic sciences and surgical principles foundation building",
-  },
-  {
-    phase: "Part A Prep",
-    duration: "Months 4-8",
-    description:
-      "Intensive Part A preparation with MCQ practice and mock tests",
-  },
-  {
-    phase: "Part B & OSCE",
-    duration: "Months 9-15",
-    description: "Clinical skills development and OSCE examination preparation",
-  },
-  {
-    phase: "Final Mastery",
-    duration: "Month 16",
-    description: "Final preparation and surgical skills refinement",
-  },
+const expertCards = [
+  { icon: BookOpen, title: "Expert Curriculum", description: "Comprehensive study materials aligned with current exam formats and Royal College guidelines" },
+  { icon: Users, title: "UK Consultants", description: "Learn from experienced NHS consultants and examiners who understand the UK healthcare system" },
+  { icon: Trophy, title: "Proven Success", description: "Join thousands of doctors who've successfully passed their exams with our guidance" },
 ];
 
-const covered = [
-  {
-    title: "General Surgery",
-    description: "Core surgical principles and procedures",
-  },
-  {
-    title: "Trauma & Orthopaedics",
-    description: "Musculoskeletal system and injuries",
-  },
-  {
-    title: "Urology",
-    description: "Genitourinary system surgery",
-  },
-  {
-    title: "Vascular Surgery",
-    description: "Circulatory system procedures",
-  },
-  {
-    title: "Cardiothoracic",
-    description: "Heart and chest surgery",
-  },
-  {
-    title: "eurosurgery",
-    description: "Central nervous system surgery",
-  },
-];
-
-export default function MRCS() {
+export default function MRCSComingSoon() {
   return (
-    <div className="min-h-screen bg-background">
-      <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <Badge className="mb-4 bg-primary-foreground text-primary">
-              Principal Mentor
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              MRCS Preparation Program
-            </h1>
-            <p className="text-xl leading-relaxed opacity-90 mb-8">
-              Excel in the MRCS examinations with our comprehensive surgical
-              training program led by experienced consultant surgeons and
-              principal mentors.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/get-started">
-                <Button size="lg" variant="secondary" className="px-8">
-                  Start Your Surgical Journey
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                Meet Consultant Mentors
-              </Button>
+    <div className="min-h-screen bg-gray-50">
+
+      {/* Coming Soon Header */}
+      <section className="text-center py-20 bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white px-4">
+        <h1 className="text-5xl font-bold mb-4"><Badge>Coming Soon</Badge></h1>
+        <h2 className="text-3xl font-semibold mb-4">MRCS Preparation Programme</h2>
+        <p className="text-lg max-w-3xl mx-auto mb-4">Membership of the Royal Colleges of Surgeons</p>
+        <p className="text-base max-w-3xl mx-auto opacity-90">
+          We're developing comprehensive MRCS Part A & Part B preparation content with expert surgical training from consultant surgeons practising in the NHS. 
+          Our enhanced curriculum will include detailed anatomy resources, surgical skills practice, OSCE preparation, and dedicated principal mentor support for your surgical career.
+        </p>
+      </section>
+
+      {/* What We're Building */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">What We're Building For You</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {buildingFeatures.map((feature, index) => (
+            <div key={index} className="flex items-start gap-3 p-4 bg-white rounded-xl shadow hover:shadow-lg transition">
+              <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+              <p className="text-gray-700">{feature}</p>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Why Choose Our MRCS Program?
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive surgical training with principal mentor guidance for
-              all components of the MRCS examination
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                <span>{feature}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardHeader>
-                <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>16-Month Program</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Comprehensive surgical training covering all aspects of MRCS
-                  with principal mentor support
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>UK Consultants</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Learn from experienced NHS consultants and principal mentors
-                  who understand the UK system
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Trophy className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>High Success Rate</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Proven track record of helping international doctors succeed
-                  in MRCP examinations
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Program Timeline */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Program Structure</h2>
-            <p className="text-muted-foreground">
-              Progressive 16-month journey to MRCS success
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {timeline.map((item, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{item.phase}</CardTitle>
-                    <Badge variant="outline">{item.duration}</Badge>
-                  </div>
-                </CardHeader>
+      {/* Expert Cards */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our MRCS Program?</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {expertCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <Card key={index} className="p-6 text-center hover:shadow-lg transition">
+                <Icon className="h-12 w-12 text-primary mx-auto mb-4" />
+                <CardTitle className="text-xl font-bold mb-2">{card.title}</CardTitle>
                 <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {item.description}
-                  </p>
+                  <p className="text-gray-700 text-sm">{card.description}</p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
-      {/* PLAB Components */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            MRCS Examination Components
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCS Part A</CardTitle>
-                <p className="text-muted-foreground">Applied Basic Sciences</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>2 papers (135 MCQs each)</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>2.5 hours per paper</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Applied basic sciences</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Principles of surgery</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCS Part B</CardTitle>
-                <p className="text-muted-foreground">
-                  OSCE Clinical Examination
-                </p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>18 OSCE stations</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>9 minutes per station</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Clinical and communication skills</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Applied surgical knowledge</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+      {/* Notify Me Form */}
+      <section className="py-16 px-4 max-w-xl mx-auto bg-white rounded-xl shadow-md">
+        <h3 className="text-2xl font-bold text-center mb-6">Be the First to Know</h3>
+        <p className="text-gray-700 text-center mb-6">
+          Register your interest and we'll notify you as soon as our enhanced MRCS preparation programme launches.
+        </p>
+        <form className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email Address *"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            type="text"
+            placeholder="Name (Optional)"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <Button type="submit" className="bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white py-3">
+            Notify Me When Available <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </form>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          We'll only send you important updates about the MRCS programme launch. No spam, ever.
+        </p>
       </section>
-
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-medium mb-4">
-              Surgical Specialties Covered
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {covered.map((item, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <CardTitle>{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Excel in MRCP?</h2>
-          <p className="text-xl opacity-90 mb-8">
-            Join our principal mentor program and advance your physician career
-            with expert guidance from UK consultants.
+   <br/><br/>
+      {/* Explore Programs */}
+      <section className="py-16 px-4 w-full bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white text-center">
+        <div className="max-w-5xl mx-auto">
+          <h3 className="text-2xl font-bold mb-4">Explore What's Available Now</h3>
+          <p className="text-white mb-8">
+            While we finalise our MRCS programme, discover our other tools and connect with expert mentors.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/get-started">
-              <Button size="lg" variant="secondary" className="px-8">
-                Start Your Training
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
+            <Link to="/mentors">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">Meet Our Mentors</Button>
             </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-            >
-              Connect with Mentors
-            </Button>
+            <Link to="/exams/plab">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">Explore PLAB Preparation</Button>
+            </Link>
+            <Link to="/products">
+              <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">View All Products</Button>
+            </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

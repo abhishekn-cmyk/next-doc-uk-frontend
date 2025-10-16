@@ -299,6 +299,7 @@ export default function Mentors() {
     availability: [],
   });
   const [activeFilter, setActiveFilter] = useState<keyof Filters | null>(null);
+  const [searchQuery, setSearchQuery] = useState(""); // Fixed: moved inside component
 
   const { data: mentors = [], isLoading, error } = useMentors();
   const navigate = useNavigate();
@@ -318,6 +319,7 @@ export default function Mentors() {
       badgeLevel: [],
       availability: [],
     });
+    setSearchQuery(""); // Clear search query too
     setActiveFilter(null);
   };
 
@@ -342,19 +344,40 @@ export default function Mentors() {
     return `${label} (${selectedValues.length})`;
   };
 
-  // --- Filter mentors based on selected filters ---
+  // --- Filter mentors based on selected filters and search query ---
   const filteredMentors = useMemo(() => {
     if (!mentors || !Array.isArray(mentors)) return [];
     
     return mentors.filter((mentor: IMentor) => {
+      // Search query filter
+      if (searchQuery.trim() !== "") {
+        const query = searchQuery.toLowerCase();
+        const searchableFields = [
+          mentor.name,
+          mentor.specialty,
+          mentor.designation,
+          mentor.position,
+          mentor.currentRole,
+          mentor.address,
+          mentor.description
+        ].filter(Boolean).join(' ').toLowerCase();
+        
+        if (!searchableFields.includes(query)) {
+          return false;
+        }
+      }
+
       // Specialty filter (array includes check)
-      if (filters.specialty.length > 0 && !filters.specialty.some(specialty => 
-        mentor.specialty?.includes(specialty)
-      )) return false;
+      if (filters.specialty.length > 0 && mentor.specialty && 
+          !filters.specialty.some(specialty => 
+            mentor.specialty?.toLowerCase().includes(specialty.toLowerCase())
+          )) return false;
 
       // Location filter
       if (filters.location.length > 0 && mentor.address && 
-          !filters.location.includes(mentor.address)) return false;
+          !filters.location.some(location => 
+            mentor.address?.toLowerCase().includes(location.toLowerCase())
+          )) return false;
 
       // Language filter
       if (filters.language.length > 0 && mentor.language && 
@@ -365,12 +388,17 @@ export default function Mentors() {
           !filters.badgeLevel.includes(mentor.badgeLevel)) return false;
 
       // Availability filter
-      if (filters.availability.length > 0 && mentor.availability && 
-          !filters.availability.includes(mentor.availability)) return false;
+      if (filters.availability.length > 0) {
+        if (filters.availability.includes("All")) {
+          // Show all mentors
+        } else if (mentor.availability && !filters.availability.includes(mentor.availability)) {
+          return false;
+        }
+      }
 
       return true;
     });
-  }, [mentors, filters]);
+  }, [mentors, filters, searchQuery]); // Added searchQuery to dependencies
 
   const handleFindMentor = (mentorName: string) => {
     console.log(`Connecting with ${mentorName}`);
@@ -431,33 +459,36 @@ export default function Mentors() {
           </div>
 
           {/* Top row: Search + Become Mentor */}
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0 mb-6">
-            {/* Search Bar */}
-            <div className="flex-1 relative">
+          <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0 mb-4">
+            {/* Small Search Bar */}
+            <div className="flex-1 relative max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white h-5 w-5 opacity-70" />
               <input
                 type="text"
-                placeholder="Search mentors by name, specialty, or hospital..."
-                className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/70 focus:ring-2 focus:ring-white focus:border-transparent transition-all backdrop-blur-sm"
+                placeholder="Search mentors..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/70 focus:ring-2 focus:ring-white focus:border-transparent transition-all backdrop-blur-sm"
               />
             </div>
 
             {/* Become a Mentor Button */}
             <div className="flex-shrink-0">
-             <Button
-  size="lg"
+            <Button
+  size="default"
   variant="outline"
-  className="px-6 border-white text-blue-500 hover:bg-white hover:text-primary whitespace-nowrap"
+  className="px-4 border-[#0d47a1] text-[#0d47a1] hover:bg-[#0d47a1] hover:text-white whitespace-nowrap"
   onClick={() => setShowOnboardingForm(true)}
 >
   Become a Mentor
 </Button>
 
+
             </div>
           </div>
 
-          {/* Filters Row - Only Dropdown Buttons */}
-          <div className="flex flex-wrap gap-3 relative">
+          {/* Filters Row */}
+          <div className="flex flex-wrap gap-3 items-center mb-4">
             {FILTERS.map((filter) => (
               <div key={filter.key} className="relative">
                 <button
@@ -469,9 +500,7 @@ export default function Mentors() {
                       : 'bg-white/10 border-white/20 hover:bg-white/20'
                   }`}
                 >
-                  <span className="truncate">
-                    {getFilterButtonLabel(filter.key, filter.label)}
-                  </span>
+                  <span className="truncate">{getFilterButtonLabel(filter.key, filter.label)}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={`h-4 w-4 transform transition-transform flex-shrink-0 ${
@@ -500,17 +529,25 @@ export default function Mentors() {
               </div>
             ))}
 
-            {/* Clear All Button */}
-            {(Object.values(filters).some(arr => arr.length > 0) || activeFilter) && (
+            {/* Clear All Button - show only when search or filters active */}
+            {(searchQuery || Object.values(filters).some(arr => arr.length > 0)) && (
               <Button
                 variant="outline"
                 onClick={handleClearAll}
-                className="border-white text-blue-500 hover:bg-blue hover:text-primary h-10"
+                className="px-4 border-[#0d47a1] text-[#0d47a1] hover:bg-[#0d47a1] hover:text-white whitespace-nowrap"
               >
                 Clear All
               </Button>
             )}
           </div>
+
+          {/* Results count */}
+              {filteredMentors.length > 0 && (
+        <p className="text-white/70 text-sm mb-4 text-center">
+          Showing {filteredMentors.length} of {mentors.length} results
+        </p>
+      )}
+
         </div>
       </section>
 
@@ -532,7 +569,7 @@ export default function Mentors() {
               <p>Loading mentors...</p>
             </div>
           ) : filteredMentors.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-12 text-black">
               <p className="text-muted-foreground mb-4">
                 {mentors.length === 0 ? 'No mentors available' : 'No mentors match your filters'}
               </p>
@@ -766,7 +803,7 @@ export default function Mentors() {
           <Button 
             size="lg" 
             variant="secondary"
-            className="px-10 bg-white text-blue-600 hover:bg-gray-100"
+            className="px-10 bg-white text-primary hover:bg-gray-100"
             onClick={handleGetMatched}
           >
             Get Matched Today

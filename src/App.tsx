@@ -13,11 +13,12 @@ import ReadingPage from "./pages/ReadingPage";
 import Royal from "./pages/Royal/Royal";
 import Labs from "./pages/Labs";
 import Pricing from "./pages/Pricing";
+import PLABHero from "./pages/exams/PLAB/PLAB";
 // import Mr from "./pages/exams/Mrc";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Products = lazy(() => import("./pages/Products"));
-const PLAB = lazy(() => import("./pages/exams/PLAB"));
+// const PLAB = lazy(() => import("./pages/exams/PLAB"));
 const IELTS = lazy(() => import("./pages/exams/IELTS"));
 const MRCP = lazy(() => import("./pages/exams/MRCP"));
 const MRCS = lazy(() => import("./pages/exams/MRCS"));
@@ -58,7 +59,7 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
             <Route path="/exams/ielts-oet" element={<IELTS />} />
-            <Route path="/exams/plab" element={<PLAB />} />
+            <Route path="/exams/plab" element={<PLABHero />} />
             <Route path="/exams/mrcp" element={<MRCP />} />
             <Route path="/exams/mrcs" element={<MRCS />} />
             <Route path="/exams/mrcog" element={<MRCOG />} />
@@ -78,7 +79,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/plab-quiz" element={<PLABQuiz />} />
             <Route path="/cv-booster" element={<CvBooster />} />
-            <Route path="/interview-sim" element={<InterviewSim />} />
+            <Route path="/interviewsim" element={<InterviewSim />} />
             <Route path="/gap-map" element={<GapMap />} />
             <Route path="/sponsor-match" element={<SponsorMatch />} />
             <Route path="/study-materials" element={<StudyMaterials />} />

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
 import { useExams } from "@/hooks/useExam"; // your hook
-
+import { Badge } from "../ui/badge";
 interface ProductType {
   _id: string;
   href: string;
@@ -67,6 +67,12 @@ export default function Gapmap() {
   return (
     <div className="w-full min-h-screen">
       <div className="max-w-6xl mx-auto">
+        <div className="flex justify-center my-4">
+  <Badge className="text-center">
+    GapMap™ - AI Powered - Mentor Reviewed Products
+  </Badge>
+</div>
+
         {/* Heading */}
         <div className="w-full flex flex-col items-center text-center px-4 pb-8">
           <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">

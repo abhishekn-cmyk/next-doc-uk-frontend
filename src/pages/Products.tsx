@@ -99,41 +99,45 @@ export default function Products() {
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl">
-            <Badge className="mb-6 bg-primary-foreground text-primary">
-              AI Powered - Mentor Reviewed Products
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              NextDoc Global — 2025/26 Product Line
-            </h1>
-            <p className="text-xl leading-relaxed opacity-90">
-              Principal Mentor Edition: Complete ecosystem of AI-powered tools
-              and expert mentorship for NHS success. From exam preparation to
-              career placement—we've got every step covered.
-            </p>
-          </div>
-        </div>
-      </section>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl">
+      <Badge className="mb-6 bg-primary-foreground text-primary">
+       AI Powered • Mentor Validated • UK Registered
+      </Badge>
+      <h1 className="text-4xl md:text-5xl font-bold mb-6">
+        NextDoc UK — AI-Powered Career & Certification Ecosystem
+      </h1>
+      <p className="text-xl leading-relaxed opacity-90">
+        A comprehensive suite of AI-powered tools and NHS-verified mentorship
+        designed for international doctors. From PLAB success to career
+        integration and CPD growth — NextDoc UK sets a new standard for
+        medical career empowerment.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* AI-Powered Platform Core */}
       <section className="py-12 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <Badge className="mb-3" variant="secondary">
-              AI-Powered Platform Core
-            </Badge>
-            <h2 className="text-3xl font-bold mb-2">
-              NextDoc AI — Medical & Career Super-Assistant
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Free: 5 queries/day. Pro AI: £{PRICES.proAI.monthly}/mo —
-              unlimited, faster responses, deeper explanations, “Ask Mentor AI”,
-              early features. Specialty modes: Internal Medicine, Surgery, OBG,
-              EM, Paediatrics, Psych, Cardiology, Oncology.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-4 gap-6">
+        <div className="text-center mb-8">
+  <Badge className="mb-3" variant="secondary">
+    AI-Powered Platform Core
+  </Badge>
+  <h2 className="text-3xl font-bold mb-2">
+    NextDoc AI — Your Medical & Career Co-Pilot
+  </h2>
+  <p className="text-muted-foreground max-w-2xl mx-auto">
+    Free plan includes 5 queries per day. Upgrade to Pro AI (£14.99/mo) for
+    unlimited responses, deeper reasoning, and NHS-aligned feedback across
+    CVPro™, GapMap™, InterviewSim™, and QBank modules, “Ask Mentor AI”,
+    early features. Specialty modes: Internal Medicine, Surgery, OBG, EM,
+    Paediatrics, Psych, Cardiology, Oncology.
+  </p>
+</div>
+
+          <div className="grid md:grid-cols-3 gap-6">
             {/* ... keep existing code (AI feature cards) */}
             <Card>
               <CardHeader>

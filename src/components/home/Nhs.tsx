@@ -1,3 +1,4 @@
+// src/components/Nhs.jsx
 import { Users, Shield, Star, CheckCircle, Trophy } from "lucide-react";
 
 export default function Nhs() {
@@ -11,17 +12,16 @@ export default function Nhs() {
 
         {/* Description */}
         <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-16">
-          Expert-developed tools and content designed specifically for
-          international medical professionals transitioning to the NHS.
+          NextDoc Platform – Fully Functional: Integrated career, exam, and mentorship tools now available
         </p>
 
         {/* Top Row Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
           {[
-            { icon: Star, title: "Sep 2025", text: "Launch Date" },
-            { icon: Trophy, title: "NHS", text: "Aligned Content" },
-            { icon: Users, title: "AI + Human", text: "Expert Guidance" },
-            { icon: CheckCircle, title: "Global", text: "Accessibility" },
+            { icon: Star, title: "Dashboards", text: "Mentor & User" },
+            { icon: Trophy, title: "NHS", text: "Aligned Pathways" },
+            { icon: Users, title: "AI + Mentor", text: "Hybrid Model" },
+            { icon: CheckCircle, title: "Global", text: "Access & Standards" },
           ].map((item, i) => (
             <div
               key={i}
@@ -32,9 +32,7 @@ export default function Nhs() {
               <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                 <item.icon className="h-6 w-6 text-[#224488]" />
               </div>
-              <h3 className="text-lg font-bold text-[#224488] mb-1">
-                {item.title}
-              </h3>
+              <h3 className="text-lg font-bold text-[#224488] mb-1">{item.title}</h3>
               <p className="text-sm text-gray-600">{item.text}</p>
             </div>
           ))}
@@ -45,20 +43,20 @@ export default function Nhs() {
           {[
             {
               icon: Trophy,
-              title: "Platform Launch",
-              text: "AI-powered NHS career tools launching September 2025",
-              badge: "Coming Soon",
+              title: "NextDoc Platform – Fully Functional",
+              text: "Integrated career, exam, and mentorship tools now available",
+              badge: "Live",
             },
             {
               icon: Users,
-              title: "Mentor Network",
-              text: "Expert NHS consultants and trainers ready to support your journey",
-              badge: "Ready to Launch",
+              title: "Mentor Network – Active & Growing",
+              text: "Connect with NHS consultants and peers worldwide",
+              badge: "Active",
             },
             {
               icon: Shield,
-              title: "Evidence-Based Content",
-              text: "Content developed by practicing NHS professionals",
+              title: "Evidence-Based Learning – Verified",
+              text: "Every module developed and reviewed by practising NHS doctors",
               badge: "Verified",
             },
           ].map((item, i) => (
@@ -72,9 +70,7 @@ export default function Nhs() {
                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                   <item.icon className="h-6 w-6 text-[#224488]" />
                 </div>
-                <h3 className="text-lg font-semibold text-[#224488] mb-2">
-                  {item.title}
-                </h3>
+                <h3 className="text-lg font-semibold text-[#224488] mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-600 mb-3">{item.text}</p>
               </div>
               <div
@@ -88,7 +84,7 @@ export default function Nhs() {
           ))}
         </div>
 
-        {/* ✅ Certification Badges with green ticks */}
+        {/* Certification Badges */}
         <div className="flex flex-wrap justify-center gap-4 mb-16">
           {[
             "NHS Aligned",

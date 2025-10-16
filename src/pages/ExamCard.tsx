@@ -6,11 +6,12 @@ interface ExamCardProps {
   title: string;
   description: string;
   comingSoon?: boolean;
+  onJoinWaitlist?: () => void; // function prop
 }
 
-export function ExamCard({ title, description, comingSoon = true }: ExamCardProps) {
+export function ExamCard({ title, description, comingSoon = true, onJoinWaitlist }: ExamCardProps) {
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="aspect-square flex flex-col justify-between shadow-md rounded-lg">
       <CardHeader>
         {comingSoon && (
           <Badge variant="secondary" className="w-fit mb-2">
@@ -18,10 +19,10 @@ export function ExamCard({ title, description, comingSoon = true }: ExamCardProp
           </Badge>
         )}
         <CardTitle className="text-xl">{title}</CardTitle>
-        <CardDescription className="text-sm">{description}</CardDescription>
+        <CardDescription className="text-sm mt-1">{description}</CardDescription>
       </CardHeader>
       <CardContent className="mt-auto">
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" onClick={onJoinWaitlist}>
           Join Waitlist
         </Button>
       </CardContent>

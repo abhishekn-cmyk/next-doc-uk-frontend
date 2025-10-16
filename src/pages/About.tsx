@@ -1,12 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Users, Globe, Award, Heart, Trophy } from "lucide-react";
+import { useState } from "react";
+import {  Award,  Trophy } from "lucide-react";
 import { useAbout } from "@/hooks/useAbout";
 import { Badge } from "@/components/ui/badge";
+import { AnimatePresence, motion } from "framer-motion";
+import { X, Globe, Users, Heart } from "lucide-react";
 
 export default function About() {
   const { data: abouts, isLoading } = useAbout();
-
+  const [openModal, setOpenModal] = useState(false);
   if (isLoading) return <p className="text-center py-16">Loading...</p>;
   if (!abouts || abouts.length === 0)
     return <p className="text-center py-16">No about data available.</p>;
@@ -14,18 +16,20 @@ export default function About() {
   const about = abouts[0]; // get the first item
   return (
     <div className="min-h-screen bg-background">
-      <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              {about.title}
-            </h1>
-            <p className="text-xl leading-relaxed opacity-90">
-              {about.description}
-            </p>
-          </div>
-        </div>
-      </section>
+    <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-3xl mx-auto text-center">
+      <h1 className="text-4xl md:text-5xl font-bold mb-6">
+        About NextDoc Globals
+      </h1>
+      <p className="text-xl leading-relaxed opacity-90">
+        Empowering international medical graduates to successfully transition into the NHS. 
+        We provide comprehensive support, training, and mentorship for doctors beginning their UK healthcare journey.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Mission & Vision */}
       <section className="py-16">
@@ -441,6 +445,152 @@ export default function About() {
           </div>
         </div>
       </section>
+      <section className="w-full py-16 px-4 bg-gray-50">
+  <div className="max-w-4xl mx-auto">
+    <div className="bg-gray-300 rounded-xl p-8 md:p-12 shadow-lg text-center text-white">
+      <h2 className="text-2xl md:text-3xl font-bold mb-4">
+        Ready to Start Your NHS Journey?
+      </h2>
+      <p className="mb-6 text-base md:text-lg">
+        Speak with one of our advisors to learn more about our programs and how we can help you succeed in your NHS career transition.
+      </p>
+      <button
+        onClick={(()=>setOpenModal(true))}
+        className="inline-block bg-white text-pink-500 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition"
+      >
+        Schedule Free Consultation
+      </button>
+    </div>
+  </div>
+</section>
+{openModal &&(
+  <>
+  <section className="w-full py-16 px-4 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-pink-500 rounded-xl p-8 md:p-12 shadow-lg text-center text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Ready to Start Your NHS Journey?
+            </h2>
+            <p className="mb-6 text-base md:text-lg">
+              Speak with one of our advisors to learn more about our programs and how we can help you succeed in your NHS career transition.
+            </p>
+            <button
+              onClick={() => setOpenModal(true)}
+              className="inline-block bg-white text-pink-500 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition"
+            >
+              Schedule Free Consultation
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {openModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setOpenModal(false)}
+                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              {/* Modal Content */}
+              <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">
+                Contact Us
+              </h3>
+
+              <div className="divide-y divide-gray-200">
+                {/* Email */}
+                <div className="flex flex-col items-center gap-2 pb-6">
+                  <Globe className="h-7 w-7 text-blue-900" />
+                  <div className="text-center">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                      Email Us
+                    </h4>
+                    <a
+                      href="mailto:info@nextdocglobal.com"
+                      className="text-blue-900 text-sm font-medium hover:underline"
+                    >
+                      info@nextdocglobal.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* UK Office */}
+                <div className="flex flex-col items-center gap-2 py-6">
+                  <Users className="h-7 w-7 text-blue-900" />
+                  <div className="text-center">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                      UK Office
+                    </h4>
+                    <a
+                      href="tel:+447733673574"
+                      className="text-sm text-gray-700 font-medium hover:underline"
+                    >
+                      +44 7733673574
+                    </a>
+                    <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mt-2">
+                      <Heart className="h-4 w-4 text-red-500" />
+                      <a
+                        href="https://wa.me/447733673574"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        WhatsApp UK
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* India Office */}
+                <div className="flex flex-col items-center gap-2 pt-6">
+                  <Users className="h-7 w-7 text-blue-900" />
+                  <div className="text-center">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                      India Office
+                    </h4>
+                    <a
+                      href="tel:+919483540070"
+                      className="text-sm text-gray-700 font-medium hover:underline"
+                    >
+                      +91 9483540070
+                    </a>
+                    <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mt-2">
+                      <Heart className="h-4 w-4 text-red-500" />
+                      <a
+                        href="https://wa.me/919483540070"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        WhatsApp India
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+  </>
+)}
+
     </div>
   );
 }

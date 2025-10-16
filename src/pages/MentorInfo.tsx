@@ -87,13 +87,13 @@ export const MentorInfoModal: React.FC<MentorInfoModalProps> = ({ isOpen, onClos
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-opacity-50" 
     >
       <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl z-10">
+        <div className="sticky top-0 bg-gradient-to-br from-primary to-primary/80 border-b border-gray-200 p-6 rounded-t-2xl z-10">
           <div className="flex justify-between items-start">
-            <h2 className="text-3xl font-bold text-gray-900 max-w-[85%]">
+            <h2 className="text-3xl  text-white font-bold text-gray-900 max-w-[85%]">
               Why Become a Mentor at NextDoc UK
             </h2>
             <Button
@@ -102,10 +102,10 @@ export const MentorInfoModal: React.FC<MentorInfoModalProps> = ({ isOpen, onClos
               onClick={onClose}
               className="h-10 w-10 rounded-full hover:bg-gray-100"
             >
-              <X className="h-5 w-5 text-gray-700" />
+              <X className="h-5 w-5 text-white-700" />
             </Button>
           </div>
-          <p className="text-gray-600 mt-2 text-sm md:text-base">
+          <p className="text-white-600 mt-2 text-sm md:text-white">
             Mentoring is a rewarding opportunity to share your NHS experience, develop leadership skills, and contribute to the professional growth of the next generation of doctors.
           </p>
         </div>

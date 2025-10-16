@@ -14,13 +14,13 @@ export default function NextDoc() {
 
         {/* Heading */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-          What is NextDoc Global?
+          What is NextDoc UK?
         </h2>
 
         {/* Subheading */}
         <p className="text-gray-600 mb-8">
-          Watch our comprehensive video to understand how NextDoc Global
-          revolutionizes medical career transitions to the NHS.
+        NextDoc UK is an AI-powered education and career-readiness platform built by doctors for medical professionals. Join us for the upcoming podcast series featuring Dr. Pradeep Sabapathy, discussing real NHS journeys and career insights.
+        <br/>🎙️ Podcast Series Coming Soon — Subscribe to our YouTube channel for updates
         </p>
 
         {/* Video Embed */}
@@ -50,79 +50,52 @@ export default function NextDoc() {
         </p>
 
         {/* Success Stories Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        <div className="max-w-6xl mx-auto text-center">
+        {/* Heading */}
+      
+
+        {/* Mentor Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {mentors.slice(0, 3).map((mentor) => (
             <div
               key={mentor._id}
-              className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 p-6 flex flex-col items-center"
             >
-              <div className="p-6">
-                <div className="relative w-24 h-24 mx-auto mb-6">
-                  {/* Avatar */}
-                  <div className="w-24 h-24 rounded-full border-2 border-gray-200 overflow-hidden flex items-center justify-center bg-gray-100">
-                    {mentor.profilePicture ? (
-                      <img
-                        src={`${import.meta.env.VITE_API_BASE_URL}/${
-                          mentor.profilePicture
-                        }`}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <User className="w-12 h-12 text-gray-400" />
-                    )}
-                  </div>
-                  {/* Badge overlay */}
-                  <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                    {mentor.designation || "Mentor"}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
-                  {mentor.fullName}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  {mentor.currentNhsTrust} – {mentor.currentRole}
-                </p>
-
-                {/* Stats */}
-                <div className="space-y-3 text-left mb-5">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">PLAB Journey:</span>
-                    <span className="px-3 py-1 text-sm font-semibold text-red-600 border border-red-500 rounded-full">
-                      {mentor.clinicalExperienceYears || 0}+ years
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">
-                      NHS Experience:
-                    </span>
-                    <span className="px-3 py-1 text-sm font-semibold text-blue-600 border border-blue-500 rounded-full">
-                      {mentor.nhsExperienceYears || 0}+ years
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">
-                      Mentees Guided:
-                    </span>
-                    <span className="px-3 py-1 text-sm font-semibold text-green-600 border border-green-500 rounded-full">
-                      {mentor.mentees?.length || 0}+
-                    </span>
-                  </div>
-                </div>
-
-                {/* Quote */}
-                <div className="p-4 rounded-lg">
-                  <p className="text-sm text-black-100 italic text-left">
-                    {mentor.successStories ||
-                      mentor.description ||
-                      "Mentor experience and guidance available."}
-                  </p>
-                </div>
+              {/* Avatar */}
+              <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-gray-200 flex items-center justify-center bg-gray-100">
+                {mentor.profilePicture ? (
+                  <img
+                    src={`${import.meta.env.VITE_API_BASE_URL}/${mentor.profilePicture}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User className="w-12 h-12 text-gray-400" />
+                )}
               </div>
+
+              {/* Name and Role */}
+              <h3 className="text-xl font-bold text-gray-900 mb-1">
+                {mentor.fullName}
+              </h3>
+              <p className="text-sm text-gray-500 mb-2">
+                {mentor.address} → {mentor.currentRole || mentor.designation}
+              </p>
+             <p className="text-sm text-gray-700 mb-4 font-medium">
+  Experienced NHS Consultant<span className="mx-1">·</span>
+  {mentor.designation || "Specialty Mentor"}
+</p>
+
+
+              {/* Quote */}
+              <p className="text-sm italic text-gray-600 text-center">
+                "{mentor.successStories ||
+                  mentor.description ||
+                  "Mentor experience and guidance available."}"
+              </p>
             </div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

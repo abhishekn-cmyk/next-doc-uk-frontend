@@ -8,11 +8,12 @@ import {
   BotMessageSquare,
   X,
   ArrowLeft,
-  Upload,
+  Upload,Check
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "react-router-dom";
 import nhsHeroImage from "@/assets/nhs-medical-hero.jpg";
 import { RotatingMentorDisplay } from "@/components/RotatingMentorDisplay";
 import ProfessionalDevelopment from "./ProfessionalDevelopment";
@@ -167,7 +168,13 @@ export default function HomeHero() {
       setFormData({ ...formData, [fieldName]: file });
     }
   };
+   const [query, setQuery] = useState("");
 
+  const handleSubmits = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault(); // prevents the default form submission
+  if (!query.trim()) return;
+  console.log("User asked:", query);
+};
   const handleSubmit = async () => {
     try {
       const data = new FormData();
@@ -304,6 +311,7 @@ export default function HomeHero() {
       toast.error("Failed to submit application. Please try again.");
     }
   };
+  const navigate=useNavigate();
 
   // calculate progress % dynamically
   const progress = (currentStep / totalSteps) * 100;
@@ -1088,125 +1096,173 @@ export default function HomeHero() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-6 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <img
-            src={nhsHeroImage}
-            alt="NHS Medical Hero"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-6 md:gap-12 items-center">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-                Your Gateway to NHS Success
-              </h1>
-              <p className="text-lg sm:text-xl leading-relaxed opacity-90 mb-6 sm:mb-8">
-                AI-powered tools, expert mentorship, and comprehensive exam
-                preparation for international doctors transitioning to the NHS.
-              </p>
+    <section className="relative bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-12 md:py-20 overflow-hidden">
+      {/* Background overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <img
+          src={nhsHeroImage}
+          alt="NHS Medical Hero"
+          className="w-full h-full object-cover"
+        />
+      </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <Link to={"/get-started"} className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    variant="secondary"
-                    className="w-full sm:w-auto px-4 sm:px-8"
-                  >
-                    Start Your Journey
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-                <Link to="/products" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto px-4 sm:px-8 border-primary text-primary bg-background hover:bg-primary hover:text-primary-foreground"
-                  >
-                    Explore Programs
-                  </Button>
-                </Link>
-                <a
-                  href="https://instagram.com/nextdocglobal"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto"
+      {/* Content */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-10 items-center">
+          {/* Left Column */}
+          <div className="max-w-3xl space-y-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+              Your Gateway to <span className="text-emerald-200">NHS Success</span>
+            </h1>
+
+            <p className="text-lg sm:text-xl leading-relaxed text-primary-foreground/90">
+              AI-powered tools, mentor-validated guidance, and structured
+              learning pathways for doctors preparing for NHS careers.
+            </p>
+
+            {/* AI Ask Bar */}
+            <form
+              onSubmit={handleSubmits}
+              className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 max-w-2xl"
+            >
+              <Input
+                type="text"
+                placeholder="Ask anything about NHS careers, PLAB, CVs…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="flex-1 px-4 py-6 text-base rounded-xl shadow-lg border border-primary-foreground/20 bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground placeholder:text-primary-foreground/60 focus-visible:ring-2 focus-visible:ring-emerald-300"
+              />
+              <Button
+                type="submit"
+                size="lg"
+                disabled={!query.trim()}
+                className="w-full sm:w-auto px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold transition-all"
+              >
+                Ask NextDoc AI
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </form>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3 pt-2">
+              <Link to={"/get-started"} className="w-full">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="w-full px-4 sm:px-8 font-semibold shadow-md"
                 >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto px-4 sm:px-8 border-pink-500 text-pink-500 bg-background hover:bg-pink-500 hover:text-white"
-                  >
-                    <span className="hidden sm:inline">
-                      Join Our Insta Community
-                    </span>
-                    <span className="sm:hidden">Instagram</span>
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </a>
-              </div>
+                  Start Your Journey
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </Link>
 
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 text-xs sm:text-sm mb-4 sm:mb-0">
-                <div className="flex items-center space-x-2">
-                  <Users className="h-4 w-4" />
-                  <span>2,500+ Successful Transitions</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Trophy className="h-4 w-4" />
-                  <span>95% PLAB Pass Rate</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Heart className="h-4 w-4" />
-                  <span>NHS-Focused Training</span>
-                </div>
-              </div>
+              <Link to="/products" className="w-full">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full px-4 sm:px-8 border-primary text-primary bg-background hover:bg-primary hover:text-primary-foreground font-semibold shadow-md"
+                >
+                  Explore Programmes
+                </Button>
+              </Link>
 
-              <div className="mt-4 sm:mt-6 p-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg border border-primary-foreground/20">
-                <p className="text-xs sm:text-sm text-primary-foreground/90">
-                  📲 Daily Quiz & AI Access via Instagram
-                </p>
-              </div>
+              <a
+                href="https://instagram.com/nextdocglobal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full px-4 sm:px-8 border-pink-500 text-pink-500 bg-background hover:bg-pink-500 hover:text-white font-semibold shadow-md"
+                >
+                  <span className="hidden sm:inline">Join Our Insta Community</span>
+                  <span className="sm:hidden">Instagram</span>
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </a>
+            </div>
 
-              <div className="mt-6 sm:mt-8 p-4 sm:p-5 bg-emerald-50/50 border border-emerald-200/60 rounded-lg backdrop-blur-sm">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="flex items-center space-x-3 sm:space-x-4">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+            {/* Feature Highlights */}
+            <div className="flex flex-wrap gap-4 text-xs sm:text-sm text-primary-foreground/90 pt-4">
+              <div className="flex items-center space-x-2">
+                <Users className="h-4 w-4" />
+                <span>NHS-focused Training</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Trophy className="h-4 w-4" />
+                <span>Expert Mentorship</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Heart className="h-4 w-4" />
+                <span>Proven Results</span>
+              </div>
+            </div>
+
+            {/* Promo Card */}
+            <div className="mt-6 sm:mt-8 p-5 bg-emerald-50/60 border border-emerald-200 rounded-2xl backdrop-blur-sm shadow-lg">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                      <Trophy className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
-                        <span className="text-lg sm:text-xl font-bold text-emerald-700">
-                          FREE
-                        </span>
-                        <span className="text-base sm:text-lg font-semibold text-emerald-600">
-                          PLAB Quiz Bank
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-emerald-600/80">
-                        847 spots remaining • Limited time
-                      </p>
+                      <span className="block text-xs font-semibold text-emerald-700 uppercase tracking-wide">
+                        LIMITED ACCESS
+                      </span>
+                      <h3 className="text-lg sm:text-xl font-bold text-emerald-700">
+                        FREE PLAB Quiz Bank
+                      </h3>
                     </div>
                   </div>
-                  <Link to="/exams/plab" className="w-full sm:w-auto">
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 sm:px-6 text-sm sm:text-base"
-                    >
-                      Claim FREE Access
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
+                  <p className="text-xs sm:text-sm text-emerald-700/80 mb-3">
+                    847 spots remaining for this month
+                  </p>
+                  <ul className="space-y-2 mb-4">
+                    <li className="flex items-center">
+                      <Check className="w-5 h-5 text-green-500 mr-2" />
+                      2,000+ MLA-aligned questions
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="w-5 h-5 text-green-500 mr-2" />
+                      AI-powered explanations
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="w-5 h-5 text-green-500 mr-2" />
+                      Progress tracking & analytics
+                    </li>
+                  </ul>
                 </div>
+
+                <Link to="/exams/plab" className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 sm:px-6 text-sm sm:text-base"
+                  >
+                    Claim Free Access
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                </Link>
               </div>
             </div>
 
-            <div className="mt-8 lg:mt-0">
-              <RotatingMentorDisplay />
+            {/* Instagram Note */}
+            <div className="mt-4 sm:mt-6 p-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg border border-primary-foreground/20">
+              <p className="text-xs sm:text-sm text-primary-foreground/90">
+                📲 Daily Quiz & AI Access via Instagram
+              </p>
             </div>
           </div>
+
+          {/* Right Column: Rotating Mentors */}
+          <div className="mt-8 lg:mt-0">
+            <RotatingMentorDisplay />
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Professional Development Section */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
@@ -1246,7 +1302,7 @@ export default function HomeHero() {
           className="w-full bg-gray-100 hover:bg-gray-200 text-[#224488] font-semibold py-4 px-6 
                          rounded-xl inline-flex items-center justify-center gap-2 
                          border border-gray-300 shadow-sm transition-all duration-300"
-        >
+       onClick={()=> navigate('/mentors')} >
           Get Mentored <Users className="h-5 w-5 text-[#224488]" />
         </button>
       </section>

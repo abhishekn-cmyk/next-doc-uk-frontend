@@ -15,7 +15,11 @@ export default function ThreeCards() {
 
   return (
     <div className="w-full bg-white py-16 px-4">
-      {/* Heading */}
+      <hr/>
+      <p className="text-center text-sm text-gray-600">
+  NextDoc UK provides independent learning resources and career guidance. We are not affiliated with the GMC or NHS.
+</p>
+<br/><br/><br/>
       <div className="max-w-5xl mx-auto text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Complete NHS Integration Support
@@ -74,7 +78,7 @@ export default function ThreeCards() {
               className="w-full border border-red-300 text-red-600 py-2.5 text-sm rounded-lg font-medium hover:bg-red-50 transition-colors flex justify-center items-center"
             >
               <Video className="w-4 h-4 mr-2" />
-              Watch Shorts
+              Podcast by Dr. Pradeep Sabapathy — Coming Soon
             </button>
           </div>
         </div>

@@ -1,279 +1,128 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent,  CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Calendar, Users, Trophy, ArrowRight } from "lucide-react";
+import { CheckCircle, BookOpen, Users, Trophy, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
+import { Badge } from "@/components/ui/badge";
 
-const features = [
-  "MRCP Part 1 & Part 2 comprehensive preparation",
-  "PACES clinical examination training",
-  "Expert guidance from UK consultants",
-  "Interactive case-based learning",
+const buildingFeatures = [
+  "Comprehensive preparation for MRCP Part 1, Part 2 Written, PACES Clinical",
+  "Expert guidance from UK consultant specialists in physician training and internal medicine",
+  "Enhanced curriculum with latest exam formats, interactive learning resources, case-based training",
   "Mock examinations with detailed feedback",
-  "High first-attempt success rates",
+  "Dedicated principal mentor support programme",
+  "Interactive case-based learning for real-world application",
 ];
 
-const timeline = [
-  {
-    phase: "Foundation",
-    duration: "Months 1-3",
-    description: "Core medical knowledge building and exam familiarization",
-  },
-  {
-    phase: "Part 1 Prep",
-    duration: "Months 4-8",
-    description:
-      "Intensive Part 1 preparation with practice questions and mock tests",
-  },
-  {
-    phase: "Part 2 & PACES",
-    duration: "Months 9-15",
-    description:
-      "Clinical skills development and PACES examination preparation",
-  },
-  {
-    phase: "Final Review",
-    duration: "Month 16",
-    description: "Comprehensive revision and confidence building",
-  },
+const expertCards = [
+  { icon: BookOpen, title: "Expert Curriculum", description: "Comprehensive study materials aligned with current exam formats and Royal College guidelines" },
+  { icon: Users, title: "UK Consultants", description: "Learn from experienced NHS consultants and examiners who understand the UK healthcare system" },
+  { icon: Trophy, title: "Proven Success", description: "Join thousands of doctors who've successfully passed their exams with our guidance" },
 ];
 
-export default function MRCP() {
+export default function MRCPComingSoon() {
   return (
-    <div className="min-h-screen bg-background">
-      <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <Badge className="mb-4 bg-primary-foreground text-primary">
-              Principal Mentor
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              MRCP Preparation Program
-            </h1>
-            <p className="text-xl leading-relaxed opacity-90 mb-8">
-              Master the MRCP examinations with our comprehensive preparation
-              program led by experienced UK consultants and principal mentors.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/get-started">
-                <Button size="lg" variant="secondary" className="px-8">
-                  Begin Your MRCP Journey
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                Meet Your Mentors
-              </Button>
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Coming Soon Header */}
+      <section className="text-center py-20 bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white px-4">
+        <h1 className="text-5xl font-bold mb-4"><Badge>Coming Soon</Badge></h1>
+        <h2 className="text-3xl font-semibold mb-4">MRCP Preparation Programme</h2>
+        <p className="text-lg max-w-3xl mx-auto mb-4">
+          Membership of the Royal Colleges of Physicians
+        </p>
+        <p className="text-base max-w-3xl mx-auto opacity-90">
+          We're developing comprehensive MRCP Part 1, Part 2 & PACES preparation content
+          with expert guidance from experienced UK consultant physicians. Our enhanced
+          curriculum will include interactive case-based learning, mock examinations, and
+          dedicated principal mentor support to maximise your success in physician training.
+        </p>
       </section>
 
-      {/* Key Features */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Why Choose Our MRCP Program?
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive preparation with principal mentor guidance for all
-              three parts of the MRCP examination
-            </p>
-          </div>
+      {/* What We're Building */}
+      <section className="py-16 px-4 max-w-7xl mx-auto">
+  <h2 className="text-3xl font-bold text-center mb-12">What We're Building For You</h2>
+  <div className="grid md:grid-cols-3 gap-6">
+    {buildingFeatures.map((feature, index) => (
+      <div key={index} className="flex items-start gap-3 p-4 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> {/* tick color updated */}
+        <p className="text-gray-700">{feature}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
-                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                <span>{feature}</span>
-              </div>
-            ))}
-          </div>
+{/* Expert Cards */}
+<section className="py-16 px-4 max-w-7xl mx-auto">
+  <h2 className="text-3xl font-bold text-center mb-12">Why Choose Our MRCP Program?</h2>
+  <div className="grid md:grid-cols-3 gap-6">
+    {expertCards.map((card, index) => {
+      const Icon = card.icon;
+      return (
+        <Card key={index} className="p-6 text-center hover:shadow-lg transition">
+          <Icon className="h-12 w-12 text-primary mx-auto mb-4" /> {/* icon color updated */}
+          <CardTitle className="text-xl font-bold mb-2">{card.title}</CardTitle>
+          <CardContent>
+            <p className="text-gray-700 text-sm">{card.description}</p>
+          </CardContent>
+        </Card>
+      );
+    })}
+  </div>
+</section>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardHeader>
-                <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>16-Month Program</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Comprehensive preparation covering all aspects of MRCP
-                  examinations with principal mentor support
-                </p>
-              </CardContent>
-            </Card>
 
-            <Card className="text-center">
-              <CardHeader>
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>UK Consultants</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Learn from experienced NHS consultants and principal mentors
-                  who understand the UK system
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Trophy className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>High Success Rate</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Proven track record of helping international doctors succeed
-                  in MRCP examinations
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+      {/* Notify Me Form */}
+      <section className="py-16 px-4 max-w-xl mx-auto bg-white rounded-xl shadow-md">
+        <h3 className="text-2xl font-bold text-center mb-6">Be the First to Know</h3>
+        <p className="text-gray-700 text-center mb-6">
+          Register your interest and we'll notify you as soon as our enhanced MRCP preparation programme launches.
+        </p>
+        <form className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email Address *"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            type="text"
+            placeholder="Name (Optional)"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <Button type="submit" className="bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white py-3">
+            Notify Me When Available<ArrowRight/>
+          </Button>
+        </form>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          We'll only send you important updates about the MRCP programme launch. No spam, ever.
+        </p>
       </section>
+    <br/>
+      {/* Explore Programs */}
+      <section className="py-16 px-4 w-full bg-gradient-to-br from-[#0A3B7A] to-[#004E92] text-white text-center">
+  <div className="max-w-5xl mx-auto">
+    <h3 className="text-2xl font-bold mb-4">Explore What's Available Now</h3>
+    <p className="text-white mb-8">
+      While we finalise our MRCP programme, discover our other tools and connect with expert mentors.
+    </p>
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <Link to="/mentors">
+        <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">
+          Meet Our Mentors
+        </Button>
+      </Link>
+      <Link to="/exams/plab">
+        <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">
+          Explore PLAB Preparation
+        </Button>
+      </Link>
+      <Link to="/products">
+        <Button className="bg-white text-[#0A3B7A] px-8 py-3 hover:opacity-90">
+          View All Products
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
 
-      {/* Program Timeline */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Program Structure</h2>
-            <p className="text-muted-foreground">
-              Progressive 16-month journey to MRCP success
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {timeline.map((item, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{item.phase}</CardTitle>
-                    <Badge variant="outline">{item.duration}</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PLAB Components */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            MRCP Examination Components
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCP Part 1</CardTitle>
-                <p className="text-muted-foreground">Applied Knowledge Test</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>200 MCQ questions</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>3.5 hours duration</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Core medical knowledge</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">MRCP Part 2</CardTitle>
-                <p className="text-muted-foreground">Written Examination</p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>3 papers (2.5 hours each)</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Clinical problem solving</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Applied medical knowledge</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">PACES</CardTitle>
-                <p className="text-muted-foreground">
-                  Clinical Skills Assessment
-                </p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>5 clinical stations</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>20 minutes per station</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                    <span>Real patient interactions</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Excel in MRCP?</h2>
-          <p className="text-xl opacity-90 mb-8">
-            Join our principal mentor program and advance your physician career
-            with expert guidance from UK consultants.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/get-started">
-              <Button size="lg" variant="secondary" className="px-8">
-                Start Your Training
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-            >
-              Connect with Mentors
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
