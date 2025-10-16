@@ -79,7 +79,7 @@ const Login = () => {
               className="h-12 sm:h-14 w-auto transition-transform group-hover:scale-105"
             />
             <span className="text-2xl font-bold text-primary">
-              NextDoc Global
+              NextDoc UK
             </span>
           </Link>
           <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>

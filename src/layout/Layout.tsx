@@ -18,7 +18,9 @@ export default function Layout() {
     "/speaking",
     "/listening",
     "/reading",
-    "/exams/plab"
+    "/exams/plab",
+    "/terms",
+    "/privacy"
   ];
 
   const hideFooter = noFooterPaths.includes(location.pathname.toLowerCase());

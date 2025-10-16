@@ -1167,7 +1167,7 @@ export default function HomeHero() {
               </Link>
 
               <a
-                href="https://instagram.com/nextdocglobal"
+                href="https://www.instagram.com/nextdoc_uk?igsh=d2ljaW1weDJoZ3Bv&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full"

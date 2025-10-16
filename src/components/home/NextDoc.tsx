@@ -24,7 +24,7 @@ export default function NextDoc() {
         </p>
 
         {/* Video Embed */}
-        <div className="w-full h-[500px] rounded-xl overflow-hidden shadow-lg mb-16">
+        {/* <div className="w-full h-[500px] rounded-xl overflow-hidden shadow-lg mb-16">
           <iframe
             className="w-full h-full"
             src="https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -33,7 +33,7 @@ export default function NextDoc() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
-        </div>
+        </div> */}
 
         {/* Success Stories Section */}
         <span className="inline-flex items-center justify-center w-auto md:w-[180px] px-4 py-1.5 mb-6 text-[10px] md:text-xs font-medium text-white bg-blue-900 rounded-full shadow-sm tracking-wide">
