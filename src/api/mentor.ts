@@ -1,26 +1,55 @@
 // src/api/mentorApi.ts
 import axios from "axios";
 import type { IMentor } from "@/types/mentor";
-import axiosInstance from "@/lib/axiosInstance";
 
 const API_URL_BASE = `${import.meta.env.VITE_API_BASE_URL}/mentor`;
 
+// Helper to get auth headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 // GET all mentors
 export const getMentors = async (): Promise<IMentor[]> => {
-  const { data } = await axios.get(API_URL_BASE);
-  return data?.data || [];
+  try {
+    const { data } = await axios.get(API_URL_BASE, {
+      headers: getAuthHeaders(),
+    });
+    return data?.data || [];
+  } catch (err: any) {
+    console.error("❌ getMentors error:", err.response?.data || err.message);
+    return [];
+  }
 };
 
 // GET single mentor by id
-export const getMentorById = async (id: string): Promise<IMentor> => {
-  const { data } = await axios.get(`${API_URL_BASE}/${id}`);
-  return data?.data;
+export const getMentorById = async (id: string): Promise<IMentor | null> => {
+  try {
+    const { data } = await axios.get(`${API_URL_BASE}/${id}`, {
+      headers: getAuthHeaders(),
+    });
+    return data?.data || null;
+  } catch (err: any) {
+    console.error("❌ getMentorById error:", err.response?.data || err.message);
+    return null;
+  }
 };
 
 // Create mentor application
 export const createMentorApplication = async (formData: any) => {
-  const res = await axiosInstance.post("mentor-application", formData);
-
-  return res.data;
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/mentor-application`,
+      formData,
+      { headers: getAuthHeaders() }
+    );
+    return res.data;
+  } catch (err: any) {
+    console.error(
+      "❌ createMentorApplication error:",
+      err.response?.data || err.message
+    );
+    throw err;
+  }
 };

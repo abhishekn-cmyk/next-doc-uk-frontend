@@ -1,15 +1,40 @@
-import axiosInstance from "@/lib/axiosInstance";
+import axios from "axios";
 import type { TResetPassword } from "@/types/user";
 
-export const forgotPassword = async (email: string) => {
-  const res = await axiosInstance.post("/user/forgot-password", {
-    email,
-  });
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-  return res.data;
+// Optional: helper to get token headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+// Forgot password
+export const forgotPassword = async (email: string) => {
+  try {
+    const res = await axios.post(
+      `${API_BASE}/user/forgot-password`,
+      { email },
+      { headers: getAuthHeaders() }
+    );
+    return res.data;
+  } catch (err: any) {
+    console.error("❌ forgotPassword error:", err.response?.data || err.message);
+    throw err;
+  }
+};
+
+// Reset password
 export const resetPassword = async (formData: TResetPassword) => {
-  const res = await axiosInstance.patch("/user/reset-password", formData);
-  return res.data;
+  try {
+    const res = await axios.patch(
+      `${API_BASE}/user/reset-password`,
+      formData,
+      { headers: getAuthHeaders() }
+    );
+    return res.data;
+  } catch (err: any) {
+    console.error("❌ resetPassword error:", err.response?.data || err.message);
+    throw err;
+  }
 };

@@ -1,15 +1,25 @@
 // api/consent.ts
 import axios from "axios";
 import type { Consent, ConsentChoice } from "@/types/consent";
-import axiosInstance from "@/lib/axiosInstance";
-import { useAuthStore } from "@/store/authstore";
+// import { useAuthStore } from "@/store/authstore";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+// Fetch consent
 export const fetchConsent = async (): Promise<Consent | null> => {
-  const { data } = await axiosInstance.get("/modal/me");
-  return data.data || null;
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axios.get(`${API_URL}/modal/me`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    return data.data || null;
+  } catch (err: any) {
+    console.error("❌ fetchConsent error:", err.response?.data || err.message);
+    return null;
+  }
 };
-// api/consent.ts
 
+// Save consent
 export const saveConsent = async ({
   choice,
   policy,
@@ -27,10 +37,9 @@ export const saveConsent = async ({
   } | null;
 }) => {
   const normalizedLocation = location || undefined;
-
   let payload: any = { choice, policy, location: normalizedLocation };
 
-  // attach userId if present
+  // Attach userId if present in localStorage
   const userStr = localStorage.getItem("user");
   if (userStr) {
     try {
@@ -41,17 +50,22 @@ export const saveConsent = async ({
     }
   }
 
-  // fallback IP if userId missing
+  // Fallback IP if userId missing
   if (!payload.userId) {
     const ipRes = await fetch("https://api.ipify.org?format=json");
     const ipData = await ipRes.json();
     payload.ipAddress = ipData.ip;
   }
 
-  const { token } = useAuthStore();
-  const res = await axios.post(`/modal`, payload, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
+  const token = localStorage.getItem("token"); // fetch token from localStorage
 
-  return res.data;
+  try {
+    const { data } = await axios.post(`${API_URL}/modal`, payload, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    return data;
+  } catch (err: any) {
+    console.error("❌ saveConsent error:", err.response?.data || err.message);
+    throw err;
+  }
 };
