@@ -585,476 +585,455 @@ export default function Products() {
       </section>
 
       {/* CPD & Mentorship */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              III. {programs[1]?.category}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Professional development and expert guidance from NHS consultants
-            </p>
+    <section className="py-16">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl font-bold mb-4">
+        III. {programs[1]?.category}
+      </h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Professional development and expert guidance from NHS consultants
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-8">
+      {/* First card: programs[1] */}
+      <Card className="group hover:shadow-xl transition-all">
+        <CardHeader>
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Award className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <CardTitle>{programs[1]?.title}</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {programs[1]?.subtitle}
+              </p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            {programs[1]?.description}
+          </p>
+
+          {/* Pricing options */}
+          <div className="space-y-2">
+  {programs[1]?.pricingOptions?.map((option, idx) => (
+    <div key={idx} className="flex justify-between items-center">
+      <span className="font-medium">{option.name}</span>
+      <span className="font-semibold">£{option.price}</span>
+    </div>
+  ))}
+</div>
+
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            {programs[1]?.pricingOptions?.map((option, idx) => (
+              <BuyNowButton
+                key={idx}
+                item={{
+                  id: option.name.replace(/\s+/g, "-").toLowerCase(),
+                  name: option.name,
+                  price: option.price,
+                  description: option.name,
+                  type: "one-time",
+                }}
+                variant={idx === 0 ? "outline" : "secondary"}
+                className="py-2 px-2 rounded-lg text-center font-semibold transition-all hover:scale-105 hover:shadow-lg max-w-xs"
+              >
+                {option.name} — £{option.price}
+              </BuyNowButton>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Second card: programs[0] */}
+      <Card className="group hover:shadow-xl transition-all">
+        <CardHeader>
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Users className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <CardTitle>{programs[0]?.title}</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {programs[0]?.subtitle}
+              </p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            {programs[0]?.description}
+          </p>
+
+          {/* Features only for second card */}
+          {(programs[0]?.features || []).length > 0 && (
+            <div className="space-y-2 mt-2">
+              {programs[0]?.features?.map((feature, idx) => (
+                <div key={idx} className="flex items-center space-x-2">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <span className="text-sm text-muted-foreground">{feature}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Pricing options */}
+          <div className="mt-2 space-y-1">
+            {programs[0]?.pricingOptions?.map((price, idx) => (
+              <div key={idx} className="text-xl font-bold text-primary">
+                £{price.price}
+              </div>
+            ))}
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* First card: programs[1] */}
-            <Card className="group hover:shadow-xl transition-all">
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Award className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle>{programs[1]?.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {programs[1]?.subtitle}
-                    </p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {programs[1]?.description}
-                </p>
-                {(programs[1]?.features || []).length > 0 && (
-                  <ul className="list-disc list-inside space-y-1 text-sm">
-                    {programs[1]?.features?.map((feature, idx) => (
-                      <li key={idx}>{feature}</li>
-                    ))}
-                  </ul>
-                )}
-                <div>
-                  {programs[1]?.pricingOptions?.map((option, idx) => (
-                    <div key={idx}>
-                      <p>{option.name}</p>
-                      <p>{option.price}</p>
-                    </div>
-                  ))}
-                </div>
+          {/* Static button for mentorship */}
+          <Button className="w-full mt-4">
+            Book Mentor Session —{" "}
+            <span>
+              {programs[0]?.pricingOptions?.map((price, idx) => (
+                <span key={idx}> £{price.price}</span>
+              ))}
+            </span>
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+</section>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                  {programs[1]?.pricingOptions?.map((option, idx) => (
-                    <BuyNowButton
-                      key={idx}
-                      item={{
-                        id: option.name.replace(/\s+/g, "-").toLowerCase(),
-                        name: option.name,
-                        price: option.price,
-                        description: option.name,
-                        type: "one-time",
-                      }}
-                      variant={idx === 0 ? "outline" : "secondary"}
-                      className="py-2 px-2 rounded-lg text-center font-semibold transition-all hover:scale-105 hover:shadow-lg max-w-xs"
-                    >
-                      {option.name} — £{option.price}
-                    </BuyNowButton>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Second card: programs[0] */}
-            <Card className="group hover:shadow-xl transition-all">
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <Users className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle>{programs[0]?.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {programs[0]?.subtitle}
-                    </p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {programs[0]?.description}
-                </p>
-                {(programs[0]?.features || []).length > 0 && (
-                  <div className="space-y-2 mt-2">
-                    {programs[0].features?.map((feature, idx) => (
-                      <div key={idx} className="flex items-center space-x-2">
-                        <CheckCircle className="h-4 w-4 text-primary" />
-                        <span className="text-sm text-muted-foreground">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-2 space-y-1">
-                  {programs?.[0]?.pricingOptions?.map((price, idx) => (
-                    <div key={idx} className="text-xl font-bold text-primary">
-                      £{price.price}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Static button for mentorship */}
-                <Button className="w-full mt-4">
-                  Book Mentor Session —{" "}
-                  <p>
-                    {programs[0]?.pricingOptions?.map((price) => (
-                      <p> £ {price.price}</p>
-                    ))}
-                  </p>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
 
       {/* Bundles & Subscriptions */}
       <section className="py-16 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              IV. Bundles & Subscriptions
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Complete packages designed for maximum value and comprehensive
-              support
-            </p>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">
+            IV. Bundles & Subscriptions
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Complete packages designed for maximum value and comprehensive
+            support
+          </p>
+        </div>
 
-          {/* Featured Subscription Plans */}
-          <div className="mb-6 flex items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground">Billing:</span>
-            <div className="inline-flex rounded-md border">
-              <button
-                className={`px-3 py-1 text-sm rounded-l-md ${
-                  billingInterval === "month"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background"
-                }`}
-                onClick={() => setBillingInterval("month")}
-              >
-                Monthly
-              </button>
-              <button
-                className={`px-3 py-1 text-sm rounded-r-md ${
-                  billingInterval === "year"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background"
-                }`}
-                onClick={() => setBillingInterval("year")}
-              >
-                Yearly
-              </button>
-            </div>
+        {/* Featured Subscription Plans */}
+        <div className="mb-6 flex items-center justify-center gap-2">
+          <span className="text-sm text-muted-foreground">Billing:</span>
+          <div className="inline-flex rounded-md border">
+            <button
+              className={`px-3 py-1 text-sm rounded-l-md ${
+                billingInterval === "month"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background"
+              }`}
+              onClick={() => setBillingInterval("month")}
+            >
+              Monthly
+            </button>
+            <button
+              className={`px-3 py-1 text-sm rounded-r-md ${
+                billingInterval === "year"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-background"
+              }`}
+              onClick={() => setBillingInterval("year")}
+            >
+              Yearly
+            </button>
           </div>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {/* Pro AI Only */}
-            {products?.[5] && (
-              <Card className="group hover:shadow-xl transition-all">
-                <CardHeader className="text-center">
-                  {products[5].tagline && (
-                    <Badge className="mb-2" variant="secondary">
-                      {products[5].tagline}
-                    </Badge>
-                  )}
-                  <CardTitle className="text-2xl">{products[5].name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold text-primary">
-                      £{products[5].pricingOptions?.[0]?.price ?? 0}
-                    </span>
-                    <span className="text-muted-foreground">
-                      /
-                      {products[5].pricingOptions?.[0]?.type === "monthly"
-                        ? "mo"
-                        : "yr"}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-2">
-                  {products[5].features?.map((feature) => (
-                    <div
-                      key={feature._id}
-                      className="flex items-center space-x-2"
-                    >
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                      <span>{feature.description}</span>
-                    </div>
-                  ))}
-                  <BuyNowButton
-                    item={{
-                      id: products[5]._id,
-                      name: products[5].name,
-                      price: products[5].pricingOptions?.[0]?.price ?? 0,
-                      description: products[5].description ?? products[5].name,
-                      type: "subscription",
-                    }}
-                    className="w-full"
-                  >
-                    Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {/* Pro AI Only */}
+          {products[5] && (
+            <Card className="group hover:shadow-xl transition-all">
+              <CardHeader className="text-center">
+                {products[5].tagline && (
+                  <Badge className="mb-2" variant="secondary">
+                    {products[5].tagline}
+                  </Badge>
+                )}
+                <CardTitle className="text-2xl">{products[5].name}</CardTitle>
+                <div className="mt-2">
+                  <span className="text-4xl font-bold text-primary">
+                    £{products[5].pricingOptions?.[0]?.price ?? 0}
+                  </span>
+                  <span className="text-muted-foreground">
+                    /
                     {products[5].pricingOptions?.[0]?.type === "monthly"
                       ? "mo"
                       : "yr"}
-                  </BuyNowButton>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Core / Cores */}
-            {products?.[4] && (
-              <Card className="group hover:shadow-xl transition-all border-2 border-primary/20">
-                <CardHeader className="text-center bg-primary/5">
-                  <Badge className="mb-2 bg-primary text-primary-foreground">
-                    {products[4].tagline || products[4].highlightTag || "N/A"}
-                  </Badge>
-                  <CardTitle className="text-2xl">{products[4].name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold text-primary">
-                      £{" "}
-                      {billingInterval === "year"
-                        ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[4].pricingOptions[0]?.price ?? 0}
-                      /{billingInterval === "year" ? "yr" : "mo"}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-2">
-                  {products[4].features?.map((feature) => (
-                    <div
-                      key={feature._id}
-                      className="flex items-center space-x-2"
-                    >
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                      <span>{feature.description}</span>
-                    </div>
-                  ))}
-                  <BuyNowButton
-                    item={{
-                      id: products[4]._id,
-                      name: products[4].name,
-                      price:
-                        billingInterval === "year"
-                          ? (products[4].pricingOptions[0]?.price ?? 0) * 10 +
-                            10
-                          : products[4].pricingOptions[0]?.price ?? 0,
-                      description: products[4].description ?? products[4].name,
-                      type: "subscription",
-                    }}
-                    className="w-full"
+                  </span>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-2">
+                {products[5].features?.map((feature) => (
+                  <div
+                    key={feature._id}
+                    className="flex items-center space-x-2"
                   >
-                    Subscribe — £{" "}
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>{feature.description}</span>
+                  </div>
+                ))}
+                <BuyNowButton
+                  item={{
+                    id: products[5]._id,
+                    name: products[5].name,
+                    price: products[5].pricingOptions?.[0]?.price ?? 0,
+                    description: products[5].description ?? products[5].name,
+                    type: "subscription",
+                  }}
+                  className="w-full mt-4"
+                >
+                  Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
+                  {products[5].pricingOptions?.[0]?.type === "monthly"
+                    ? "mo"
+                    : "yr"}
+                </BuyNowButton>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Core */}
+          {products[4] && (
+            <Card className="group hover:shadow-xl transition-all border-2 border-primary/20">
+              <CardHeader className="text-center bg-primary/5">
+                <Badge className="mb-2 bg-primary text-primary-foreground">
+                  {products[4].tagline || products[4].highlightTag || "N/A"}
+                </Badge>
+                <CardTitle className="text-2xl">{products[4].name}</CardTitle>
+                <div className="mt-2">
+                  <span className="text-4xl font-bold text-primary">
+                    £{" "}
                     {billingInterval === "year"
                       ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
                       : products[4].pricingOptions[0]?.price ?? 0}
+                  </span>
+                  <span className="text-muted-foreground">
                     /{billingInterval === "year" ? "yr" : "mo"}
-                  </BuyNowButton>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Elite */}
-            {products?.[3] && (
-              <Card className="group hover:shadow-xl transition-all border-2 border-amber-500/20 relative">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-amber-500 text-white">
-                    {products[3].highlightTag || "PREMIUM"}
-                  </Badge>
+                  </span>
                 </div>
-                <CardHeader className="text-center bg-amber-50">
-                  <CardTitle className="text-2xl">{products[3].name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold text-amber-600">
-                      {billingInterval === "year"
-                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[3].pricingOptions[0]?.price ?? 0}
-                    </span>
-                    <span className="text-muted-foreground">
-                      /{billingInterval === "year" ? "yr" : "mo"}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-2">
-                  {products[3].features?.map((feature) => (
-                    <div
-                      key={feature._id}
-                      className="flex items-center space-x-2"
-                    >
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                      <span>{feature.description}</span>
-                    </div>
-                  ))}
-                  <br />
-                  <BuyNowButton
-                    item={{
-                      id: `elite-${billingInterval}`,
-                      name: products[3].name,
-                      price:
-                        billingInterval === "year"
-                          ? (products[3].pricingOptions[0]?.price ?? 0) * 10 +
-                            10
-                          : products[3].pricingOptions[0]?.price ?? 0,
-                      description: "Elite subscription",
-                      type: "subscription",
-                    }}
-                    className="w-full"
+              </CardHeader>
+              <CardContent className="pt-2">
+                {products[4].features?.map((feature) => (
+                  <div
+                    key={feature._id}
+                    className="flex items-center space-x-2"
                   >
-                    Subscribe — £{" "}
-                    {billingInterval === "year"
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>{feature.description}</span>
+                  </div>
+                ))}
+                <BuyNowButton
+                  item={{
+                    id: products[4]._id,
+                    name: products[4].name,
+                    price:
+                      billingInterval === "year"
+                        ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[4].pricingOptions[0]?.price ?? 0,
+                    description: products[4].description ?? products[4].name,
+                    type: "subscription",
+                  }}
+                  className="w-full mt-4"
+                >
+                  Subscribe — £{" "}
+                  {billingInterval === "year"
+                    ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
+                    : products[4].pricingOptions[0]?.price ?? 0}
+                  /{billingInterval === "year" ? "yr" : "mo"}
+                </BuyNowButton>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Elite */}
+          {products[3] && (
+            <Card className="group hover:shadow-xl transition-all border-2 border-amber-500/20 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-amber-500 text-white">
+                  {products[3].highlightTag || "PREMIUM"}
+                </Badge>
+              </div>
+              <CardHeader className="text-center bg-amber-50">
+                <CardTitle className="text-2xl">{products[3].name}</CardTitle>
+                <div className="mt-2">
+                  <span className="text-4xl font-bold text-amber-600">
+                    £{billingInterval === "year"
                       ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
                       : products[3].pricingOptions[0]?.price ?? 0}
+                  </span>
+                  <span className="text-muted-foreground">
                     /{billingInterval === "year" ? "yr" : "mo"}
-                  </BuyNowButton>
+                  </span>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-2">
+                {products[3].features?.map((feature) => (
+                  <div
+                    key={feature._id}
+                    className="flex items-center space-x-2"
+                  >
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>{feature.description}</span>
+                  </div>
+                ))}
+                <BuyNowButton
+                  item={{
+                    id: `elite-${billingInterval}`,
+                    name: products[3].name,
+                    price:
+                      billingInterval === "year"
+                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[3].pricingOptions[0]?.price ?? 0,
+                    description: "Elite subscription",
+                    type: "subscription",
+                  }}
+                  className="w-full mt-4"
+                >
+                  Subscribe — £{" "}
+                  {billingInterval === "year"
+                    ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+                    : products[3].pricingOptions[0]?.price ?? 0}
+                  /{billingInterval === "year" ? "yr" : "mo"}
+                </BuyNowButton>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        {/* Other Bundles */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {[2, 1, 0].map((i) => {
+            const bundle = products[i];
+            if (!bundle) return null;
+
+            return (
+              <Card
+                key={bundle._id}
+                className="group hover:shadow-xl transition-all"
+              >
+                <CardHeader>
+                  <div className="flex items-center justify-between mb-2">
+                    <Target className="h-6 w-6 text-primary" />
+                    <Badge
+                      className={
+                        bundle.highlightTag === "Best Value"
+                          ? "bg-green-100 text-green-800"
+                          : bundle.highlightTag === "Complete"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-purple-100 text-purple-800"
+                      }
+                    >
+                      {bundle.highlightTag}
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg">{bundle.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4 text-sm">
+                    {bundle.description}
+                  </p>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-2xl font-bold text-primary">
+                      £{bundle.pricingOptions?.[0]?.price ?? 0}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      One-time
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                      Get Bundle
+                    </button>
+                    <BuyNowButton
+                      item={{
+                        id: bundle._id,
+                        name: bundle.name,
+                        price: bundle.pricingOptions?.[0]?.price ?? 0,
+                        description: bundle.description || '',
+                        type: "one-time",
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                    >
+                      Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
+                    </BuyNowButton>
+                  </div>
                 </CardContent>
               </Card>
-            )}
-          </div>
-
-          {/* Other Bundles */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {[2, 1, 0].map((i) => {
-              const bundle = products?.[i];
-              if (!bundle) return null; // <- This tells TS bundle is not undefined below
-
-              return (
-                <Card
-                  key={bundle._id}
-                  className="group hover:shadow-xl transition-all"
-                >
-                  <CardHeader>
-                    <div className="flex items-center justify-between mb-2">
-                      <Target className="h-6 w-6 text-primary" />
-                      <Badge
-                        className={
-                          bundle.highlightTag === "Best Value"
-                            ? "bg-green-100 text-green-800"
-                            : bundle.highlightTag === "Complete"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-purple-100 text-purple-800"
-                        }
-                      >
-                        {bundle.highlightTag}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">{bundle.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4 text-sm">
-                      {bundle.description}
-                    </p>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-2xl font-bold text-primary">
-                        £{bundle.pricingOptions?.[0]?.price ?? 0}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        One-time
-                      </span>
-                    </div>
-                    <div className="space-y-1">
-                      <Button className="w-full" size="sm">
-                        Get Bundle
-                      </Button>
-                      <BuyNowButton
-                        item={{
-                          id: bundle._id,
-                          name: bundle.name,
-                          price: bundle.pricingOptions?.[0]?.price ?? 0,
-                          description: bundle.description,
-                          type: "one-time",
-                        }}
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                      >
-                        Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
-                      </BuyNowButton>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+            );
+          })}
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* B2B/Trust Solutions */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">V. B2B/Trust Solutions</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Enterprise solutions for NHS Trusts, deaneries, and medical
-              institutions
+     <section className="py-16">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl font-bold mb-4">V. B2B/Trust Solutions</h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Enterprise solutions for NHS Trusts, deaneries, and medical institutions
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-1 gap-8">
+      {enterprise.map((item) => (
+        <Card key={item._id} className="max-w-4xl mx-auto">
+          <CardHeader>
+            <div className="flex items-center space-x-3 justify-center">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Briefcase className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">{item.name}</CardTitle>
+            </div>
+          </CardHeader>
+
+          <CardContent>
+            <p className="text-muted-foreground text-center mb-8">
+              {item.description}
             </p>
-          </div>
 
-          <div className="grid md:grid-cols-1 gap-8">
-            {enterprise.map((item) => (
-              <Card key={item._id} className="max-w-4xl mx-auto">
-                <CardHeader>
-                  <div className="flex items-center space-x-3 justify-center">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <Briefcase className="h-6 w-6 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl">{item.name}</CardTitle>
-                  </div>
-                </CardHeader>
+            {/* Features Section */}
+            <div className="flex justify-center gap-6 mb-8">
+              {item.hasCohortTracking && (
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    Cohort tracking & analytics
+                  </span>
+                </div>
+              )}
 
-                <CardContent>
-                  <p className="text-muted-foreground text-center mb-8">
-                    {item.description}
-                  </p>
+              {item.isWhiteLabel && (
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    White-label branding
+                  </span>
+                </div>
+              )}
+            </div>
 
-                  <div className="grid md:grid-cols-3 gap-6 mb-8">
-                    {item.hasCohortTracking && (
-                      <div className="text-center">
-                        <div className="flex items-center space-x-2 justify-center mb-2">
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium">
-                            Cohort tracking & analytics
-                          </span>
-                        </div>
-                      </div>
-                    )}
+            {/* Coming Soon Button */}
+            <div className="text-center">
+              <Button size="lg" variant="outline" disabled>
+                Coming Soon
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
 
-                    {item.isWhiteLabel && (
-                      <div className="text-center">
-                        <div className="flex items-center space-x-2 justify-center mb-2">
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium">
-                            White-label branding
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    {item.hasBulkusermanagement && (
-                      <div className="text-center">
-                        <div className="flex items-center space-x-2 justify-center mb-2">
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium">
-                            Bulk user management
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="text-center">
-                    <Button asChild size="lg">
-                      <Link to="/contact">Contact Sales</Link>
-                    </Button>
-                    <p className="text-sm text-muted-foreground mt-3">
-                      {item.minUsers
-                        ? `Pricing from £10,000/year per ${item.minUsers} users`
-                        : "Contact for pricing"}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-16 bg-primary text-primary-foreground">
