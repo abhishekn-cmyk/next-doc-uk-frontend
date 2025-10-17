@@ -15,6 +15,7 @@ import {
   Bell,
   Lock,
   X,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -113,7 +114,8 @@ export default function Labs() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground mb-6">{paper.summary}</p>
-                    <Button variant="outline">Read More</Button>
+                    <Button variant="outline" className="bg-primary mr-5 text-white"><Download/> Download PDF</Button>
+                    <Button variant="outline">View Abstract <ExternalLink/></Button>
                   </CardContent>
                 </Card>
               ))}
