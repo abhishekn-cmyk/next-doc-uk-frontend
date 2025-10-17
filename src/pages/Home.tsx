@@ -1,7 +1,7 @@
 import Head from "@/layout/Head";
 import HomeHero from "@/components/home/HomeHero";
 import CookieConsent from "@/components/CookieConsent";
-import AIConsentPopup from "@/components/AIConsentPopup";
+// import AIConsentPopup from "@/components/AIConsentPopup";
 
 export default function Home() {
   return (
@@ -25,7 +25,7 @@ export default function Home() {
 
       <HomeHero />
       <CookieConsent />
-      <AIConsentPopup />
+      {/* <AIConsentPopup /> */}
     </div>
   );
 }
