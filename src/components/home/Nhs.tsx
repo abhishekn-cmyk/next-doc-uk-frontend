@@ -1,20 +1,27 @@
 // src/components/Nhs.jsx
-import { Users, Shield, Star, CheckCircle, Trophy } from "lucide-react";
+import { Users,  Star, CheckCircle, Trophy } from "lucide-react";
 
 export default function Nhs() {
   return (
     <section className="w-full bg-white py-20 px-6">
-      <div className="max-w-6xl mx-auto text-center">
+     
         {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold text-[#224488] mb-4">
-          Built for NHS Success
-        </h2>
+       <div className="max-w-6xl mx-auto text-center">
+    {/* Now Live Badge */}
+    <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-primary text-white text-sm font-semibold">
+      🚀 Now Live
+    </div>
 
-        {/* Description */}
-        <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-16">
-          NextDoc Platform – Fully Functional: Integrated career, exam, and mentorship tools now available
-        </p>
-
+    {/* Heading */}
+    <h2 className="text-3xl md:text-4xl font-bold text-[#224488] mb-4">
+      Built for NHS Success
+    </h2>
+   
+    {/* Description */}
+    <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+      Expert-developed tools and content designed specifically for international medical professionals transitioning to the NHS.
+    </p>
+     <br/>
         {/* Top Row Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
           {[
@@ -54,7 +61,7 @@ export default function Nhs() {
               badge: "Active",
             },
             {
-              icon: Shield,
+              icon: CheckCircle,
               title: "Evidence-Based Learning – Verified",
               text: "Every module developed and reviewed by practising NHS doctors",
               badge: "Verified",
@@ -74,12 +81,15 @@ export default function Nhs() {
                 <p className="text-sm text-gray-600 mb-3">{item.text}</p>
               </div>
               <div
-                className="mx-auto mt-2 inline-flex items-center justify-center 
-                              border border-gray-300 text-[#224488] text-xs font-semibold 
-                              px-4 py-1.5 rounded-lg bg-white shadow-sm"
-              >
-                {item.badge}
-              </div>
+  className={`mx-auto mt-2 inline-flex items-center justify-center 
+              border ${item.badge === "Verified" ? "border-blue-500" : "border-gray-300"} 
+              text-xs font-semibold 
+              px-4 py-1.5 rounded-lg bg-white shadow-sm 
+              ${item.badge === "Verified" ? "bg-gradient-to-br from-primary to-primary/80 text-white" : "text-[#224488]"}`}
+>
+  {item.badge}
+</div>
+
             </div>
           ))}
         </div>

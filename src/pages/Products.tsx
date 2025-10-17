@@ -30,7 +30,7 @@ import { usePrograms } from "@/hooks/useProgram";
 
 const iconByTool: Record<string, React.ElementType> = {
   "GapMap™": MapPin,
-  "CVPro™": Bot,
+  "CVBooster™": Bot,
   "SponsorMatch™": Briefcase,
   "InterviewSim+™": Users,
   "MentorConnect™": Stethoscope,
@@ -40,7 +40,7 @@ const iconByTool: Record<string, React.ElementType> = {
 // Define exact order
 const toolOrder = [
   "GapMap™",
-  "CVPro™",
+  "CVBooster™",
   "SponsorMatch™",
   "InterviewSim+™",
   "MentorConnect™",
@@ -52,7 +52,7 @@ const badgeColorByTool: Record<
   "default" | "secondary" | "destructive" | "outline"
 > = {
   "GapMap™": "outline",
-  "CVPro™": "default",
+  "CVBooster™": "default",
   "SponsorMatch™": "destructive",
   "InterviewSim+™": "secondary",
   "MentorConnect™": "default",
@@ -61,7 +61,7 @@ const badgeColorByTool: Record<
 
 const linkByTool: Record<string, string> = {
   "GapMap™": "/gap-map", // This is correct
-  "CVPro™": "/cv-booster", // Updated to match your route
+  "CVBooster™": "/cv-booster", // Updated to match your route
   "SponsorMatch™": "/sponsor-match", // This is correct
   "InterviewSim+™": "/interviewsim", // This is correct
   "MentorConnect™": "/mentors", // This is correct
@@ -85,10 +85,18 @@ export default function Products() {
   );
   const plabExams = exams.filter((e) => e.category === "PLAB");
   const postgraduateExams = exams.filter((e) => e.category === "Postgraduate");
-
+  console.log(tools);
   const sortedTools: ITool[] = toolOrder
     .map((name) => tools.find((t) => t.name === name))
     .filter((t): t is ITool => Boolean(t));
+   // Desired order of tools by name
+
+
+// Reorder the tools array
+const orderedTools = toolOrder
+  .map(name => sortedTools.find(tool => tool.name === name))
+  .filter(Boolean) as ITool[]; // filter out any undefined
+
 
   return (
     <>
@@ -219,102 +227,141 @@ export default function Products() {
     </div>
 
     {/* Tools Grid */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {sortedTools.map((tool: ITool, index) => {
-        const Icon = iconByTool[tool.name] || MapPin;
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  {orderedTools.map((tool: ITool, index) => {
+    const Icon = iconByTool[tool.name] || MapPin;
 
-        return (
-          <Card
-            key={tool._id}
-            className="group hover:shadow-2xl transition-shadow rounded-2xl overflow-hidden"
-          >
-            <CardHeader className="pb-0">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
-                  {/* Tool Icon */}
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <Icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl font-semibold">{tool.name}</CardTitle>
-                    {tool.tagline && (
-                      <p className="text-sm text-muted-foreground mt-1">{tool.tagline}</p>
-                    )}
-                  </div>
-                </div>
-                {tool.category && (
-                  <Badge
-                    variant={badgeColorByTool[tool.name] || "default"}
-                    className="h-6 px-2 py-1 text-xs font-medium"
-                  >
-                    {tool.category}
-                  </Badge>
+    // Static content for first 3 cards
+    
+let description = tool.description;
+let features = tool.features;
+
+if (index === 0) {
+  description = "Personalised NHS journey mapping with gap analysis, milestones, and action plan. Upgrade to mentor session anytime.";
+  features = [
+    "Dynamic, step-by-step roadmap",
+    "Gap analysis with red flags",
+  ];
+} else if (index === 1) {
+  description = "NHS-Format CV Builder with Mentor Review. Instant AI scoring/rewrites in NHS format. Optional mentor human polish for guaranteed professionalism.";
+  features = [
+    "Benchmark vs NHS CVs",
+    "Export-ready PDF & portfolio",
+  ];
+} else if (index === 2) {
+  description = "Personalised shortlist of live NHS jobs and Trusts with sponsorship status, fit score, and red flags.";
+  features = [
+    "Live job matching",
+    "Sponsorship eligibility check",
+  ];
+} else if (index === 3) {
+  description = "Specialty-matched NHS interview simulator with instant AI feedback. Upgrade to mentor review anytime.";
+  features = [
+    "Instant feedback & scoring",
+    "Real NHS-style questions",
+  ];
+} else if (index === 4) {
+  description = "Book specialty-matched NHS mentors. Session notes, CPD sign-off, and package deals available.";
+  features = [
+    "Session credits & bundles",
+    "CPD sign-off eligible",
+  ];
+} else if (index === 5) {
+  description = "Practice with MLA-aligned MCQs, difficulty modes, mocks, and peer stats. “Ask AI about this question” included for Pro/Core/Elite.";
+  features = [
+    "Free: 30 Qs/month",
+    "Full Access: £69 or £6.99/mo",
+  ];
+}
+
+    return (
+      <Card
+        key={tool._id}
+        className="group hover:shadow-2xl transition-shadow rounded-2xl overflow-hidden"
+      >
+        <CardHeader className="pb-0">
+          <div className="flex items-start justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 bg-primary/10 rounded-lg">
+                <Icon className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl font-semibold">{tool.name}</CardTitle>
+                {tool.tagline && (
+                  <p className="text-sm text-muted-foreground mt-1">{tool.tagline}</p>
                 )}
               </div>
-            </CardHeader>
+            </div>
+            {tool.category && (
+              <Badge
+                variant={badgeColorByTool[tool.name] || "default"}
+                className="h-6 px-2 py-1 text-xs font-medium"
+              >
+                {tool.category}
+              </Badge>
+            )}
+          </div>
+        </CardHeader>
 
-            <CardContent>
-              <p className="text-muted-foreground mb-4">{tool.description}</p>
+        <CardContent>
+          <p  className="text-muted-foreground mb-4">{tool.description}</p>
+          <p className="text-muted-foreground mb-4">{description}</p>
 
-              {/* Features */}
-              <div className="space-y-2 mb-6">
-                {tool.features?.map((feature, idx) => (
-                  <div key={idx} className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    <span className="text-sm">{feature}</span>
-                  </div>
-                ))}
+          <div className="space-y-2 mb-6">
+            {features?.map((feature, idx) => (
+              <div key={idx} className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-primary" />
+                <span className="text-sm">{feature}</span>
               </div>
+            ))}
+          </div>
 
-              {/* Price Info */}
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-2xl font-bold text-primary">£{tool.basePrice}</span>
-                <span className="text-sm text-muted-foreground">Base</span>
-              </div>
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-2xl font-bold text-primary">£{tool.basePrice}</span>
+            <span className="text-sm text-muted-foreground">Base</span>
+          </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-3">
-               <Link
-  to={linkByTool[tool.name as keyof typeof linkByTool] || "/products"}
->
-  <Button className="w-full">
-    Learn More <ArrowRight className="h-4 w-4 ml-2" />
-  </Button>
-</Link>
+          <div className="space-y-3">
+            <Link to={linkByTool[tool.name as keyof typeof linkByTool] || "/products"}>
+              <Button className="w-full">
+                Learn More <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
 
-                <Button variant="outline" className="w-full">
-                  Buy Now - £{tool.basePrice}
-                </Button>
+            <Button variant="outline" className="w-full">
+              Buy Now - £{tool.basePrice}
+            </Button>
 
-                {index < 2 && (
-                  <Button variant="secondary" className="w-full">
-                    AI + Mentor £{tool.basePrice * 2 + 10}
-                  </Button>
-                )}
+            {index < 2 && (
+              <Button variant="secondary" className="w-full">
+                AI + Mentor £{tool.basePrice * 2 + 10}
+              </Button>
+            )}
 
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full"
-                  onClick={() =>
-                    window.dispatchEvent(
-                      new CustomEvent("nextdoc:open-ai", {
-                        detail: {
-                          message: `Tell me more about ${tool.name}`,
-                          specialty: "general",
-                        },
-                      })
-                    )
-                  }
-                >
-                  Ask AI about {tool.name}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })}
-    </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full"
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("nextdoc:open-ai", {
+                    detail: {
+                      message: `Tell me more about ${tool.name}`,
+                      specialty: "general",
+                    },
+                  })
+                )
+              }
+            >
+              Ask AI about {tool.name}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  })}
+</div>
+
   </div>
 </section>
 
@@ -399,85 +446,147 @@ export default function Products() {
             </div>
           ))}
 
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold mb-6">
-              B. {plabExams[0]?.category}
-            </h3>
+        <div className="mb-12">
+  <h3 className="text-2xl font-bold mb-6">
+    B. {plabExams[0]?.category}
+  </h3>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {plabExams.slice(0, 2).map((exam, idx) => (
-                <Card
-                  key={exam._id}
-                  className="group hover:shadow-xl transition-all"
-                >
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div
-                        className={`p-2 rounded-lg ${
-                          exam.iconBg || "bg-green-100"
-                        }`}
-                      >
-                        {idx === 0 ? (
-                          <Brain className="h-6 w-6 text-green-600" />
-                        ) : (
-                          <BookOpen className="h-6 w-6 text-green-600" />
-                        )}
-                      </div>
-                      <div>
-                        <CardTitle>{exam.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground">
-                          {exam.subtitle}
-                        </p>
-                      </div>
-                    </div>
-                  </CardHeader>
+  <div className="grid md:grid-cols-2 gap-8">
+    {plabExams.slice(0, 2).map((exam, idx) => {
+      let title = exam.title;
+      let subtitle = exam.subtitle;
+      let description = exam.description;
+      let features = exam.features;
+      let price = exam.price || PRICES.plabQBank.oneTime;
+      let bundleItems = exam.bundleItems;
 
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">
-                      {exam.description}
-                    </p>
+      if (idx === 0) {
+        // Static content for first card
+        title = "PLAB-1 QBank — NHS Aligned";
+        subtitle = "2,000+ MLA-aligned MCQs • Full Rationales";
+        description = "Early Access: Free for first 1000 users";
+        features = [
+          "2,000+ MLA-aligned MCQs",
+          "Full Rationales",
+          "NextDoc AI help",
+          "Performance analytics",
+          "Mentor analysis (paid add-on)",
+        ];
+       
+        bundleItems = ["Early Access"];
+      } else if (idx === 1) {
+        // Static content for second card
+        title = "PLAB Study Material & Starter Bundle";
+        subtitle = "Complete preparation package";
+        description = "High-yield guides, revision notes, and bundled offer: QBank + CV Booster™ + InterviewSim™ + CPD + 1x mentor consult.";
+        features = [
+          "Complete study bundle",
+          "Best value package deal",
+        ];
+        price = 199;
+        bundleItems = [];
+      }
 
-                    {/* Features */}
-                    <div className="space-y-2 mb-4">
-                      {exam.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <CheckCircle className="h-4 w-4 text-primary" />
-                          <span className="text-sm">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Price & Access */}
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-2xl font-bold text-primary">
-                        £{exam.price || PRICES.plabQBank.oneTime}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {exam.bundleItems?.join(", ")}
-                      </span>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Button className="w-full">Access QBank</Button>
-                      <BuyNowButton
-                        item={{
-                          id: exam._id || "plab-qbank",
-                          name: exam.title,
-                          price: exam.price || PRICES.plabQBank.oneTime,
-                          description: exam.description,
-                          type: "one-time",
-                        }}
-                        variant="outline"
-                        className="w-full"
-                      >
-                        Buy QBank - £{exam.price || PRICES.plabQBank.oneTime}
-                      </BuyNowButton>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+      return (
+        <Card key={exam._id} className="group hover:shadow-xl transition-all">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className={`p-2 rounded-lg ${exam.iconBg || "bg-green-100"}`}>
+                {idx === 0 ? (
+                  <Brain className="h-6 w-6 text-green-600" />
+                ) : (
+                  <BookOpen className="h-6 w-6 text-green-600" />
+                )}
+              </div>
+              <div>
+                <CardTitle>{title}</CardTitle>
+                <p className="text-sm text-muted-foreground">{subtitle}</p>
+              </div>
             </div>
-          </div>
+          </CardHeader>
+
+        <CardContent>
+          {idx=== 0 ?(
+               <p className="mb-4">
+  <Badge className="border border-blue-500 text-blue-500 px-2 py-1">
+    {description}
+  </Badge>
+</p>
+
+          ):(
+          null
+          )}
+ {idx === 1 && (
+  <p className="text-muted-foreground mb-4">
+    High-yield guides, revision notes, and bundled offer: QBank + CV Booster™ + InterviewSim™ + CPD + 1x mentor consult.
+  </p>
+)}
+
+
+  {/* Feature badges */}
+ <div className="space-y-2 mb-2">
+  {idx === 0
+    ? [
+        "Extended rationales, distractor analysis, and clinical pearls",
+        "NextDoc AI help + performance analytics",
+      ].map((feature, fIdx) => (
+        <div key={fIdx} className="flex items-center space-x-2">
+          <CheckCircle className="h-4 w-4 text-primary" />
+          <span className="text-sm">{feature}</span>
+        </div>
+      ))
+    : [
+        "Complete study bundle",
+        "Best value package deal",
+      ].map((feature, fIdx) => (
+        <div key={fIdx} className="flex items-center space-x-2">
+          <CheckCircle className="h-4 w-4 text-primary" />
+          <span className="text-sm">{feature}</span>
+        </div>
+      ))}
+</div>
+
+
+
+  {/* Mentor analysis note */}
+  {idx === 0 && (
+    <p className="text-xs text-muted-foreground mt-1">
+      Mentor analysis is a paid add-on
+    </p>
+  )}
+
+  {/* Price & Access */}
+  <div className="flex justify-end items-end mb-4">
+    
+    {bundleItems?.length ? (
+      <span className="text-sm text-muted-foreground">{bundleItems.join(", ")}</span>
+    ) : null}
+  </div>
+
+  <div className="space-y-2">
+    <Button className="w-full">Access QBank</Button>
+    <BuyNowButton
+      item={{
+        id: exam._id || "plab-qbank",
+        name: title,
+        price: price,
+        description: description,
+        type: "one-time",
+      }}
+      variant="outline"
+      className="w-full"
+    >
+      Buy QBank - £{price}
+    </BuyNowButton>
+  </div>
+</CardContent>
+
+        </Card>
+      );
+    })}
+  </div>
+</div>
+
 
           {/* PLAB Exam Suite */}
 
@@ -487,99 +596,68 @@ export default function Products() {
               C. {postgraduateExams[0]?.category}
             </h3>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {postgraduateExams.map((exam) => {
-                // Optional color mapping for icons
-                const colorMap: Record<string, string> = {
-                  MRCP: "amber",
-                  MRCS: "red",
-                  MRCOG: "purple",
-                  MRCPCH: "blue",
-                };
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+  {postgraduateExams.slice(0,4)
+    .filter(exam => exam.examType && exam.title) // filter out undefined examType
+    .map((exam, idx) => {
+      // Custom colors based on position
+      let bgColor = "bg-gray-100";
+      let iconColor = "text-gray-600";
 
-                // Safe access with fallback
-                const examColor = exam.examType
-                  ? colorMap[exam.examType]
-                  : "gray";
+      if (idx === 1) {
+        bgColor = "bg-red-100";
+        iconColor = "text-red-600";
+      } else if (idx === 2 || idx === 3) {
+        bgColor = "bg-indigo-100";
+        iconColor = "text-indigo-600";
+      }
 
-                return (
-                  <Card
-                    key={exam._id}
-                    className="group hover:shadow-xl transition-all"
-                  >
-                    <CardHeader>
-                      <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg bg-${examColor}-100`}>
-                          <Stethoscope
-                            className={`h-6 w-6 text-${examColor}-600`}
-                          />
-                        </div>
-                        <div>
-                          <CardTitle className="text-base">
-                            {exam.title}
-                          </CardTitle>
-                          <Badge className="mt-1" variant="secondary">
-                            {exam.subtitle}
-                          </Badge>
-                        </div>
-                      </div>
-                    </CardHeader>
+      const examSlug = exam.examType ? exam.examType.toLowerCase() : ""; // safe fallback
 
-                    <CardContent>
-                      {/* Features */}
-                      <div className="space-y-2 mb-4">
-                        {exam.features.map((feature, fIdx) => (
-                          <div
-                            key={fIdx}
-                            className="flex items-center space-x-2"
-                          >
-                            <CheckCircle className="h-4 w-4 text-primary" />
-                            <span className="text-xs">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Price & Bundle */}
-                      <div className="flex justify-between items-center mb-4">
-                        <span className="text-lg font-bold text-primary">
-                          £{exam.price}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {exam.bundleItems?.join(", ") || "No bundle items"}
-                        </span>
-                      </div>
-
-                      <div className="space-y-1">
-                        {exam.examType && (
-                          <Link to={`/exams/${exam.examType.toLowerCase()}`}>
-                            <Button className="w-full" size="sm">
-                              Start Pathway
-                            </Button>
-                          </Link>
-                        )}
-                        <div className="mb-4" />
-                        <BuyNowButton
-                          item={{
-                            id: exam._id,
-                            name: exam.title,
-                            price: exam.price ?? 0, // fallback if undefined
-                            description: `Complete ${
-                              exam.title
-                            } with ${exam.features.join(", ")}`,
-                            type: "one-time",
-                          }}
-                          variant="outline"
-                          size="sm"
-                          className="w-full"
-                        >
-                          Buy - £{exam.price ?? 0}
-                        </BuyNowButton>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+      return (
+        <Card key={examSlug || idx} className="group hover:shadow-xl transition-all">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className={`p-2 rounded-lg ${bgColor}`}>
+                <Stethoscope className={`h-6 w-6 ${iconColor}`} />
+              </div>
+              <div>
+                <CardTitle className="text-base font-semibold">{exam.title}</CardTitle>
+              </div>
             </div>
+          </CardHeader>
+
+          <CardContent>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-xs">
+                AI-powered diagnostic & revision tools in development.
+              </span>
+            </div>
+
+            <div className="flex items-center justify-start mb-2">
+              <Badge className="bg-gray-100 text-black px-2 py-1 text-xs">
+                Coming Soon
+              </Badge>
+            </div>
+
+            {examSlug && (
+              <Link to={`/exams/${examSlug}`}>
+                <Button className="w-full" size="sm">
+                  Join Waitlist
+                </Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
+      );
+    })}
+</div>
+
+
+
+
+
+
           </div>
         </div>
       </section>
@@ -745,52 +823,52 @@ export default function Products() {
           </div>
 
           {/* Featured Subscription Plans */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 mb-2">
             {/* Pro AI Only */}
             {products?.[5] && (
-              <Card className="group hover:shadow-xl transition-all duration-300">
-                <CardHeader className="text-center pb-6">
-                  {products[5].tagline && (
-                    <Badge className="mb-3 mx-auto" variant="secondary">
-                      {products[5].tagline}
-                    </Badge>
-                  )}
-                  <CardTitle className="text-2xl mb-4">{products[5].name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold text-primary">
-                      £{products[5].pricingOptions?.[0]?.price ?? 0}
-                    </span>
-                    <span className="text-muted-foreground">
-                      /{products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {products[5].features?.map((feature) => (
-                    <div key={feature._id} className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature.description}</span>
-                    </div>
-                  ))}
-                  <div className="pt-4">
-                    <BuyNowButton
-                      item={{
-                        id: products[5]._id,
-                        name: products[5].name,
-                        price: products[5].pricingOptions?.[0]?.price ?? 0,
-                        description: products[5].description ?? products[5].name,
-                        type: "subscription",
-                      }}
-                      className="w-full"
-                    >
-                      <Zap className="mr-2 h-4 w-4" />
-                      Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
-                      {products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
-                    </BuyNowButton>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+  <Card className="group hover:shadow-xl transition-all duration-300">
+    <CardHeader className="text-center pb-6 rounded-t-lg"> {/* full bg highlight */}
+      {products[5].tagline && (
+        <Badge className="mb-3  bg-primary/10 w-full text-left items-start justify-start" style={{borderRadius:"5px"}} variant="secondary">
+          {products[5].tagline}
+        </Badge>
+      )}
+      <CardTitle className="text-2xl mb-4">{products[5].name}</CardTitle>
+      <div className="mt-2">
+        <span className="text-4xl font-bold text-primary">
+          £{products[5].pricingOptions?.[0]?.price ?? 0}
+        </span>
+        <span className="text-muted-foreground">
+          /{products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
+        </span>
+      </div>
+    </CardHeader>
+    <CardContent className="space-y-3">
+      {products[5].features?.map((feature) => (
+        <div key={feature._id} className="flex items-start gap-2">
+          <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+          <span className="text-sm">{feature.description}</span>
+        </div>
+      ))}
+      <div className="pt-4">
+        <BuyNowButton
+          item={{
+            id: products[5]._id,
+            name: products[5].name,
+            price: products[5].pricingOptions?.[0]?.price ?? 0,
+            description: products[5].description ?? products[5].name,
+            type: "subscription",
+          }}
+          className="w-full"
+        >
+          <Zap className="mr-2 h-4 w-4" />
+          Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
+          {products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
+        </BuyNowButton>
+      </div>
+    </CardContent>
+  </Card>
+)}
 
             {/* Core */}
             {products?.[4] && (
@@ -800,7 +878,7 @@ export default function Products() {
                     {products[4].tagline || products[4].highlightTag || "POPULAR"}
                   </Badge>
                 </div>
-                <CardHeader className="text-center pb-6 bg-primary/5 rounded-t-lg">
+                <CardHeader className="text-center  bg-primary/5 rounded-t-lg">
                   <CardTitle className="text-2xl mb-4 mt-2">{products[4].name}</CardTitle>
                   <div className="mt-2">
                     <span className="text-4xl font-bold text-primary">
@@ -845,118 +923,127 @@ export default function Products() {
             )}
 
             {/* Elite */}
-            {products?.[3] && (
-              <Card className="group hover:shadow-xl transition-all duration-300 border-2 border-premium/30 relative">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge variant="premium" className="shadow-sm">
-                    {products[3].highlightTag || "PREMIUM"}
-                  </Badge>
-                </div>
-                <CardHeader className="text-center pb-6 bg-premium/5 rounded-t-lg">
-                  <CardTitle className="text-2xl mb-4 mt-2">{products[3].name}</CardTitle>
-                  <div className="mt-2">
-                    <span className="text-4xl font-bold text-premium">
-                      £{billingInterval === "year"
-                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[3].pricingOptions[0]?.price ?? 0}
-                    </span>
-                    <span className="text-muted-foreground">
-                      /{billingInterval === "year" ? "yr" : "mo"}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3 pt-6">
-                  {products[3].features?.map((feature) => (
-                    <div key={feature._id} className="flex items-start gap-2">
-                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm">{feature.description}</span>
-                    </div>
-                  ))}
-                  <div className="pt-4">
-                    <BuyNowButton
-                      item={{
-                        id: `elite-${billingInterval}`,
-                        name: products[3].name,
-                        price: billingInterval === "year"
-                          ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                          : products[3].pricingOptions[0]?.price ?? 0,
-                        description: "Elite subscription",
-                        type: "subscription",
-                      }}
-                      className="w-full"
-                    >
-                      <Zap className="mr-2 h-4 w-4" />
-                      Subscribe — £{billingInterval === "year"
-                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[3].pricingOptions[0]?.price ?? 0}
-                      /{billingInterval === "year" ? "yr" : "mo"}
-                    </BuyNowButton>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+          {/* Elite */}
+{products?.[3] && (
+  <Card className="group hover:shadow-xl transition-all duration-300 border-2 border-premium/30 relative">
+    {/* Badge overlapping header */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+      <Badge className="bg-yellow-400 text-primary/80 px-3 py-1 rounded-full shadow-sm">
+        {products[3].highlightTag || "PREMIUM"}
+      </Badge>
+    </div>
+
+    {/* Header with full yellow background */}
+    <CardHeader className="text-center bg-yellow-100  text-primary/80 rounded-t-lg pb-4 pt-4 relative">
+      <CardTitle className="text-2xl mb-2 text-primary/80">{products[3].name}</CardTitle>
+      <div className="mt-2">
+        <span className="text-4xl font-bold text-primary/80">
+          £{billingInterval === "year"
+            ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+            : products[3].pricingOptions[0]?.price ?? 0}
+        </span>
+        <span className="text-black ml-1">
+          /{billingInterval === "year" ? "yr" : "mo"}
+        </span>
+      </div>
+    </CardHeader>
+
+    <CardContent className="space-y-3 pt-4">
+      {products[3].features?.map((feature) => (
+        <div key={feature._id} className="flex items-start gap-2">
+          <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+          <span className="text-sm">{feature.description}</span>
+        </div>
+      ))}
+
+      <BuyNowButton
+        item={{
+          id: `elite-${billingInterval}`,
+          name: products[3].name,
+          price: billingInterval === "year"
+            ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+            : products[3].pricingOptions[0]?.price ?? 0,
+          description: "Elite subscription",
+          type: "subscription",
+        }}
+        className="w-full mt-0"
+      >
+        <Zap className="mr-2 h-4 w-4" />
+        Subscribe — £{billingInterval === "year"
+          ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+          : products[3].pricingOptions[0]?.price ?? 0}
+        /{billingInterval === "year" ? "yr" : "mo"}
+      </BuyNowButton>
+    </CardContent>
+  </Card>
+)}
+
+
+
           </div>
 
           {/* Other Bundles */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {[2, 1, 0].map((i) => {
-              const bundle = products?.[i];
-              if (!bundle) return null;
+         <div className="grid md:grid-cols-3 gap-6">
+  {[2, 1, 0].map((i, idx) => {
+    const bundle = products?.[i];
+    if (!bundle) return null;
 
-              const badgeVariant = 
-                bundle.highlightTag === "Best Value" ? "success" :
-                bundle.highlightTag === "Complete" ? "info" :
-                "warning";
+    // Custom badge colors based on index
+    const badgeBg = idx === 1 ? "bg-blue-100" : idx === 0 ? "bg-green-100" : "bg-blue-100";
+    const badgeText = idx === 0 ? "text-red-600" : "text-primary";
 
-              return (
-                <Card
-                  key={bundle._id}
-                  className="group hover:shadow-xl transition-all duration-300"
-                >
-                  <CardHeader>
-                    <div className="flex items-center justify-between mb-3">
-                      <Target className="h-6 w-6 text-primary" />
-                      <Badge variant={badgeVariant}>
-                        {bundle.highlightTag}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-xl">{bundle.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
-                      {bundle.description}
-                    </p>
-                    <div className="flex justify-between items-baseline mb-6">
-                      <span className="text-3xl font-bold text-primary">
-                        £{bundle.pricingOptions?.[0]?.price ?? 0}
-                      </span>
-                      <span className="text-sm text-muted-foreground">One-time</span>
-                    </div>
-                    <div className="space-y-2">
-                      <Button className="w-full" size="default">
-                        Get Bundle
-                      </Button>
-                      <BuyNowButton
-                        item={{
-                          id: bundle._id,
-                          name: bundle.name,
-                          price: bundle.pricingOptions?.[0]?.price ?? 0,
-                          description: bundle.description,
-                          type: "one-time",
-                        }}
-                        variant="outline"
-                        size="default"
-                        className="w-full"
-                      >
-                        <Zap className="mr-2 h-4 w-4" />
-                        Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
-                      </BuyNowButton>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+    return (
+      <Card
+        key={bundle._id}
+        className="group hover:shadow-xl transition-all duration-300"
+      >
+        <CardHeader>
+          <div className="flex items-center justify-between mb-3">
+            <Target className="h-6 w-6 text-primary" />
+            <Badge
+              className={`${badgeBg} ${badgeText} px-2 py-1 text-xs`}
+            >
+              {bundle.highlightTag}
+            </Badge>
           </div>
+          <CardTitle className="text-xl">{bundle.name}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+            {bundle.description}
+          </p>
+          <div className="flex justify-between items-baseline mb-6">
+            <span className="text-3xl font-bold text-primary">
+              £{bundle.pricingOptions?.[0]?.price ?? 0}
+            </span>
+            <span className="text-sm text-muted-foreground">One-time</span>
+          </div>
+          <div className="space-y-2">
+            <Button className="w-full" size="default">
+              Get Bundle
+            </Button>
+            <BuyNowButton
+              item={{
+                id: bundle._id,
+                name: bundle.name,
+                price: bundle.pricingOptions?.[0]?.price ?? 0,
+                description: bundle.description,
+                type: "one-time",
+              }}
+              variant="outline"
+              size="default"
+              className="w-full"
+            >
+              <Zap className="mr-2 h-4 w-4" />
+              Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
+            </BuyNowButton>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  })}
+</div>
+
         </div>
       </section>
 
@@ -981,6 +1068,14 @@ export default function Products() {
               <CardTitle className="text-2xl">{item.name}</CardTitle>
             </div>
           </CardHeader>
+           <div className="flex justify-center mb-2">
+  <Badge
+    variant="outline"
+    className="bg-gray-100 text-black px-2 py-1 text-xs flex items-center justify-center"
+  >
+    Coming Soon
+  </Badge>
+</div>
 
           <CardContent>
             <p className="text-muted-foreground text-center mb-8">

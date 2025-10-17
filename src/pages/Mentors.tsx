@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
 import {
   Card,
@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Quote, MapPin, Users, Star, ArrowRight, Calendar, Search, X } from "lucide-react";
+import { Quote, MapPin, Users, Star, ArrowRight, Calendar, Search, X, ChevronDown } from "lucide-react";
 import EnhancedMentorOnboardingForm from "@/components/mentor/EnhancedMentorOnboardingForm";
 import { useMentors } from "@/hooks/useMentor";
 import type { IMentor } from "@/types/mentor";
@@ -135,7 +135,7 @@ const FILTERS: FilterConfig[] = [
   { key: "availability", label: "Availability", options: AVAILABILITY_OPTIONS },
 ];
 
-// --- Filter Dropdown with Checkboxes Component ---
+// --- Enhanced Filter Dropdown with Checkboxes Component ---
 interface FilterDropdownWithCheckboxesProps {
   filter: FilterConfig;
   selectedValues: string[];
@@ -149,6 +149,21 @@ const FilterDropdownWithCheckboxes: React.FC<FilterDropdownWithCheckboxesProps> 
   onSelectionChange,
   onClose,
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
   const handleCheckboxChange = (value: string, checked: boolean) => {
     const newValues = checked
       ? [...selectedValues, value]
@@ -165,8 +180,23 @@ const FilterDropdownWithCheckboxes: React.FC<FilterDropdownWithCheckboxesProps> 
     onSelectionChange(filter.key, filter.options.map(opt => opt.value));
   };
 
+  // Filter options based on search term
+  const filteredOptions = useMemo(() => {
+    if (!searchTerm.trim()) return filter.options;
+    
+    return filter.options.filter(option =>
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (option.secondary && option.secondary.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+  }, [filter.options, searchTerm]);
+
+  const hasSearch = filter.options.length > 8; // Enable search for filters with many options
+
   return (
-    <div className="absolute left-0 mt-2 w-80 rounded-lg shadow-lg bg-white border border-gray-200 max-h-96 overflow-hidden z-50">
+    <div 
+      ref={dropdownRef}
+      className="absolute left-0 mt-2 w-80 rounded-lg shadow-lg bg-white border border-gray-200 max-h-96 overflow-hidden z-50"
+    >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <h3 className="font-semibold text-gray-900">{filter.label}</h3>
@@ -198,35 +228,74 @@ const FilterDropdownWithCheckboxes: React.FC<FilterDropdownWithCheckboxesProps> 
         </div>
       </div>
 
+      {/* Search Input (only for filters with many options) */}
+      {hasSearch && (
+        <div className="p-3 border-b border-gray-200">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <input
+              type="text"
+              placeholder={`Search ${filter.label.toLowerCase()}...`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Checkbox List */}
       <div className="max-h-64 overflow-y-auto p-2">
-        {filter.options.map((option) => (
-          <label
-            key={option.value}
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-          >
-            <input
-              type="checkbox"
-              checked={selectedValues.includes(option.value)}
-              onChange={(e) => handleCheckboxChange(option.value, e.target.checked)}
-              className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-            />
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                {option.icon && (
-                  <span className="text-lg">{option.icon}</span>
+        {filteredOptions.length === 0 ? (
+          <div className="text-center py-4 text-gray-500 text-sm">
+            No options found
+          </div>
+        ) : (
+          filteredOptions.map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+            >
+              <input
+                type="checkbox"
+                checked={selectedValues.includes(option.value)}
+                onChange={(e) => handleCheckboxChange(option.value, e.target.checked)}
+                className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+              />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  {option.icon && (
+                    <span className="text-lg flex-shrink-0">{option.icon}</span>
+                  )}
+                  <span className="text-sm font-medium text-gray-900 truncate">
+                    {option.label}
+                  </span>
+                </div>
+                {option.secondary && (
+                  <p className="text-xs text-gray-500 mt-1">{option.secondary}</p>
                 )}
-                <span className="text-sm font-medium text-gray-900">
-                  {option.label}
-                </span>
               </div>
-              {option.secondary && (
-                <p className="text-xs text-gray-500 mt-1">{option.secondary}</p>
-              )}
-            </div>
-          </label>
-        ))}
+            </label>
+          ))
+        )}
       </div>
+
+      {/* Selected Count */}
+      {selectedValues.length > 0 && (
+        <div className="p-3 border-t border-gray-200 bg-blue-50">
+          <p className="text-xs text-blue-700 font-medium">
+            {selectedValues.length} {selectedValues.length === 1 ? 'option' : 'options'} selected
+          </p>
+        </div>
+      )}
     </div>
   );
 };
@@ -299,7 +368,7 @@ export default function Mentors() {
     availability: [],
   });
   const [activeFilter, setActiveFilter] = useState<keyof Filters | null>(null);
-  const [searchQuery, setSearchQuery] = useState(""); // Fixed: moved inside component
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: mentors = [], isLoading, error } = useMentors();
   const navigate = useNavigate();
@@ -319,7 +388,7 @@ export default function Mentors() {
       badgeLevel: [],
       availability: [],
     });
-    setSearchQuery(""); // Clear search query too
+    setSearchQuery("");
     setActiveFilter(null);
   };
 
@@ -330,6 +399,18 @@ export default function Mentors() {
   const handleCloseFilterDropdown = () => {
     setActiveFilter(null);
   };
+
+  // Close dropdown when clicking escape key
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setActiveFilter(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    return () => document.removeEventListener('keydown', handleEscapeKey);
+  }, []);
 
   // Get display label for filter button
   const getFilterButtonLabel = (filterKey: keyof Filters, label: string) => {
@@ -344,7 +425,7 @@ export default function Mentors() {
     return `${label} (${selectedValues.length})`;
   };
 
-  // --- Filter mentors based on selected filters and search query ---
+  // --- Enhanced Filter Logic ---
   const filteredMentors = useMemo(() => {
     if (!mentors || !Array.isArray(mentors)) return [];
     
@@ -359,7 +440,8 @@ export default function Mentors() {
           mentor.position,
           mentor.currentRole,
           mentor.address,
-          mentor.description
+          mentor.description,
+          mentor.background?.[0]?.description || ""
         ].filter(Boolean).join(' ').toLowerCase();
         
         if (!searchableFields.includes(query)) {
@@ -367,38 +449,61 @@ export default function Mentors() {
         }
       }
 
-      // Specialty filter (array includes check)
-      if (filters.specialty.length > 0 && mentor.specialty && 
-          !filters.specialty.some(specialty => 
-            mentor.specialty?.toLowerCase().includes(specialty.toLowerCase())
-          )) return false;
+      // Specialty filter - check if mentor's specialty includes any selected specialty
+      if (filters.specialty.length > 0) {
+        const mentorSpecialties = mentor.specialty?.split(',').map(s => s.trim().toLowerCase()) || [];
+        const hasMatchingSpecialty = filters.specialty.some(selectedSpecialty => 
+          mentorSpecialties.some(mentorSpecialty => 
+            mentorSpecialty.includes(selectedSpecialty.toLowerCase())
+          )
+        );
+        if (!hasMatchingSpecialty) return false;
+      }
 
-      // Location filter
-      if (filters.location.length > 0 && mentor.address && 
-          !filters.location.some(location => 
-            mentor.address?.toLowerCase().includes(location.toLowerCase())
-          )) return false;
+      // Location filter - check if mentor's location includes any selected location
+      if (filters.location.length > 0 && mentor.address) {
+        const mentorLocation = mentor.address.toLowerCase();
+        const hasMatchingLocation = filters.location.some(selectedLocation => 
+          mentorLocation.includes(selectedLocation.toLowerCase())
+        );
+        if (!hasMatchingLocation) return false;
+      }
 
-      // Language filter
-      if (filters.language.length > 0 && mentor.language && 
-          !filters.language.includes(mentor.language)) return false;
+      // Language filter - exact match
+      if (filters.language.length > 0 && mentor.language) {
+        const mentorLanguages = Array.isArray(mentor.language) 
+          ? mentor.language 
+          : [mentor.language];
+        
+        const hasMatchingLanguage = filters.language.some(selectedLanguage => 
+          mentorLanguages.includes(selectedLanguage)
+        );
+        if (!hasMatchingLanguage) return false;
+      }
 
-      // Badge level filter
-      if (filters.badgeLevel.length > 0 && mentor.badgeLevel && 
-          !filters.badgeLevel.includes(mentor.badgeLevel)) return false;
+      // Badge level filter - exact match
+      if (filters.badgeLevel.length > 0 && mentor.badgeLevel) {
+        if (!filters.badgeLevel.includes(mentor.badgeLevel)) return false;
+      }
 
       // Availability filter
       if (filters.availability.length > 0) {
-        if (filters.availability.includes("All")) {
-          // Show all mentors
-        } else if (mentor.availability && !filters.availability.includes(mentor.availability)) {
-          return false;
+        // If "All" is selected, show all mentors regardless of availability
+        if (!filters.availability.includes("All")) {
+          // If mentor has no availability field, treat as not matching any filter
+          if (!mentor.availability) return false;
+          
+          // Check if mentor's availability matches any selected availability option
+          const hasMatchingAvailability = filters.availability.some(selectedAvailability => 
+            mentor.availability?.toLowerCase().includes(selectedAvailability.toLowerCase())
+          );
+          if (!hasMatchingAvailability) return false;
         }
       }
 
       return true;
     });
-  }, [mentors, filters, searchQuery]); // Added searchQuery to dependencies
+  }, [mentors, filters, searchQuery]);
 
   const handleFindMentor = (mentorName: string) => {
     console.log(`Connecting with ${mentorName}`);
@@ -426,6 +531,9 @@ export default function Mentors() {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  // Calculate active filter count for badge
+  const activeFilterCount = Object.values(filters).reduce((count, arr) => count + arr.length, 0) + (searchQuery ? 1 : 0);
 
   if (error) {
     return (
@@ -470,20 +578,26 @@ export default function Mentors() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/70 focus:ring-2 focus:ring-white focus:border-transparent transition-all backdrop-blur-sm"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
 
             {/* Become a Mentor Button */}
             <div className="flex-shrink-0">
-            <Button
-  size="default"
-  variant="outline"
-  className="px-4 border-[#0d47a1] text-[#0d47a1] hover:bg-[#0d47a1] hover:text-white whitespace-nowrap"
-  onClick={() => setShowOnboardingForm(true)}
->
-  Become a Mentor
-</Button>
-
-
+              <Button
+                size="default"
+                variant="outline"
+                className="px-4 border-[#0d47a1] text-[#0d47a1] hover:bg-[#0d47a1] hover:text-white whitespace-nowrap"
+                onClick={() => setShowOnboardingForm(true)}
+              >
+                Become a Mentor
+              </Button>
             </div>
           </div>
 
@@ -501,20 +615,11 @@ export default function Mentors() {
                   }`}
                 >
                   <span className="truncate">{getFilterButtonLabel(filter.key, filter.label)}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                  <ChevronDown
                     className={`h-4 w-4 transform transition-transform flex-shrink-0 ${
                       activeFilter === filter.key ? "rotate-180" : "rotate-0"
                     }`}
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  />
                 </button>
 
                 {/* Show checkboxes only when this filter is active */}
@@ -530,24 +635,23 @@ export default function Mentors() {
             ))}
 
             {/* Clear All Button - show only when search or filters active */}
-            {(searchQuery || Object.values(filters).some(arr => arr.length > 0)) && (
+            {activeFilterCount > 0 && (
               <Button
                 variant="outline"
                 onClick={handleClearAll}
                 className="px-4 border-[#0d47a1] text-[#0d47a1] hover:bg-[#0d47a1] hover:text-white whitespace-nowrap"
               >
-                Clear All
+                Clear All {activeFilterCount > 0 && `(${activeFilterCount})`}
               </Button>
             )}
           </div>
 
           {/* Results count */}
-              {filteredMentors.length > 0 && (
-        <p className="text-white/70 text-sm mb-4 text-center">
-          Showing {filteredMentors.length} of {mentors.length} results
-        </p>
-      )}
-
+          {filteredMentors.length > 0 && (
+            <p className="text-white/70 text-sm mb-4 text-center">
+              Showing {filteredMentors.length} of {mentors.length} results
+            </p>
+          )}
         </div>
       </section>
 
@@ -583,50 +687,50 @@ export default function Mentors() {
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
               {filteredMentors.map((mentor: IMentor) => (
                 <Card key={mentor._id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-start justify-between space-x-4">
-                      <div className="flex items-start space-x-4">
-                        {/* Avatar */}
-                        <Avatar className="w-16 h-16">
-                          <AvatarImage src={mentor.image} alt={mentor.name} />
-                          <AvatarFallback className="bg-primary text-primary-foreground">
-                            {getInitials(mentor.name)}
-                          </AvatarFallback>
-                        </Avatar>
+                 <CardHeader>
+  <div className="flex items-start space-x-4">
+    {/* Avatar */}
+    <Avatar className="w-16 h-16">
+      <AvatarImage src={mentor.image} alt={mentor.name} />
+      <AvatarFallback className="bg-primary text-primary-foreground">
+        {getInitials(mentor.name)}
+      </AvatarFallback>
+    </Avatar>
 
-                        {/* Name and Location */}
-                        <div className="flex-1 min-w-0">
-                          <CardTitle className="text-xl truncate">{mentor.name}</CardTitle>
+    {/* Mentor Info */}
+    <div className="flex-1 min-w-0">
+      {/* Designation Badge on top */}
+      <span className="inline-flex items-center bg-orange-100 text-orange-700 text-xs font-medium px-2 py-0.5 rounded-full mb-1">
+        <span className="w-2 h-2 bg-orange-500 rounded-full mr-1"></span>
+        {mentor.designation || mentor.position || mentor.currentRole || "Medical Professional"}
+      </span>
 
-                          {/* Role badge */}
-                          <span className="inline-flex items-center bg-orange-100 text-orange-700 text-xs font-medium px-2 py-0.5 rounded-full mt-1">
-                            <span className="w-2 h-2 bg-orange-500 rounded-full mr-1"></span>
-                            {mentor.designation || mentor.position || mentor.currentRole || "Medical Professional"}
-                          </span>
+      {/* Name */}
+      <CardTitle className="text-xl truncate">{mentor.name}</CardTitle>
 
-                          {/* Location */}
-                          <div className="flex items-center space-x-2 text-sm text-muted-foreground mt-1">
-                            <MapPin className="h-4 w-4 flex-shrink-0" />
-                            <span className="truncate">{mentor.address || "Location not specified"}</span>
-                          </div>
+      {/* Location */}
+      <div className="flex items-center space-x-2 text-sm text-muted-foreground mt-1">
+        <MapPin className="h-4 w-4 flex-shrink-0" />
+        <span className="truncate">{mentor.address || "Location not specified"}</span>
+      </div>
 
-                          {/* Rating & mentees */}
-                          <div className="flex items-center space-x-4 mt-2">
-                            <div className="flex items-center space-x-1">
-                              <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                              <span className="text-sm font-medium">{mentor.rating ? mentor.rating.toFixed(1) : "N/A"}</span>
-                            </div>
-                            {mentor.mentees && (
-                              <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                                <Users className="h-4 w-4" />
-                                <span>{mentor.mentees.length} mentees</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
+      {/* Rating & mentees */}
+      <div className="flex items-center space-x-4 mt-2">
+        <div className="flex items-center space-x-1">
+          <Star className="h-4 w-4 text-yellow-500 fill-current" />
+          <span className="text-sm font-medium">{mentor.rating ? mentor.rating.toFixed(1) : "N/A"}</span>
+        </div>
+        {mentor.mentees && (
+          <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+            <Users className="h-4 w-4" />
+            <span>{mentor.mentees.length} mentees</span>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</CardHeader>
+
 
                   <CardContent>
                     <div className="space-y-4">

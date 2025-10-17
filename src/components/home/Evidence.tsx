@@ -3,7 +3,10 @@ import { FaLock, FaGlobe, FaStethoscope } from 'react-icons/fa';
 
 const Evidence = () => {
   return (
-    <div className=" bg-[#003366] text-white py-12 px-4 sm:px-6 lg:px-8">
+    <div
+      className="bg-gradient-to-br from-primary to-primary/80 text-white py-12 px-4 sm:px-6 lg:px-8 font-sans"
+      style={{ fontFamily: 'Arial, sans-serif' }}
+    >
       <div className="max-w-7xl mx-auto">
         
         {/* Evidence Section */}
@@ -11,7 +14,7 @@ const Evidence = () => {
           
           {/* Badge: "Research-Backed" */}
           <div className="flex justify-center mb-6">
-            <span className="inline-block bg-white text-[#003366] text-sm font-semibold px-4 py-2 rounded-full uppercase tracking-wide border border-white">
+            <span className="rounded-full border border-blue-300 bg-white/10 text-sm md:text-sm text-white font-medium backdrop-blur-sm p-2">
               Research-Backed
             </span>
           </div>
@@ -31,24 +34,19 @@ const Evidence = () => {
             Our approach is grounded in NHS workforce experience, evidence-based learning design, and continuous mentor feedback.
           </p>
 
-          {/* Compliance Block */}
-         <div className="flex justify-center mb-8 text-sm md:text-base text-white-700">
-  <span className="flex items-center gap-1">
-    <FaLock className="text-green-400 w-4 h-4" />
-    GDPR Compliant
-  </span>
-  <span className="mx-2">•</span>
-  <span className="flex items-center gap-1">
-    <FaGlobe className="text-red-400 w-4 h-4" />
-    ICO Registered
-  </span>
-  <span className="mx-2">•</span>
-  <span className="flex items-center gap-1">
-    <FaStethoscope className="text-[#005eb8] w-4 h-4" />
-    NHS Aligned
-  </span>
-</div>
-
+          {/* Single Compliance Badge */}
+          <div className="flex justify-center mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-blue-300 bg-white/10 text-xs md:text-sm text-white font-medium backdrop-blur-sm">
+              <FaLock className="w-3 h-3 text-blue-400" />
+              GDPR Compliant
+              <span className="mx-1 text-white/50">•</span>
+              <FaGlobe className="w-3 h-3 text-white/70" />
+              ICO Registered
+              <span className="mx-1 text-white/50">•</span>
+              <FaStethoscope className="w-3 h-3 text-white" />
+              NHS Aligned
+            </span>
+          </div>
 
           {/* Footer Text */}
           <p className="text-sm opacity-70 mb-16">
