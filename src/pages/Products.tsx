@@ -545,6 +545,14 @@ if (index === 0) {
         </div>
       ))}
 </div>
+<div className="space-y-2 mb-2">
+  {features.map((feature, fIdx) => (
+    <div key={fIdx} className="flex items-center space-x-2">
+      <CheckCircle className="h-4 w-4 text-primary" />
+      <span className="text-sm">{feature}</span>
+    </div>
+  ))}
+</div>
 
 
 
