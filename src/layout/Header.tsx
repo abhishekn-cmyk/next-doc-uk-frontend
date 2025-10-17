@@ -71,7 +71,7 @@ export default function Header() {
             {/* Desktop branding */}
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-lg font-semibold text-foreground">
-                NextDoc Global
+                NextDoc UK 
               </span>
               <div className="flex flex-col text-xs text-muted-foreground">
                 <span>Built by Doctors, For Doctors</span>
