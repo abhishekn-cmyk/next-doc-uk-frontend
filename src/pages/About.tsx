@@ -449,22 +449,23 @@ export default function About() {
       </section>
       <section className="w-full py-16 px-4 bg-gray-50">
   <div className="max-w-4xl mx-auto">
-    <div className="bg-gray-300 rounded-xl p-8 md:p-12 shadow-lg text-center text-white">
-      <h2 className="text-2xl md:text-3xl font-bold mb-4">
+    <div className="bg-gray-100 rounded-2xl p-8 md:p-12 shadow-lg text-center">
+      <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
         Ready to Start Your NHS Journey?
       </h2>
-      <p className="mb-6 text-base md:text-lg">
+      <p className="mb-6 text-base md:text-lg text-gray-500">
         Speak with one of our advisors to learn more about our programs and how we can help you succeed in your NHS career transition.
       </p>
       <button
-        onClick={(()=>setOpenModal(true))}
-        className="inline-block bg-white text-pink-500 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition"
+        onClick={() => setOpenModal(true)}
+        className="inline-block bg-gradient-to-br from-primary to-primary/80 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
       >
         Schedule Free Consultation
       </button>
     </div>
   </div>
 </section>
+
 {openModal &&(
   <>
   <section className="w-full py-16 px-4 bg-gray-50">

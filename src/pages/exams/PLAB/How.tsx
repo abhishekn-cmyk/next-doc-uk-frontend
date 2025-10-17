@@ -1,95 +1,73 @@
-import { Target, Maximize, Clock, Users } from 'lucide-react';
+import { Target, Maximize, Clock, Users } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
-import { type ReactNode } from 'react';
+const howSteps = [
+  { icon: Target, number: "1", title: "Baseline Diagnostic", description: "Start with a quick adaptive test." },
+  { icon: Maximize, number: "2", title: "Targeted Practice", description: "Improve using Focus 50™ and topic-based sets." },
+  { icon: Clock, number: "3", title: "Mock & Review", description: "Timed mocks, error analysis, AI feedback." },
+  { icon: Users, number: "4", title: "Mentor Review (Optional, Chargeable)", description: "Book a mentor to analyse your performance dashboard." },
+];
+
 const How = () => {
-  const steps = [
-    {
-      number: 1,
-      title: "Baseline Diagnostic",
-      description: "Start with a quick adaptive test.",
-      icon: Target,
-    },
-    {
-      number: 2,
-      title: "Targeted Practice",
-      description: "Improve using Focus 50™ and topic-based sets.",
-      icon: Maximize,
-    },
-    {
-      number: 3,
-      title: "Mock & Review",
-      description: "Timed mocks, error analysis, AI feedback.",
-      icon: Clock,
-    },
-    {
-      number: 4,
-      title: "Mentor Review",
-      description: "Book a mentor to analyze your performance dashboard.",
-      icon: Users,
-      optional: true,
-    },
-  ];
-const IconContainer = ({ children }: { children: ReactNode }) => (
-  <div className="w-20 h-20 flex items-center justify-center rounded-full bg-blue-100 mb-4 mx-auto shadow-md">
-    <div className="text-blue-600 w-10 h-10">{children}</div>
-  </div>
-);
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login?next=/dashboard/plab-qbank");
+  };
 
   return (
-    <div className="font-sans py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-800 mb-3">How It Works</h1>
-          <p className="text-lg text-gray-500">Four simple steps to PLAB success</p>
-        </div>
+    <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+      {/* Section Header */}
+      <div className="max-w-7xl mx-auto text-center mb-10">
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-1">How It Works</h2>
+        <p className="text-base sm:text-lg text-gray-600">Four simple steps to PLAB success</p>
+      </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step) => {
-            const StepIcon = step.icon;
-            return (
-              <div
-                key={step.number}
-                className="bg-white p-6 flex flex-col items-center text-center rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100"
-              >
-                {/* Icon */}
-                <IconContainer>
-                  <StepIcon className="w-full h-full" />
-                </IconContainer>
-
-                {/* Title with Number */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2 flex-wrap justify-center">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-sm bg-blue-100 text-blue-600 font-bold text-sm">
-                    {step.number}
-                  </span>
-                  <span>{step.title}</span>
-                  {/* Optional label inline with title */}
-                  {step.optional && (
-                    <span>
-                      (Optional, Chargeable)
-                    </span>
-                  )}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 text-base leading-relaxed">{step.description}</p>
+      {/* Steps */}
+      <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        {howSteps.map((step, i) => {
+          const Icon = step.icon;
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="bg-gray-50 p-5 rounded-xl flex flex-col items-center text-center hover:shadow-md transition-shadow duration-300"
+            >
+              {/* Icon with gradient color, circle stays light gray */}
+              <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-100 mb-3">
+                <Icon className="w-6 h-6 text-bg-gradient-to-br from-primary to-primary/80 bg-clip-text bg-gradient-to-br from-primary to-primary/80" />
               </div>
-            );
-          })}
-        </div>
 
-        {/* Login Button */}
-        <div className="flex justify-center mt-12">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition duration-200 text-lg">
-            Login to Begin
-          </button>
-        </div>
+              {/* Number and Title on the same line */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 flex items-center justify-center bg-blue-100 text-blue-600 font-bold rounded-sm">
+                  {step.number}
+                </div>
+                <h3 className="text-base font-semibold text-gray-900">{step.title}</h3>
+              </div>
+
+              {/* Description */}
+              <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Login Button */}
+      <div className="mt-10 text-center">
+        <Button
+          className="bg-gradient-to-br from-primary to-primary/80 text-white font-semibold px-6 py-2 shadow-lg hover:opacity-90 transition duration-300"
+          onClick={handleLogin}
+        >
+          Login to Begin
+        </Button>
       </div>
     </div>
   );
 };
 
 export default How;
-
-
