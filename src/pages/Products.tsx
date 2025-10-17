@@ -1019,8 +1019,9 @@ export default function Products() {
                   </span>
                 </div>
               )}
-              {item.hasBulkusermanagement && ( <div className="text-center"> <div className="flex items-center space-x-2 justify-center mb-2"> <CheckCircle className="h-4 w-4 text-primary" /> <span className="text-sm font-medium"> Bulk user management </span> </div> </div> )}
+                {item.hasBulkusermanagement && ( <div className="text-center"> <div className="flex items-center space-x-2 justify-center mb-2"> <CheckCircle className="h-4 w-4 text-primary" /> <span className="text-sm font-medium"> Bulk user management </span> </div> </div> )}
             </div>
+            
 
             {/* Coming Soon Button */}
             <div className="text-center">
