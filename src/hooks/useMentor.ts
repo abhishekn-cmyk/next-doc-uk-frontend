@@ -16,10 +16,15 @@ export const useMentors = () => {
 export const useMentor = (id: string) => {
   return useQuery<IMentor, Error>({
     queryKey: ["mentor", id],
-    queryFn: () => getMentorById(id),
+    queryFn: async () => {
+      const mentor = await getMentorById(id);
+      if (!mentor) throw new Error("Mentor not found");
+      return mentor;
+    },
     enabled: !!id,
   });
 };
+
 
 export const useCreateMentorApplication = () => {
   return useMutation({
