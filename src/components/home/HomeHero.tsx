@@ -1136,7 +1136,7 @@ export default function HomeHero() {
                 type="submit"
                 size="lg"
                 disabled={!query.trim()}
-                className="w-full sm:w-auto px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold transition-all"
+                className="w-full sm:w-auto px-6 bg-blue-500 hover:bg-emerald-600 text-white font-semibold transition-all"
               >
                 Ask NextDoc AI
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -1201,52 +1201,59 @@ export default function HomeHero() {
             </div>
 
             {/* Promo Card */}
-            <div className="mt-6 sm:mt-8 p-5 bg-emerald-50/60 border border-emerald-200 rounded-2xl backdrop-blur-sm shadow-lg">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-                      <Trophy className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <span className="block text-xs font-semibold text-emerald-700 uppercase tracking-wide">
-                        LIMITED ACCESS
-                      </span>
-                      <h3 className="text-lg sm:text-xl font-bold text-emerald-700">
-                        FREE PLAB Quiz Bank
-                      </h3>
-                    </div>
-                  </div>
-                  <p className="text-xs sm:text-sm text-emerald-700/80 mb-3">
-                    847 spots remaining for this month
-                  </p>
-                  <ul className="space-y-2 mb-4">
-                    <li className="flex items-center">
-                      <Check className="w-5 h-5 text-green-500 mr-2" />
-                      2,000+ MLA-aligned questions
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="w-5 h-5 text-green-500 mr-2" />
-                      AI-powered explanations
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="w-5 h-5 text-green-500 mr-2" />
-                      Progress tracking & analytics
-                    </li>
-                  </ul>
-                </div>
+          
+      {/* Top Line: LIMITED ACCESS + Tick */}
+   <div className="mt-6 sm:mt-8 p-5 bg-emerald-50/60 border border-emerald-200 rounded-2xl backdrop-blur-sm shadow-lg">
+      {/* Top Line: LIMITED ACCESS + Tick in circle */}
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">
+          LIMITED ACCESS
+        </span>
+        {/* Tick inside circle */}
+        <span className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+          <Check className="w-3 h-3 text-white" />
+        </span>
+      </div>
 
-                <Link to="/exams/plab" className="w-full sm:w-auto">
-                  <Button
-                    size="lg"
-                    className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 sm:px-6 text-sm sm:text-base"
-                  >
-                    Claim Free Access
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
+      {/* Title */}
+      <div className="flex items-center space-x-3 mb-3">
+        <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+          <Trophy className="h-5 w-5 text-white" />
+        </div>
+        <h3 className="text-lg sm:text-xl font-bold text-emerald-700">
+          FREE PLAB Quiz Bank
+        </h3>
+      </div>
+
+      {/* Description */}
+      <p className="text-xs sm:text-sm text-emerald-700/80 mb-4">
+        847 spots remaining for this month
+      </p>
+
+      {/* Features */}
+      <ul className="space-y-2 mb-4">
+        <li className="flex items-center">
+          <Check className="w-5 h-5 text-green-500 mr-2" />
+          2,000+ MLA-aligned questions
+        </li>
+        <li className="flex items-center">
+          <Check className="w-5 h-5 text-green-500 mr-2" />
+          AI-powered explanations
+        </li>
+        <li className="flex items-center">
+          <Check className="w-5 h-5 text-green-500 mr-2" />
+          Progress tracking & analytics
+        </li>
+      </ul>
+
+      {/* Full Width Button */}
+      <Link to="/exams/plab" className="w-full block">
+        <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-3 text-sm sm:text-base flex items-center justify-center gap-2">
+          Claim Free Access
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+      </Link>
+    </div>
 
             {/* Instagram Note */}
             <div className="mt-4 sm:mt-6 p-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg border border-primary-foreground/20">

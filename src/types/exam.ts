@@ -26,6 +26,7 @@ export interface IExam {
   category: ExamCategory;
   subcategory?: string;
   title: string;
+  titles:string;
   subtitle?: string;
   description: string;
   features: string[];

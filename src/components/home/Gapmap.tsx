@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useExams } from "@/hooks/useExam"; // your hook
 import { Badge } from "../ui/badge";
 
@@ -16,20 +17,34 @@ interface ProductType {
   price?: number;
 }
 
+// Helper to generate proper exam slugs
+const getExamSlug = (title: string) => {
+  const lower = title.toLowerCase();
+  if (lower.includes("mrcp")) return "mrcp";
+  if (lower.includes("plab")) return "plab";
+  if (lower.includes("mrcog")) return "mrcog";
+  if (lower.includes("mrcs")) return "mrcs";
+  if (lower.includes("ielts") || lower.includes("oet")) return "ielts-oet";
+  if (lower.includes("uk")) return "get-started"; // UK pathway
+  // fallback for other exams
+  return lower.replace(/\s+/g, "-");
+};
+
+
 export default function Gapmap() {
   const [cards, setCards] = useState<ProductType[]>([]);
   const { data: examsData } = useExams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (examsData) {
-      // Sort PLAB exams first and take top 6
       const sortedExams = examsData
         .sort((a, _) => (a.category === "PLAB" ? -1 : 1))
         .slice(0, 6);
 
       const mappedCards = sortedExams.map((exam) => ({
         _id: exam._id,
-        href: `/exams/${exam.category.toLowerCase()}`,
+        href: `/exams/${getExamSlug(exam.title)}`,
         title: exam.title,
         subtitle: exam.subtitle || "",
         steps: exam.features.length
@@ -82,22 +97,18 @@ export default function Gapmap() {
         <div className="w-full py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cards.map((card, idx) => (
-              <a
+              <div
                 key={card._id}
-                href={card.href}
-                className="relative bg-white border-2 rounded-xl shadow-sm p-6 flex flex-col transition-all duration-300 hover:shadow-lg"
+                onClick={() => navigate(card.href)}
+                className="relative bg-white border-2 rounded-xl shadow-sm p-6 flex flex-col transition-all duration-300 hover:shadow-lg cursor-pointer"
               >
                 {/* Premium badge */}
-                {["surgical","obgyn","paedtrics","uk"].some((p) =>
+                {["surgical", "obgyn", "paedtrics", "uk"].some((p) =>
                   card.title.toLowerCase().includes(p)
                 ) && (
                   <span
                     className={`absolute top-4 right-4 px-2 py-1 rounded-md font-semibold text-sm ${
-                      idx === 0
-                        ? "bg-white text-green-600 border border-green-600"
-                        : idx === 1
-                        ? "bg-white text-green-600 border border-primary"
-                        : "bg-white text-red-600 border border-primary"
+                      idx === 0 ? "bg-green-600 text-white" : "text-red-600"
                     }`}
                   >
                     Premium
@@ -123,9 +134,7 @@ export default function Gapmap() {
                 </div>
 
                 {/* Title & Subtitle */}
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
-                  {card.title}
-                </h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{card.title}</h3>
                 <p className="text-sm text-gray-600 mb-4">{card.subtitle}</p>
 
                 {/* Steps */}
@@ -151,10 +160,7 @@ export default function Gapmap() {
                 {/* Price */}
                 <div className="mt-auto flex items-center justify-between mb-3">
                   <span className="text-sm text-gray-700">
-                    From{" "}
-                    <span className="font-semibold">
-                      £{card.price ?? "TBA"}
-                    </span>
+                    From <span className="font-semibold">£{card.price ?? "TBA"}</span>
                   </span>
                 </div>
 
@@ -162,7 +168,7 @@ export default function Gapmap() {
                 <span className="mt-3 w-full inline-block text-center bg-blue-900 text-white font-medium py-2.5 rounded-md hover:bg-blue-800 transition">
                   Start {card.title.split(" ")[0]} Journey →
                 </span>
-              </a>
+              </div>
             ))}
           </div>
         </div>

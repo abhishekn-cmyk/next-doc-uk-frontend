@@ -682,23 +682,22 @@ export default function Products() {
           )}
 
           {/* Pricing options */}
-          <div className="mt-2 space-y-1">
-            {programs[0]?.pricingOptions?.map((price, idx) => (
-              <div key={idx} className="text-xl font-bold text-primary">
-                £{price.price}
-              </div>
-            ))}
-          </div>
+        <div className="mt-2">
+  {programs[0]?.pricingOptions?.length > 0 && (
+    <div className="text-xl font-bold text-primary">
+      £{programs[0].pricingOptions.at(-1)?.price}
+    </div>
+  )}
+</div>
 
           {/* Static button for mentorship */}
-          <Button className="w-full mt-4">
-            Book Mentor Session —{" "}
-            <span>
-              {programs[0]?.pricingOptions?.map((price, idx) => (
-                <span key={idx}> £{price.price}</span>
-              ))}
-            </span>
-          </Button>
+         <Button className="w-full mt-4">
+  Book Mentor Session —{" "}
+  <span>
+    £{programs[0]?.pricingOptions?.at(-1)?.price ?? "TBA"}
+  </span>
+</Button>
+
         </CardContent>
       </Card>
     </div>
