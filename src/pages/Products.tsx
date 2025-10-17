@@ -15,7 +15,7 @@ import {
   ArrowRight,
   Brain,
   BookOpen,
-  Target,
+  Target,Zap
 } from "lucide-react";
 import { useExams } from "@/hooks/useExam";
 import { useProposals } from "@/hooks/useTrust";
@@ -707,271 +707,259 @@ export default function Products() {
 
 
       {/* Bundles & Subscriptions */}
-      <section className="py-16 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">
-            IV. Bundles & Subscriptions
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Complete packages designed for maximum value and comprehensive
-            support
-          </p>
-        </div>
-
-        {/* Featured Subscription Plans */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <span className="text-sm text-muted-foreground">Billing:</span>
-          <div className="inline-flex rounded-md border">
-            <button
-              className={`px-3 py-1 text-sm rounded-l-md ${
-                billingInterval === "month"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background"
-              }`}
-              onClick={() => setBillingInterval("month")}
-            >
-              Monthly
-            </button>
-            <button
-              className={`px-3 py-1 text-sm rounded-r-md ${
-                billingInterval === "year"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background"
-              }`}
-              onClick={() => setBillingInterval("year")}
-            >
-              Yearly
-            </button>
+       <section className="py-16 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              IV. Bundles & Subscriptions
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Complete packages designed for maximum value and comprehensive support
+            </p>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {/* Pro AI Only */}
-          {products[5] && (
-            <Card className="group hover:shadow-xl transition-all">
-              <CardHeader className="text-center">
-                {products[5].tagline && (
-                  <Badge className="mb-2" variant="secondary">
-                    {products[5].tagline}
-                  </Badge>
-                )}
-                <CardTitle className="text-2xl">{products[5].name}</CardTitle>
-                <div className="mt-2">
-                  <span className="text-4xl font-bold text-primary">
-                    £{products[5].pricingOptions?.[0]?.price ?? 0}
-                  </span>
-                  <span className="text-muted-foreground">
-                    /
-                    {products[5].pricingOptions?.[0]?.type === "monthly"
-                      ? "mo"
-                      : "yr"}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-2">
-                {products[5].features?.map((feature) => (
-                  <div
-                    key={feature._id}
-                    className="flex items-center space-x-2"
-                  >
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    <span>{feature.description}</span>
-                  </div>
-                ))}
-                <BuyNowButton
-                  item={{
-                    id: products[5]._id,
-                    name: products[5].name,
-                    price: products[5].pricingOptions?.[0]?.price ?? 0,
-                    description: products[5].description ?? products[5].name,
-                    type: "subscription",
-                  }}
-                  className="w-full mt-4"
-                >
-                  Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
-                  {products[5].pricingOptions?.[0]?.type === "monthly"
-                    ? "mo"
-                    : "yr"}
-                </BuyNowButton>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Core */}
-          {products[4] && (
-            <Card className="group hover:shadow-xl transition-all border-2 border-primary/20">
-              <CardHeader className="text-center bg-primary/5">
-                <Badge className="mb-2 bg-primary text-primary-foreground">
-                  {products[4].tagline || products[4].highlightTag || "N/A"}
-                </Badge>
-                <CardTitle className="text-2xl">{products[4].name}</CardTitle>
-                <div className="mt-2">
-                  <span className="text-4xl font-bold text-primary">
-                    £{" "}
-                    {billingInterval === "year"
-                      ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
-                      : products[4].pricingOptions[0]?.price ?? 0}
-                  </span>
-                  <span className="text-muted-foreground">
-                    /{billingInterval === "year" ? "yr" : "mo"}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-2">
-                {products[4].features?.map((feature) => (
-                  <div
-                    key={feature._id}
-                    className="flex items-center space-x-2"
-                  >
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    <span>{feature.description}</span>
-                  </div>
-                ))}
-                <BuyNowButton
-                  item={{
-                    id: products[4]._id,
-                    name: products[4].name,
-                    price:
-                      billingInterval === "year"
-                        ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[4].pricingOptions[0]?.price ?? 0,
-                    description: products[4].description ?? products[4].name,
-                    type: "subscription",
-                  }}
-                  className="w-full mt-4"
-                >
-                  Subscribe — £{" "}
-                  {billingInterval === "year"
-                    ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
-                    : products[4].pricingOptions[0]?.price ?? 0}
-                  /{billingInterval === "year" ? "yr" : "mo"}
-                </BuyNowButton>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Elite */}
-          {products[3] && (
-            <Card className="group hover:shadow-xl transition-all border-2 border-amber-500/20 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-amber-500 text-white">
-                  {products[3].highlightTag || "PREMIUM"}
-                </Badge>
-              </div>
-              <CardHeader className="text-center bg-amber-50">
-                <CardTitle className="text-2xl">{products[3].name}</CardTitle>
-                <div className="mt-2">
-                  <span className="text-4xl font-bold text-amber-600">
-                    £{billingInterval === "year"
-                      ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                      : products[3].pricingOptions[0]?.price ?? 0}
-                  </span>
-                  <span className="text-muted-foreground">
-                    /{billingInterval === "year" ? "yr" : "mo"}
-                  </span>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-2">
-                {products[3].features?.map((feature) => (
-                  <div
-                    key={feature._id}
-                    className="flex items-center space-x-2"
-                  >
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    <span>{feature.description}</span>
-                  </div>
-                ))}
-                <BuyNowButton
-                  item={{
-                    id: `elite-${billingInterval}`,
-                    name: products[3].name,
-                    price:
-                      billingInterval === "year"
-                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                        : products[3].pricingOptions[0]?.price ?? 0,
-                    description: "Elite subscription",
-                    type: "subscription",
-                  }}
-                  className="w-full mt-4"
-                >
-                  Subscribe — £{" "}
-                  {billingInterval === "year"
-                    ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
-                    : products[3].pricingOptions[0]?.price ?? 0}
-                  /{billingInterval === "year" ? "yr" : "mo"}
-                </BuyNowButton>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Other Bundles */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {[2, 1, 0].map((i) => {
-            const bundle = products[i];
-            if (!bundle) return null;
-
-            return (
-              <Card
-                key={bundle._id}
-                className="group hover:shadow-xl transition-all"
+          {/* Billing Toggle */}
+          <div className="mb-8 flex items-center justify-center gap-2">
+            <span className="text-sm text-muted-foreground">Billing:</span>
+            <div className="inline-flex rounded-md border border-border bg-background">
+              <button
+                className={`px-4 py-2 text-sm font-medium rounded-l-md transition-colors ${
+                  billingInterval === "month"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-foreground hover:bg-muted"
+                }`}
+                onClick={() => setBillingInterval("month")}
               >
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Target className="h-6 w-6 text-primary" />
-                    <Badge
-                      className={
-                        bundle.highlightTag === "Best Value"
-                          ? "bg-green-100 text-green-800"
-                          : bundle.highlightTag === "Complete"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-purple-100 text-purple-800"
-                      }
-                    >
-                      {bundle.highlightTag}
+                Monthly
+              </button>
+              <button
+                className={`px-4 py-2 text-sm font-medium rounded-r-md transition-colors ${
+                  billingInterval === "year"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-foreground hover:bg-muted"
+                }`}
+                onClick={() => setBillingInterval("year")}
+              >
+                Yearly
+              </button>
+            </div>
+          </div>
+
+          {/* Featured Subscription Plans */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* Pro AI Only */}
+            {products?.[5] && (
+              <Card className="group hover:shadow-xl transition-all duration-300">
+                <CardHeader className="text-center pb-6">
+                  {products[5].tagline && (
+                    <Badge className="mb-3 mx-auto" variant="secondary">
+                      {products[5].tagline}
                     </Badge>
+                  )}
+                  <CardTitle className="text-2xl mb-4">{products[5].name}</CardTitle>
+                  <div className="mt-2">
+                    <span className="text-4xl font-bold text-primary">
+                      £{products[5].pricingOptions?.[0]?.price ?? 0}
+                    </span>
+                    <span className="text-muted-foreground">
+                      /{products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
+                    </span>
                   </div>
-                  <CardTitle className="text-lg">{bundle.name}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4 text-sm">
-                    {bundle.description}
-                  </p>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-2xl font-bold text-primary">
-                      £{bundle.pricingOptions?.[0]?.price ?? 0}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      One-time
-                    </span>
-                  </div>
-                  <div className="space-y-1">
-                    <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                      Get Bundle
-                    </button>
+                <CardContent className="space-y-3">
+                  {products[5].features?.map((feature) => (
+                    <div key={feature._id} className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <span className="text-sm">{feature.description}</span>
+                    </div>
+                  ))}
+                  <div className="pt-4">
                     <BuyNowButton
                       item={{
-                        id: bundle._id,
-                        name: bundle.name,
-                        price: bundle.pricingOptions?.[0]?.price ?? 0,
-                        description: bundle.description || '',
-                        type: "one-time",
+                        id: products[5]._id,
+                        name: products[5].name,
+                        price: products[5].pricingOptions?.[0]?.price ?? 0,
+                        description: products[5].description ?? products[5].name,
+                        type: "subscription",
                       }}
-                      variant="outline"
-                      size="sm"
                       className="w-full"
                     >
-                      Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
+                      <Zap className="mr-2 h-4 w-4" />
+                      Subscribe — £{products[5].pricingOptions?.[0]?.price ?? 0}/
+                      {products[5].pricingOptions?.[0]?.type === "monthly" ? "mo" : "yr"}
                     </BuyNowButton>
                   </div>
                 </CardContent>
               </Card>
-            );
-          })}
+            )}
+
+            {/* Core */}
+            {products?.[4] && (
+              <Card className="group hover:shadow-xl transition-all duration-300 border-2 border-primary/30 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <Badge variant="default" className="shadow-sm">
+                    {products[4].tagline || products[4].highlightTag || "POPULAR"}
+                  </Badge>
+                </div>
+                <CardHeader className="text-center pb-6 bg-primary/5 rounded-t-lg">
+                  <CardTitle className="text-2xl mb-4 mt-2">{products[4].name}</CardTitle>
+                  <div className="mt-2">
+                    <span className="text-4xl font-bold text-primary">
+                      £{billingInterval === "year"
+                        ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[4].pricingOptions[0]?.price ?? 0}
+                    </span>
+                    <span className="text-muted-foreground">
+                      /{billingInterval === "year" ? "yr" : "mo"}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3 pt-6">
+                  {products[4].features?.map((feature) => (
+                    <div key={feature._id} className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <span className="text-sm">{feature.description}</span>
+                    </div>
+                  ))}
+                  <div className="pt-4">
+                    <BuyNowButton
+                      item={{
+                        id: products[4]._id,
+                        name: products[4].name,
+                        price: billingInterval === "year"
+                          ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
+                          : products[4].pricingOptions[0]?.price ?? 0,
+                        description: products[4].description ?? products[4].name,
+                        type: "subscription",
+                      }}
+                      className="w-full"
+                    >
+                      <Zap className="mr-2 h-4 w-4" />
+                      Subscribe — £{billingInterval === "year"
+                        ? (products[4].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[4].pricingOptions[0]?.price ?? 0}
+                      /{billingInterval === "year" ? "yr" : "mo"}
+                    </BuyNowButton>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Elite */}
+            {products?.[3] && (
+              <Card className="group hover:shadow-xl transition-all duration-300 border-2 border-premium/30 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <Badge variant="premium" className="shadow-sm">
+                    {products[3].highlightTag || "PREMIUM"}
+                  </Badge>
+                </div>
+                <CardHeader className="text-center pb-6 bg-premium/5 rounded-t-lg">
+                  <CardTitle className="text-2xl mb-4 mt-2">{products[3].name}</CardTitle>
+                  <div className="mt-2">
+                    <span className="text-4xl font-bold text-premium">
+                      £{billingInterval === "year"
+                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[3].pricingOptions[0]?.price ?? 0}
+                    </span>
+                    <span className="text-muted-foreground">
+                      /{billingInterval === "year" ? "yr" : "mo"}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3 pt-6">
+                  {products[3].features?.map((feature) => (
+                    <div key={feature._id} className="flex items-start gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <span className="text-sm">{feature.description}</span>
+                    </div>
+                  ))}
+                  <div className="pt-4">
+                    <BuyNowButton
+                      item={{
+                        id: `elite-${billingInterval}`,
+                        name: products[3].name,
+                        price: billingInterval === "year"
+                          ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+                          : products[3].pricingOptions[0]?.price ?? 0,
+                        description: "Elite subscription",
+                        type: "subscription",
+                      }}
+                      className="w-full"
+                    >
+                      <Zap className="mr-2 h-4 w-4" />
+                      Subscribe — £{billingInterval === "year"
+                        ? (products[3].pricingOptions[0]?.price ?? 0) * 10 + 10
+                        : products[3].pricingOptions[0]?.price ?? 0}
+                      /{billingInterval === "year" ? "yr" : "mo"}
+                    </BuyNowButton>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          {/* Other Bundles */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[2, 1, 0].map((i) => {
+              const bundle = products?.[i];
+              if (!bundle) return null;
+
+              const badgeVariant = 
+                bundle.highlightTag === "Best Value" ? "success" :
+                bundle.highlightTag === "Complete" ? "info" :
+                "warning";
+
+              return (
+                <Card
+                  key={bundle._id}
+                  className="group hover:shadow-xl transition-all duration-300"
+                >
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-3">
+                      <Target className="h-6 w-6 text-primary" />
+                      <Badge variant={badgeVariant}>
+                        {bundle.highlightTag}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-xl">{bundle.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
+                      {bundle.description}
+                    </p>
+                    <div className="flex justify-between items-baseline mb-6">
+                      <span className="text-3xl font-bold text-primary">
+                        £{bundle.pricingOptions?.[0]?.price ?? 0}
+                      </span>
+                      <span className="text-sm text-muted-foreground">One-time</span>
+                    </div>
+                    <div className="space-y-2">
+                      <Button className="w-full" size="default">
+                        Get Bundle
+                      </Button>
+                      <BuyNowButton
+                        item={{
+                          id: bundle._id,
+                          name: bundle.name,
+                          price: bundle.pricingOptions?.[0]?.price ?? 0,
+                          description: bundle.description,
+                          type: "one-time",
+                        }}
+                        variant="outline"
+                        size="default"
+                        className="w-full"
+                      >
+                        <Zap className="mr-2 h-4 w-4" />
+                        Buy £{bundle.pricingOptions?.[0]?.price ?? 0}
+                      </BuyNowButton>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* B2B/Trust Solutions */}
      <section className="py-16">
