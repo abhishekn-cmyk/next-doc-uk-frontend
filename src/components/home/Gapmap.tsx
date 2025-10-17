@@ -104,8 +104,14 @@ export default function Gapmap() {
                   >
                     {card.tag}
                   </span>
-                  <span className="text-xs font-medium text-green-600">
-                    Pathway
+                  <span
+                    className={`text-xs border px-2 py-0.5 rounded-full ${
+                      card.badgeColor === "red"
+                        ? "border-red-500 text-red-600 bg-red-50"
+                        : "border-blue-500 text-blue-600 bg-blue-50"
+                    }`}
+                  >
+                    {card.badge}
                   </span>
                 </div>
 
@@ -143,15 +149,7 @@ export default function Gapmap() {
                       £{card.price ?? "TBA"}
                     </span>
                   </span>
-                  <span
-                    className={`text-xs border px-2 py-0.5 rounded-full ${
-                      card.badgeColor === "red"
-                        ? "border-red-500 text-red-600 bg-red-50"
-                        : "border-blue-500 text-blue-600 bg-blue-50"
-                    }`}
-                  >
-                    {card.badge}
-                  </span>
+                  
                 </div>
 
                 {/* Buttons */}
