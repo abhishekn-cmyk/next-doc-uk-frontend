@@ -17,8 +17,8 @@ import PLABHero from "./pages/exams/PLAB/PLAB";
 // import Mr from "./pages/exams/Mrc";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
-// const Products = lazy(() => import("./pages/Products"));
-const ComingSoon = lazy(() => import("./Coming"));
+const Products = lazy(() => import("./pages/Products"));
+// const ComingSoon = lazy(() => import("./Coming"));
 // const PLAB = lazy(() => import("./pages/exams/PLAB"));
 const IELTS = lazy(() => import("./pages/exams/IELTS"));
 const MRCP = lazy(() => import("./pages/exams/MRCP"));
@@ -58,8 +58,8 @@ export default function App() {
             <Route path="/" element={<Home />} />
              <Route path="/pricing" element={<Pricing />} />
             <Route path="/about" element={<About />} />
-            {/* <Route path="/products" element={<Products />} /> */}
-            <Route path="/products" element={<ComingSoon />} />
+            <Route path="/products" element={<Products />} />
+            {/* <Route path="/products" element={<ComingSoon />} /> */}
             <Route path="/exams/ielts-oet" element={<IELTS />} />
             <Route path="/exams/plab" element={<PLABHero />} />
             <Route path="/exams/mrcp" element={<MRCP />} />

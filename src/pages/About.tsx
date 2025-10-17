@@ -20,11 +20,13 @@ export default function About() {
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="max-w-3xl mx-auto text-center">
       <h1 className="text-4xl md:text-5xl font-bold mb-6">
-        About NextDoc Globals
+        About NextDoc UK
+
+
       </h1>
       <p className="text-xl leading-relaxed opacity-90">
-        Empowering international medical graduates to successfully transition into the NHS. 
-        We provide comprehensive support, training, and mentorship for doctors beginning their UK healthcare journey.
+        Empowering medical graduates to successfully transition into the NHS. We provide comprehensive support, training, and mentorship for doctors beginning their UK healthcare journey.
+
       </p>
     </div>
   </div>
