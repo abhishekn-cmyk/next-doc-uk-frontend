@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, ArrowRight, Users, Clock, Trophy } from "lucide-react";
+import { CheckCircle, ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -74,10 +73,7 @@ const GetStarted = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value, type } = e.target;
-
-    // Narrow target to HTMLInputElement to access `checked`
     const target = e.target as HTMLInputElement;
-
     setFormData((prev) => ({
       ...prev,
       [id]: type === "checkbox" ? target.checked : value,
@@ -85,7 +81,6 @@ const GetStarted = () => {
   };
 
   const handleSelectChange = (id: string, value: string) => {
-    // For checkboxes that are passed as "true"/"false" strings, convert back to boolean
     if (id === "agreeToTerms" || id === "subscribeToUpdates") {
       setFormData((prev) => ({ ...prev, [id]: value === "true" }));
     } else {
@@ -119,7 +114,6 @@ const GetStarted = () => {
         return;
       }
 
-      // Save token and redirect
       localStorage.setItem("token", data.token);
       navigate("/login");
     } catch (err: any) {
@@ -139,17 +133,6 @@ const GetStarted = () => {
             Join thousands of international doctors who have successfully
             transitioned to the NHS with our comprehensive support system.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm">
-            <div className="flex items-center space-x-2">
-              <Users className="h-4 w-4" /> <span>2,500+ Success Stories</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Trophy className="h-4 w-4" /> <span>95% Pass Rate</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4" /> <span>6 Month Average</span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -410,12 +393,13 @@ const GetStarted = () => {
                 <h3 className="text-2xl font-bold mb-4">What You'll Get</h3>
                 {benefits.map((benefit, idx) => (
                   <div key={idx} className="flex items-center space-x-3 mb-2">
-                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />{" "}
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
                     <span>{benefit}</span>
                   </div>
                 ))}
               </div>
 
+              {/* Limited Time Offer without badge */}
               <Card className="bg-primary text-primary-foreground">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-4">Limited Time Offer</h3>
@@ -423,9 +407,6 @@ const GetStarted = () => {
                     Get 3 months of premium mentorship and AI tools for the
                     price of 2 when you start this month.
                   </p>
-                  <Badge className="bg-primary-foreground text-primary">
-                    Save £500
-                  </Badge>
                 </CardContent>
               </Card>
             </div>
