@@ -37,7 +37,7 @@ export default function FourCards() {
 // Allowed tools with desired order
 const allowedTools = [
   { name: "gapmap", slug: "gap-map" },
-  { name: "cvpro", slug: "cv-booster" },
+  { name: "CVBooster", slug: "cv-booster" },
   { name: "interviewsim", slug: "interviewsim" },
   { name: "sponsormatch", slug: "sponsor-match" },
 ];
