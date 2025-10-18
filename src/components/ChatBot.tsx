@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSendChat, useChats } from "@/hooks/useChat"; // your hooks
+import { useSendChat, useChats } from "@/hooks/useChat";
 import {
   Send,
   BotMessageSquare,
@@ -12,6 +12,8 @@ import {
   Zap,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { toast } from "sonner"; // ✅ Added toast import
+import { useNavigate } from "react-router-dom"; // ✅ For redirecting to login
 
 type Message = {
   sender: "user" | "ai";
@@ -19,12 +21,7 @@ type Message = {
 };
 
 type Tab = {
-  name:
-    | "General"
-    | "Cardiology"
-    | "Emergency"
-    | "Surgery"
-    | "Internal Medicine";
+  name: "General" | "Cardiology" | "Emergency" | "Surgery" | "Internal Medicine";
   icon: React.ElementType;
 };
 
@@ -45,8 +42,19 @@ export default function ChatBot() {
 
   const { mutateAsync: sendChat } = useSendChat();
   const { data: chatHistory } = useChats();
+  const navigate = useNavigate();
 
-  // Load chat history when fetched
+  // ✅ Get user ID from localStorage safely
+  const userId = (() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser)._id : null;
+    } catch {
+      return null;
+    }
+  })();
+
+  // ✅ Load chat history when fetched
   useEffect(() => {
     if (chatHistory?.data) {
       const history: Message[] = chatHistory.data
@@ -59,28 +67,34 @@ export default function ChatBot() {
     }
   }, [chatHistory]);
 
-  // Scroll to bottom on new messages
+  // ✅ Scroll to bottom on new messages
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Initial welcome message (only if no history)
+  // ✅ Welcome message (only if chat opened and no history)
   useEffect(() => {
     if (chatOpen && messages.length === 0) {
       setMessages([
         {
           sender: "ai",
-          text: `👋 Hello! I'm your NextDoc AI – NHS Mentor Assistant.  
-I can help with NHS careers, PLAB preparation, visa guidance, specialty applications, and medical training pathways.  
+          text: `👋 Hello! I'm your **NextDoc AI – NHS Mentor Assistant**.  
+I can help with NHS careers, PLAB prep, visa guidance, and medical training pathways.  
 Select a specialty mode or ask me anything to get started!`,
         },
       ]);
     }
   }, [chatOpen, messages.length]);
 
-  // Handle send
+  // ✅ Handle message send
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
+
+    if (!userId) {
+      toast.error("Please log in to access the chat assistant.");
+      setTimeout(() => navigate("/login"), 1200);
+      return;
+    }
 
     const userText = inputMessage.trim();
     const userMessage: Message = { sender: "user", text: userText };
@@ -88,13 +102,23 @@ Select a specialty mode or ask me anything to get started!`,
     setInputMessage("");
 
     try {
-      const result = await sendChat(userText);
+      // ✅ Pass userId + tab
+      const result = await sendChat({
+        userId,
+        text: userText,
+        tab: activeTab,
+      });
+
       const aiReply: Message = {
         sender: "ai",
-        text: result.data.response, // backend response
+        text:
+          result?.data?.response ||
+          "⚠️ The assistant did not return a response. Try again.",
       };
+
       setMessages((prev) => [...prev, aiReply]);
-    } catch {
+    } catch (error) {
+      console.error("Chat send error:", error);
       setMessages((prev) => [
         ...prev,
         { sender: "ai", text: "⚠️ Error fetching response. Try again." },
@@ -102,7 +126,6 @@ Select a specialty mode or ask me anything to get started!`,
     }
   };
 
-  // Handle Enter
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -112,6 +135,7 @@ Select a specialty mode or ask me anything to get started!`,
 
   return (
     <>
+      {/* Floating Chat Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           className="w-14 h-14 rounded-full bg-[#224488] shadow-lg flex items-center justify-center text-white 
@@ -122,8 +146,10 @@ Select a specialty mode or ask me anything to get started!`,
         </button>
       </div>
 
+      {/* Chat Window */}
       {chatOpen && (
         <div className="fixed bottom-5 right-6 w-96 h-[550px] bg-white shadow-2xl rounded-xl border border-gray-200 flex flex-col z-50">
+          {/* Header */}
           <div className="flex items-center justify-between px-4 py-2 bg-[#224488] text-white rounded-t-xl">
             <div className="flex flex-col">
               <span className="font-semibold">
@@ -144,11 +170,13 @@ Select a specialty mode or ask me anything to get started!`,
             </div>
           </div>
 
+          {/* Disclaimer */}
           <p className="text-xs text-yellow-500 px-3 py-2 font-semibold flex justify-between items-center gap-3">
             Educational & Career Guidance Only
             <span>Info</span>
           </p>
 
+          {/* Tabs */}
           <div className="grid grid-cols-3 gap-2 p-2 border-b bg-gray-100 mt-3">
             {tabs.map(({ name, icon: Icon }) => (
               <button
@@ -166,6 +194,7 @@ Select a specialty mode or ask me anything to get started!`,
             ))}
           </div>
 
+          {/* Chat Body */}
           <div className="flex-1 p-3 overflow-y-auto text-sm space-y-3">
             {messages.map((msg, i) => (
               <div
@@ -186,6 +215,7 @@ Select a specialty mode or ask me anything to get started!`,
             <div ref={chatEndRef} />
           </div>
 
+          {/* Input */}
           <div className="p-2 border-t flex items-center gap-2">
             <input
               type="text"
@@ -211,3 +241,4 @@ Select a specialty mode or ask me anything to get started!`,
     </>
   );
 }
+
