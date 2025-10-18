@@ -29,11 +29,8 @@ const getExamSlug = (title: string) => {
   return lower.replace(/\s+/g, "-");
 };
 
-export default function Gapmap() {
-  const [cards, setCards] = useState<ProductType[]>([]);
-  const { data: examsData } = useExams();
-  const navigate = useNavigate();
-  const getExamType = (title: string) => {
+// Determine exam type for tag colors
+const getExamType = (title: string) => {
   const lower = title.toLowerCase();
   if (lower.includes("mrcp")) return "MRCP";
   if (lower.includes("plab")) return "PLAB";
@@ -44,32 +41,7 @@ export default function Gapmap() {
   return "default";
 };
 
-  useEffect(() => {
-    if (examsData) {
-      const sortedExams = examsData
-        .sort((a, _) => (a.category === "PLAB" ? -1 : 1))
-        .slice(0, 6);
-
-      const mappedCards = sortedExams.map((exam) => ({
-        _id: exam._id,
-        href: `/exams/${getExamSlug(exam.title)}`,
-        title: exam.title,
-        subtitle: exam.subtitle || "",
-        steps: exam.features.length ? exam.features : ["Feature list coming soon"],
-        stepColors: exam.features.map(() => "green"),
-        tag: exam.category,
-        tagColor: exam.category || "gray",
-        badge: exam.subcategory || "Core",
-        badgeColor: exam.subcategory || "gray",
-        price: exam.price,
-      }));
-
-      setCards(mappedCards);
-    }
-  }, [examsData]);
-
-  // --- Color Themes ---
-  // --- Color Themes ---
+// Tag color classes
 const tagColorClasses: Record<string, string> = {
   UK: "text-red-700 border border-red-700",
   MRCS: "text-red-700 border border-red-700",
@@ -80,8 +52,38 @@ const tagColorClasses: Record<string, string> = {
   default: "text-gray-700 border border-gray-700",
 };
 
+export default function Gapmap() {
+  const [cards, setCards] = useState<ProductType[]>([]);
+  const { data: examsData } = useExams();
+  const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    if (!examsData) return;
+
+    // Sort PLAB first
+    const sortedExams = examsData.sort((a, _) =>
+      a.category === "PLAB" ? -1 : 1
+    );
+
+    // Map exams to cards
+    const mappedCards: ProductType[] = sortedExams.map((exam) => ({
+      _id: exam._id,
+      href: `/exams/${getExamSlug(exam.title)}`,
+      title: exam.title,
+      subtitle: exam.subtitle || "",
+      steps: exam.features.length
+        ? exam.features
+        : ["Feature list coming soon"],
+      stepColors: exam.features.map(() => "green"),
+      tag: exam.category || "default",
+      tagColor: exam.category || "gray",
+      badge: exam.subcategory || "Core",
+      badgeColor: exam.subcategory || "gray",
+      price: exam.price,
+    }));
+
+    setCards(mappedCards);
+  }, [examsData]);
 
   return (
     <div className="w-full min-h-screen">
@@ -107,74 +109,70 @@ const tagColorClasses: Record<string, string> = {
         {/* Cards Grid */}
         <div className="w-full py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-           {cards.map((card, idx) => (
-  <div
-    key={card._id}
-    onClick={() => navigate(card.href)}
-    className="relative bg-white border-2 rounded-xl shadow-sm p-6 flex flex-col transition-all duration-300 hover:shadow-lg cursor-pointer"
-  >
-   
-   <div className="flex items-center justify-between mb-4">
-  {/* Tag badge */}
- <span
-  className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-    tagColorClasses[getExamType(card.title)] || tagColorClasses.default
-  }`}
->
-  {card.title.split(" ")[0]}
-</span>
+            {cards.slice(1,7).map((card, idx) => (
+              <div
+                key={card._id}
+                onClick={() => navigate(card.href)}
+                className="relative bg-white border-2 rounded-xl shadow-sm p-6 flex flex-col transition-all duration-300 hover:shadow-lg cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  {/* Tag badge */}
+                  <span
+                    className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      tagColorClasses[getExamType(card.title)] ||
+                      tagColorClasses.default
+                    }`}
+                  >
+                    {card.title.split(" ")[0]}
+                  </span>
 
+                  {/* Subcategory / Badge */}
+                  <span
+                    className={`text-center px-2 py-1 text-sm ${
+                      idx === 0
+                        ? "bg-red-400 text-white rounded-full"
+                        : "text-red-600 rounded-md"
+                    }`}
+                  >
+                    {card.badge}
+                  </span>
+                </div>
 
+                {/* Title + Subtitle */}
+                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">{card.subtitle}</p>
 
+                {/* Steps */}
+                <ul className="text-sm space-y-1 mb-6">
+                  {card.steps.map((step, idx) => (
+                    <li
+                      key={idx}
+                      className={
+                        card.stepColors[idx] === "green"
+                          ? "text-green-600"
+                          : "text-gray-500"
+                      }
+                    >
+                      ● {step}
+                    </li>
+                  ))}
+                </ul>
 
-  {/* Subcategory / Badge */}
- <span
-  className={`text-center px-2 py-1 text-sm ${
-    idx === 0
-      ? "bg-red-400 text-white rounded-full" // pill-shaped
-      : "text-red-600 rounded-md" // normal small rounding
-  }`}
->
-  {card.badge}
-</span>
+                {/* Price */}
+                <div className="mt-auto flex items-center justify-between mb-3">
+                  <span className="text-sm text-gray-700">
+                    From <span className="font-semibold">£{card.price ?? "TBA"}</span>
+                  </span>
+                </div>
 
-</div>
-
-
-    {/* Title + Subtitle */}
-    <h3 className="text-lg font-bold text-gray-900 mb-1">{card.title}</h3>
-    <p className="text-sm text-gray-600 mb-4">{card.subtitle}</p>
-
-    {/* Steps */}
-    <ul className="text-sm space-y-1 mb-6">
-      {card.steps.map((step, idx) => (
-        <li
-          key={idx}
-          className={
-            card.stepColors[idx] === "green"
-              ? "text-green-600"
-              : "text-gray-500"
-          }
-        >
-          ● {step}
-        </li>
-      ))}
-    </ul>
-
-    {/* Price */}
-    <div className="mt-auto flex items-center justify-between mb-3">
-      <span className="text-sm text-gray-700">
-        From <span className="font-semibold">£{card.price ?? "TBA"}</span>
-      </span>
-    </div>
-
-    {/* Button */}
-    <span className="mt-3 w-full inline-block text-center bg-blue-900 text-white font-medium py-2.5 rounded-md hover:bg-blue-800 transition">
-      Start {card.title.split(" ")[0]} Journey →
-    </span>
-  </div>
-))}
-
+                {/* Button */}
+                <span className="mt-3 w-full inline-block text-center bg-blue-900 text-white font-medium py-2.5 rounded-md hover:bg-blue-800 transition">
+                  Start {card.title.split(" ")[0]} Journey →
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
